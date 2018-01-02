@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "newLine": "LF",
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": [
+      "server/*.ts"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "name": "homeflix",
+  "version": "1.0.0",
+  "description": "streaming platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-serv": "tsc -w",
+    "dev-clinet": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SerafimovichEugene/homeflix.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SerafimovichEugene/homeflix/issues"
+  },
+  "homepage": "https://github.com/SerafimovichEugene/homeflix#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.2",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1"
+  }
+}
