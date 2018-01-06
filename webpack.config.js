@@ -1,5 +1,8 @@
-const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -31,17 +34,23 @@ const plugins = [
 ];
 
 const base = {
-  // entry: ['babel-polyfill', './src/index.js'],
   entry: './client/index.js',
-
   output: {
-    filename: 'bundle.min.js',
-    path: path.join(__dirname, './public'),
+    path: path.join(__dirname, './build'),
+    filename: 'bundle.js',
   },
 
-  // resolve: {
-  //   extensions: ['.js', '.jsx'],
-  // },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: 'bundle.css',
+      allChunks: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: `${__dirname}/client/index.html`,
+      filename: 'index.html',
+      inject: 'body',
+    }),
+  ],
 
   module: {
     rules: [
@@ -50,13 +59,14 @@ const base = {
       //     use: "url-loader",
       // },
       // {
-      //     test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-      //     use: 'file-loader',
+      //   test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+      //   use: 'file-loader',
       // },
-      // {
-      //     test: /\.(png|jpe?g|gif|ico)$/,
-      //     loader: 'file-loader?name=assets/[name].[hash].[ext]',
-      // },
+      {
+        test: /\.(png|svg)$/,
+        loader: 'file-loader?name=[path][name].[ext]',
+      },
+
       // {
       //     test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       //     loader: 'url-loader?limit=10000&mimetype=application/font-woff',
@@ -90,14 +100,31 @@ const base = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader',
-        exclude: [/public/],
       },
       {
         test: /\.scss$/,
-        use: [
-          'style-loader', 'css-loader', 'sass-loader',
-        ],
-      }
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { minimize: false },
+            },
+            { loader: 'sass-loader' },
+          ],
+        }),
+      },
+
+
+      {
+        test: /\.(html)$/,
+        loader: 'html-loader',
+        options: {
+          minimize: false,
+          attrs: ['img:src', 'link:href'],
+        },
+      },
+
     ],
   },
 };

@@ -1,5 +1,8 @@
 .app {
-  border: 1px solid green;
-  width: 300px;
-  height: 300px;
+  display: flex;
+
+  video {
+    width: 100%;
+  }
+
 }

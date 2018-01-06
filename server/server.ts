@@ -1,16 +1,17 @@
-import express from 'express';
+import * as express from 'express';
+import * as path from 'path';
 
-const port = 8082;
+const port = 8080;
 const app = express();
-
-app.use(express.static('public'));
-
+app.use(express.static(__dirname));
 app.get('/', (req, res) => {
-  res.send('./client/index.html');
-  res.end();
+
+  res.sendFile(path.join(__dirname + '/index.html'));
+  // res.end();
 });
+
 app.all('*', (req, res) => {
-  res.write("ooops...something go wrong");
+  res.write('ooops...something go wrong');
   res.end();
 });
 

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-serv": "tsc -w",
+    "dev-serv": "nodemon ./build/server.js",
+    "build-serv": "tsc -w",
     "dev-client": "node ./node_modules/webpack/bin/webpack.js -w --progress --colors"
   },
   "repository": {
@@ -28,12 +29,23 @@
     "redux-logger": "^3.0.6"
   },
   "devDependencies": {
+    "@types/node": "^8.5.7",
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.4",
+    "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.7.2",
+    "nodemon": "^1.14.7",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "typescript": "^2.6.2",

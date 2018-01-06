@@ -18,5 +18,5 @@ import Root from './components/view/root/root';
 //     <Root />
 //   </Provider>
 // );
-
+console.log('-->>        <<--');
 render(<Root />, document.getElementById('root'));
