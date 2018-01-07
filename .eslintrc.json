@@ -1,3 +1,11 @@
 {
-    "extends": "airbnb"
+    "extends": "airbnb",
+    "rules": {
+      "react/prefer-stateless-function": [0, { "ignorePureComponents": true }],
+      "jsx-a11y/media-has-caption": [ 0, {
+            "audio": [ "Audio" ],
+            "video": [ "Video" ],
+            "track": [ "Track" ]
+          }]
+    }
 }
