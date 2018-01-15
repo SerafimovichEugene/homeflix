@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-serv": "nodemon ./build/server.js",
     "build-serv": "tsc -w",
-    "dev-client": "node ./node_modules/webpack/bin/webpack.js -w --progress --colors"
+    "dev-client": "node ./node_modules/webpack/bin/webpack.js -w --progress --colors",
+    "serv": "nodemon ./node_modules/nodemon/bin/nodemon.js ./disc/server.js"
   },
   "repository": {
     "type": "git",

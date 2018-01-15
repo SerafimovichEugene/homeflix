@@ -2,6 +2,10 @@ import * as express from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
 
+import Routers from './Router/Routers';
+
+const router = new Routers();
+
 const port = 8080;
 const app = express();
 
@@ -42,7 +46,6 @@ app.get('/video', function(req, res) {
     fs.createReadStream(path).pipe(res);
   }
 });
-
 
 app.all('*', (req, res) => {
   res.write('ooops...something went wrong');
