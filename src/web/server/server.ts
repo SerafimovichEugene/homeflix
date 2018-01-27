@@ -3,7 +3,8 @@ import { Application, Request, Response, NextFunction, Router } from 'express';
 // import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as fs from 'fs';
-import Video from './Video/Video'
+import Video from './Video/Video';
+import VideoList from './VideoList/VideoList';
 
 const port = 8080;
 
@@ -27,6 +28,7 @@ class Server {
       res.sendFile(path.join(__dirname + '/index.html'));
     });
     this.app.use(new Video().getRouterInstance());
+    this.app.use(new VideoList().getRouterInstance());
     this.app.all('*', (req, res) => {
       res.write('ooops...something went wrong');
       res.end();

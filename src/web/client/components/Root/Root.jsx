@@ -16,6 +16,7 @@ export default class Root extends Component {
   }
 
   render() {
+    console.log(this.videoJsOptions);
     return (
       <div className="app">
         <VideoPlayer {...this.videoJsOptions} />
