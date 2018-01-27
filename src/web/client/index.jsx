@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 // import thunk from 'redux-thunk';
 // import { Provider } from 'react-redux';
 // import logger from 'redux-logger';
-import Root from './components/view/root/root';
+import Root from './components/Root/Root';
 // import reducer from './reducers/index';
 
 // const store = createStore(

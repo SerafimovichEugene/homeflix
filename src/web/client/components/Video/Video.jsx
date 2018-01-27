@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import videojs from 'video.js/';
+import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import './video.scss';
 
@@ -21,7 +21,7 @@ export default class VideoPlayer extends Component {
       <div data-vjs-player>
         <video
           className="video-js"
-          ref={(node) => { this.videoNode = node; }}
+          ref={(ref) => { this.videoNode = ref; }}
         />
       </div>
     );

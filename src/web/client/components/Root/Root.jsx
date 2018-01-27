@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import VideoPlayer from '../video/video';
+import VideoPlayer from '../Video/Video';
 import './root.scss';
 
 export default class Root extends Component {

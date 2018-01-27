@@ -34,9 +34,9 @@ const plugins = [
 ];
 
 const base = {
-  entry: './client/index.jsx',
+  entry: './src/web/client/index.jsx',
   output: {
-    path: path.join(__dirname, './build'),
+    path: path.join(__dirname, './dist'),
     filename: 'bundle.js',
   },
 
@@ -46,7 +46,7 @@ const base = {
       allChunks: true,
     }),
     new HtmlWebpackPlugin({
-      template: `${__dirname}/client/index.html`,
+      template: `${__dirname}/src/web/client/index.html`,
       filename: 'index.html',
       inject: 'body',
     }),
