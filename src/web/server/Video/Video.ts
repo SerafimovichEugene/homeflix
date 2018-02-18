@@ -18,10 +18,8 @@ export default class Video {
   }
 
   private videoController(req, res, next) {
-    console.log(' sdf');
     const path = '/media/evgen/Новый\ том/video/nvz.mp4';
     const stat = fs.statSync(path);
-    console.log(stat);
     const fileSize = stat.size;
     const range = req.headers.range;
     if (range) {

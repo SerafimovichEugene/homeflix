@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && node ./node_modules/webpack/bin/webpack --progress --colors",
     "build-serv": "tsc -w",
-    "build-client": "node ./node_modules/webpack/bin/webpack.js -w --progress --colors",
-    "serv": "nodemon ./node_modules/nodemon/bin/nodemon.js ./dist/server.js"
+    "build-client": "node ./node_modules/webpack/bin/webpack -w --progress --colors",
+    "serv": "nodemon ./node_modules/nodemon/bin/nodemon ./dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^8.5.7",
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.1",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",

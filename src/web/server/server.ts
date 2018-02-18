@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { Application, Request, Response, NextFunction, Router } from 'express';
-// import * as bodyParser from 'body-parser';
 import * as path from 'path';
 import * as fs from 'fs';
 import Video from './Video/Video';
@@ -8,8 +7,7 @@ import VideoList from './VideoList/VideoList';
 
 const port = 8080;
 
-class Server {
-  private static instance: Server;
+export class Server {
   private app: Application;
   private router: Router;
   constructor() {
@@ -20,12 +18,12 @@ class Server {
   }
 
   private configureServer(): void {
-    this.app.use(express.static(__dirname));
+    this.app.use(express.static(path.join(__dirname + '/public')));
   }
 
   private configureRoutes() {
     this.app.get('/', (req, res) => {
-      res.sendFile(path.join(__dirname + '/index.html'));
+      res.sendFile(path.join(__dirname + '/public/index.html'));
     });
     this.app.use(new Video().getRouterInstance());
     this.app.use(new VideoList().getRouterInstance());
@@ -41,6 +39,3 @@ class Server {
     });
   }
 }
-
-const serverInstace = new Server();
-serverInstace.runServer(8080);
