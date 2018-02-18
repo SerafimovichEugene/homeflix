@@ -1,8 +1,9 @@
 import * as express from 'express';
 import * as fs from 'fs';
+import * as path from 'path';
 import { Router } from 'express';
 
-export default class Video {
+export default class VideoList {
   private router: Router;
   constructor() {
     this.router = express.Router();
@@ -13,19 +14,26 @@ export default class Video {
     return this.router;
   }
 
-  configureRouter(): void {
-    this.router.get('/videos', (req, res, next) => {
-      const path = '/media/evgen/Новый\ том/video';
-      fs.readdir(path, (err, files) => {
-        files.forEach(file => {
-          console.log(file);
-        });
-        res.send(files);
-      });
-    });
+  private readFilesListFromFolder(req, res, next) {
+    const startPath = '/media/evgen/Новый\ том/video';
+    const arr = this.readFilesRecoursevly(startPath, []);
+    res.send(arr);
   }
 
-  private readFilesRecoursevly(path): string[] {
-    return [];
+  configureRouter(): void {
+    this.router.get('/videos', this.readFilesListFromFolder.bind(this));
+  }
+
+  private readFilesRecoursevly(dir, fileList): string[] {
+    fileList = fileList || [];
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+      if (fs.statSync(path.join(dir, file)).isDirectory()) {
+        fileList = this.readFilesRecoursevly(path.join(dir, file), fileList);
+      } else {
+        fileList.push(file);
+      }
+    });
+    return fileList;
   }
 }
