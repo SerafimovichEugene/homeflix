@@ -58,14 +58,14 @@ const base = {
 
   module: {
     rules: [
-      // {
-      //     test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      //     use: "url-loader",
-      // },
-      // {
-      //   test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-      //   use: 'file-loader',
-      // },
+      {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader',
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        use: 'file-loader',
+      },
       {
         test: /\.(png|svg)$/,
         loader: 'file-loader?name=[path][name].[ext]',
