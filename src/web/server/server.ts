@@ -18,22 +18,22 @@ export class Server {
   }
 
   private configureServer(): void {
-    this.app.use(express.static(path.join(__dirname + '/public')));
+    this.app.use(express.static(path.join(__dirname, '/public')));
   }
 
   private configureRoutes() {
-    this.app.get('/', (req, res) => {
+    this.app.get('/', (req: any, res: any) => {
       res.sendFile(path.join(__dirname + '/public/index.html'));
     });
-    this.app.use(new Video().getRouterInstance());
-    this.app.use(new VideoList().getRouterInstance());
-    this.app.all('*', (req, res) => {
-      res.write('ooops...something went wrong');
-      res.end();
-    });
+    // this.app.use(new Video().getRouterInstance());
+    // this.app.use(new VideoList().getRouterInstance());
+    // this.app.all('*', (req: any, res: any) => {
+    //   res.write('ooops something went wrong');
+    //   res.end();
+    // });
   }
 
-  public runServer(port): void {
+  public runServer(port: number): void {
     this.app.listen(port, () => {
         console.log(`listen on ${port}`);
     });

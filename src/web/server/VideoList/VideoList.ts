@@ -14,7 +14,7 @@ export default class VideoList {
     return this.router;
   }
 
-  private readFilesListFromFolder(req, res, next) {
+  private readFilesListFromFolder(req: any, res: any, next: any) {
     const startPath = '/media/evgen/Новый\ том/video';
     const arr = this.readFilesRecoursevly(startPath, []);
     res.send(arr);
@@ -24,7 +24,7 @@ export default class VideoList {
     this.router.get('/videos', this.readFilesListFromFolder.bind(this));
   }
 
-  private readFilesRecoursevly(dir, fileList): string[] {
+  private readFilesRecoursevly(dir: string, fileList: string[]): string[] {
     fileList = fileList || [];
     const files = fs.readdirSync(dir);
     files.forEach(file => {

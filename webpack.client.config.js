@@ -3,8 +3,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 const plugins = [
@@ -30,14 +28,13 @@ const plugins = [
       comments: false,
     },
   }),
-  // new BundleAnalyzerPlugin(),
 ];
 
 const base = {
-  entry: './src/web/client/index.jsx',
+  entry: './src/web/client/index.tsx',
   output: {
-    path: path.join(__dirname, './dist/public'),
     filename: 'bundle.js',
+    path: path.join(__dirname, './dist/public'),
   },
 
   plugins: [
@@ -53,7 +50,12 @@ const base = {
   ],
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+  },
+
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
   },
 
   module: {
@@ -91,15 +93,20 @@ const base = {
       //     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       //     loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
       // },
+      // {
+      //   test: /\.js$/,
+      //   exclude: /node_modules/,
+      //   loader: 'babel-loader',
+      // },
+      // {
+      //   test: /\.jsx$/,
+      //   exclude: /node_modules/,
+      //   loader: 'babel-loader',
+      // },
+      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
       },
       {
         test: /\.css$/,
@@ -118,8 +125,6 @@ const base = {
           ],
         }),
       },
-
-
       {
         test: /\.(html)$/,
         loader: 'html-loader',
@@ -131,6 +136,11 @@ const base = {
 
     ],
   },
+
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM"
+},
 };
 
 if (nodeEnv === 'production') {

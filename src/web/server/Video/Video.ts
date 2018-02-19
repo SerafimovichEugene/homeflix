@@ -17,7 +17,7 @@ export default class Video {
     this.router.get('/video', this.videoController);
   }
 
-  private videoController(req, res, next) {
+  private videoController(req: any, res: any, next: any) {
     const path = '/media/evgen/Новый\ том/video/nvz.mp4';
     const stat = fs.statSync(path);
     const fileSize = stat.size;

@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "es6",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
     "module": "commonjs",
-    "moduleResolution": "node",
-    "newLine": "LF",
-    "typeRoots": ["node_modules/@types"]
+    "target": "es5",
+    "jsx": "react",
   },
   "include": [
-      "src/web/server/*.ts"
+      "./src/**/*"
   ],
   "exclude": [
       "node_modules"
