@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router';
+// import PropTypes from 'prop-types';
 
-class App extends Component {
+import Videos from '../Videos';
+import './App.scss';
+
+class App extends React.Component {
   render() {
     return (
       <div>
-        123
+        <Switch>
+          <Route exact path="/" component={Videos} />
+        </Switch>
       </div>
     );
   }
