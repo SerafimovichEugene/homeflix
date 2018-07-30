@@ -6,125 +6,77 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 dotenv.config();
 
-const plugins = [
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: JSON.stringify('production'),
-    },
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-      screw_ie8: true,
-      conditionals: true,
-      unused: true,
-      comparisons: true,
-      sequences: true,
-      dead_code: true,
-      evaluate: true,
-      if_return: true,
-      join_vars: true,
-    },
-    output: {
-      comments: false,
-    },
-  }),
-];
-
 const base = {
-  entry: './src/web/client/index.tsx',
+  devServer: {
+    port: 8282,
+    historyApiFallback: true,
+  },
+  entry: {
+    bundle: './src/client/index.js',
+  },
+
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, './dist/public'),
+    filename: 'assets/[name].js',
+    path: path.join(__dirname, './public'),
+    publicPath: `${process.env.BASE_HREF}`,
   },
 
   plugins: [
-    new ExtractTextPlugin({
-      filename: 'bundle.css',
-      allChunks: true,
+    new webpack.DefinePlugin({
+      'process.env': {
+        BASE_HREF: JSON.stringify(process.env.BASE_HREF),
+      },
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'assets/bundle.css',
     }),
     new HtmlWebpackPlugin({
-      template: `${__dirname}/src/web/client/index.html`,
+      template: `${__dirname}/src/client/index.html`,
       filename: 'index.html',
       inject: 'body',
     }),
   ],
-
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
+    extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      styles: path.join(__dirname, './src/client/styles'),
+      assets: path.join(__dirname, './src/client/assets'),
+    },
   },
-
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-  },
-
   module: {
     rules: [
       {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: 'url-loader',
+        test: /\.png$/,
+        loader: 'file-loader?name=./assets/img/[name].png',
       },
       {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
-        use: 'file-loader',
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader?name=./assets/fonts/[name].[ext]',
       },
       {
-        test: /\.(png|svg)$/,
-        loader: 'file-loader?name=[path][name].[ext]',
-      },
-
-      // {
-      //     test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      //     loader: 'url-loader?limit=10000&mimetype=application/font-woff',
-      // },
-      // {
-      //     test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      //     loader: 'url-loader?limit=10000&mimetype=application/font-woff',
-      // },
-      // {
-      //     test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      //     loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
-      // },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader',
-      },
-      // {
-      //     test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      //     loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
-      // },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   loader: 'babel-loader',
-      // },
-      // {
-      //   test: /\.jsx$/,
-      //   exclude: /node_modules/,
-      //   loader: 'babel-loader',
-      // },
-      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
-      {
-        test: /\.tsx?$/,
-        loader: 'awesome-typescript-loader',
+        type: 'javascript/auto',
+        test: /\.json$/,
+        loader: 'file-loader?name=./config/[name].json',
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
       },
       {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: { minimize: false },
-            },
-            { loader: 'sass-loader' },
-          ],
-        }),
+        test: /\.jsx$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(html)$/,
@@ -134,20 +86,8 @@ const base = {
           attrs: ['img:src', 'link:href'],
         },
       },
-
     ],
   },
-
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-},
 };
-
-if (nodeEnv === 'production') {
-  base.plugins = plugins;
-} else {
-  base.devtool = 'cheap-module-eval-source-map';
-}
 
 module.exports = base;

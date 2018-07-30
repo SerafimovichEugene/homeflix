@@ -7,8 +7,9 @@
     "start": "node ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -fr dist && npm run build-serv && npm run build-client",
-    "build-serv": "node ./node_modules/webpack/bin/webpack --config ./webpack.server.config.js --progress --colors",
-    "build-client": "node ./node_modules/webpack/bin/webpack --config ./webpack.client.config.js --progress --colors",
+    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --mode=development --progress --colors",
+    "build-serv": "node ./node_modules/webpack/bin/webpack --progress --colors",
+    "build-client": "node ./node_modules/webpack/bin/webpack --progress --colors",
     "serv": "nodemon ./node_modules/nodemon/bin/nodemon ./dist/server.js"
   },
   "repository": {
@@ -25,11 +26,14 @@
     "@types/react": "^16.4.7",
     "@types/react-dom": "^16.0.4",
     "express": "^4.16.3",
+    "history": "^4.7.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-redux": "^5.0.6",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "video.js": "^7.1.0"
   },
   "devDependencies": {
