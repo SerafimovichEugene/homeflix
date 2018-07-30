@@ -1,9 +1,10 @@
+const dotenv = require('dotenv');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const nodeEnv = process.env.NODE_ENV || 'development';
+dotenv.config();
 
 const plugins = [
   new webpack.DefinePlugin({

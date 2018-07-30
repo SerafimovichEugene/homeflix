@@ -19,11 +19,11 @@
 // //   </Provider>
 // // );
 // ReactDOM.render(<Root />, document.getElementById('root'));
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 ReactDOM.render(
-    <div>123</div>,
-    document.getElementById("example")
+  <div>123</div>,
+  document.getElementById('example'),
 );
