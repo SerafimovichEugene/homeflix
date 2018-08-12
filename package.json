@@ -10,7 +10,7 @@
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --mode=development --progress --colors",
     "build-serv": "node ./node_modules/webpack/bin/webpack --progress --colors",
     "build-client": "node ./node_modules/webpack/bin/webpack --progress --colors",
-    "serv": "nodemon ./node_modules/nodemon/bin/nodemon ./dist/server.js"
+    "serv": "nodemon ./node_modules/nodemon/bin/nodemon ./dist/index.js"
   },
   "repository": {
     "type": "git",
