@@ -6,7 +6,6 @@ export const gotUserInfo = videos => ({
 });
 
 export const getVideosAsync = () => (dispatch) => {
-  console.log(123);
   getVideos()
     .then(videos => dispatch(gotUserInfo(videos)));
 };

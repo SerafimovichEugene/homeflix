@@ -1,6 +1,9 @@
 import * as express from 'express';
 import { Application } from 'express';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 import RouterConfiguration from './routes/RouterConfiguration';
 

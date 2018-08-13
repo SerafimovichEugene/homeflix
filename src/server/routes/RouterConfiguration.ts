@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Router } from 'express';
 import * as path from 'path';
-// import videoListConroller from '../controllers/VideoList/VideoList';
+import videoListConroller from '../controllers/VideoListController';
 
 export default class RouterConfiguration {
   public router: Router;
@@ -11,8 +11,10 @@ export default class RouterConfiguration {
   }
 
   private config(): void {
-    this.router.use('/videos', (req, res, next) => {
-      res.send('ok');
+    const controller = new videoListConroller();
+    this.router.use('/api/videos/', (req, res, next) => {
+      const videos = controller.readFilesListFromFolder();
+      res.send(videos);
     });
     this.router.get('/', (req, res, next) => {
       res.sendFile(path.join(`/${__dirname}/../../public/index.html`));
