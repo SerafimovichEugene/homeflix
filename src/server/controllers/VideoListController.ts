@@ -4,8 +4,6 @@ import * as path from 'path';
 export default class VideoListController {
 
   public readFilesListFromFolder(): string[] {
-    console.log('path --->>', process.env.ROOT_PATH_DERICTORY);
-
     return this.readFilesRecoursevly(process.env.ROOT_PATH_DERICTORY, []);
   }
 
