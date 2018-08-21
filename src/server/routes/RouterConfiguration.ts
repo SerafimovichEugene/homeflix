@@ -15,6 +15,7 @@ export default class RouterConfiguration {
 
     this.router.use('/api/videos/', (req, res, next) => {
       const videos = controller.readFilesListFromFolder();
+      const mp4Videos = videos.filter();
       res.send(videos);
     });
 

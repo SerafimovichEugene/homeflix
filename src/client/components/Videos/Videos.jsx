@@ -15,10 +15,11 @@ class Videos extends Component {
 
   render() {
     const { videos } = this.props;
+    // console.log(videos);
     return (
       <div className="videos">
         <span>videos:</span>
-        {videos.map(video => <Link key={video.href} to={video.href}>{video.name}</Link>)}
+        {/* {videos.map(video => <Link key={video.href} to={video.href}>{video.name}</Link>)} */}
       </div>
     );
   }
