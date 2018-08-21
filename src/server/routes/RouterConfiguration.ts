@@ -11,14 +11,10 @@ export default class RouterConfiguration {
   }
 
   private config(): void {
-    const controller = new videoListConroller();
+    const videoListController = new videoListConroller();
 
-    this.router.use('/api/videos/', (req, res, next) => {
-      const videos = controller.readFilesListFromFolder();
-      const mp4Videos = videos.filter();
-      res.send(videos);
-    });
-
+    this.router.get('/api/refresh/', );
+    this.router.use('/api/videos/', videoListController.getVideos);
     this.router.get('/', (req, res, next) => {
       res.sendFile(path.join(`/${__dirname}/../../public/index.html`));
     });
