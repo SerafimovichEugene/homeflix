@@ -2,10 +2,10 @@ import * as express from 'express';
 import { Application } from 'express';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
+import RouterConfiguration from './routes/RouterConfiguration';
+import { DBConnector } from './models/DBConnector';
 
 dotenv.config();
-
-import RouterConfiguration from './routes/RouterConfiguration';
 
 export class Server {
   private app: Application;
@@ -13,6 +13,7 @@ export class Server {
     this.app = express();
     this.configureServer();
     this.configureRoutes();
+    this.configureDB();
   }
 
   private configureServer(): void {
@@ -21,6 +22,17 @@ export class Server {
 
   private configureRoutes() {
     this.app.use('/', new RouterConfiguration().router);
+  }
+
+  private configureDB() {
+    const db = DBConnector.getConnector();
+    db.sequalize.authenticate()
+      .then(() => {
+        console.log('Connection has been established successfully.');
+      })
+      .catch((err: any) => {
+        console.error('Unable to connect to the database:', err);
+      });
   }
 
   public run(port: number): void {
