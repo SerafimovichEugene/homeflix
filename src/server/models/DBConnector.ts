@@ -1,10 +1,11 @@
 import * as sequalize from 'sequelize';
+import { Sequelize } from 'sequelize';
 
 export class DBConnector {
 
   private static connector: DBConnector;
 
-  public sequalize: any;
+  public sequalize: Sequelize;
 
   constructor() {
     this.sequalize = new sequalize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASS, {
@@ -21,10 +22,10 @@ export class DBConnector {
     });
   }
 
-  public static getConnector(): DBConnector {
+  public static getConnector(): Sequelize {
     if (!DBConnector.connector) {
       DBConnector.connector = new DBConnector();
     }
-    return DBConnector.connector;
+    return DBConnector.connector.sequalize;
   }
 }

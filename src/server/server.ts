@@ -25,8 +25,8 @@ export class Server {
   }
 
   private configureDB() {
-    const db = DBConnector.getConnector();
-    db.sequalize.authenticate()
+    const sequalize = DBConnector.getConnector();
+    sequalize.authenticate()
       .then(() => {
         console.log('Connection has been established successfully.');
       })
