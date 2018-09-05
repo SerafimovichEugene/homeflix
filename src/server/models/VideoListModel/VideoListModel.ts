@@ -1,6 +1,6 @@
-import { DBConnector } from './DBConnector';
-import { Video } from '../domain/Video';
 import { Sequelize } from 'sequelize';
+import { DBConnector } from '../DBConnector';
+import { Video } from '../../domain/Video';
 
 export class VideoListModel {
   private sequalize: Sequelize

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Video } from '../domain/Video';
-import { VideoListModel } from '../models/VideoListModel';
+import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
 export default class VideoListController {
   private videListModel: VideoListModel
