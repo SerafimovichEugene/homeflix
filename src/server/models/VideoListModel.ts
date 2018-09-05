@@ -13,20 +13,19 @@ export class VideoListModel {
       .then(res => res);
   }
 
-  public insertVideosBatch(videos: Video[]): any {
-    // const values: string = videos
-    //   .map(video => ` ('${video.path}/${video.fileName}')`)
-    //   .join(',');
-    videos.forEach((video) => {
-      this.sequalize.query(`INSERT files(path) VALUES ('${video.path}/${video.fileName}');`);
-    });
+  public escapeSingleQuote(str: string): string {
+    return str.split('\'').join('\'\'');
+  }
 
-  //   return this.sequalize.query(
-  //     `INSERT files(path)
-  //     VALUES
-  //     ${values};`
-  //   )
-  //     .then(res => console.log(res))
-  //     .catch(err => console.log('insertVideo error -->>, ', err));
-  // }
+  public insertVideosBatch(videos: Video[]): any {
+    const values: string = videos
+      .map(video => {
+        const fileName = video.fileName.split('\'').join('\'\'');
+        const toInsert = ` ('${video.path}/${fileName}')`;
+      })
+      .join(',');
+    return this.sequalize.query(`INSERT files(path) VALUES ${values};`)
+      .then(res => console.log(res))
+      .catch(err => console.log('insertVideo error -->>, ', err));
+  }
 }
