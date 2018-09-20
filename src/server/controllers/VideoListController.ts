@@ -2,44 +2,23 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Video } from '../domain/Video';
 import { VideoListModel } from '../models/VideoListModel/VideoListModel';
+import { VideoListProvider } from '../services/VideoListProvider';
+import { VideoListRefresher } from '../services/VideoListRefresher';
 
 export default class VideoListController {
   private videListModel: VideoListModel
+  private videoListCached: Video[]
   constructor() {
     this.videListModel = new VideoListModel();
+    this.videoListCached = VideoListProvider.getMp4Videos();
     this.getVideos = this.getVideos.bind(this);
   }
 
   public getVideos(req: any, res: any, next: any) {
-    const videos = this.readFilesListFromFolder();
-    this.videListModel.insertVideosBatch(videos);
-    res.send('123');
-    // this.videListModel.getAllVideos()
-    //   .then(videos => {
-    //     res.send(videos);
-    //   });
-    // const videos = this.readFilesListFromFolder();
+    res.send(this.videoListCached);
   }
 
-  private readFilesListFromFolder(): Video[] {
-    const videofiles = this.readFilesRecoursevly(process.env.ROOT_PATH_DERICTORY, []);
-    const mp4Videos = videofiles.filter((item) => {
-      const arr = item.fileName.split('.');
-      return arr[arr.length - 1] === 'mp4';
-    });
-    return mp4Videos;
-  }
-
-  private readFilesRecoursevly(dir: string, fileList: Video[]): Video[] {
-    fileList = fileList || [];
-    const files = fs.readdirSync(dir);
-    files.forEach(file => {
-      if (fs.statSync(path.join(dir, file)).isDirectory()) {
-        fileList = this.readFilesRecoursevly(path.join(dir, file), fileList);
-      } else {
-        fileList.push(new Video(dir, file));
-      }
-    });
-    return fileList;
+  public refreshVideos(req: any, res: any, next: any) {
+    res.send('refreshVideos');
   }
 }

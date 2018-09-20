@@ -5,7 +5,6 @@ enum fileStatusEnums {
 }
 
 export class Video {
-  public id: number;
   public path: string;
   public fileName: string;
   public fileStatus: fileStatusEnums;

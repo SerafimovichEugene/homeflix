@@ -21,7 +21,7 @@ export class VideoListModel {
     const values: string = videos
       .map(video => {
         const fileName = video.fileName.split('\'').join('\'\'');
-        const toInsert = ` ('${video.path}/${fileName}')`;
+        return ` ('${video.path}/${fileName}')`;
       })
       .join(',');
     return this.sequalize.query(`INSERT files(path) VALUES ${values};`)
