@@ -12,6 +12,7 @@ export default class VideoListController {
     this.videListModel = new VideoListModel();
     this.videoListCached = VideoListProvider.getMp4Videos();
     this.getVideos = this.getVideos.bind(this);
+    this.refreshVideos = this.refreshVideos.bind(this);
   }
 
   public getVideos(req: any, res: any, next: any) {
@@ -19,6 +20,7 @@ export default class VideoListController {
   }
 
   public refreshVideos(req: any, res: any, next: any) {
-    res.send('refreshVideos');
+    this.videoListCached = VideoListProvider.getMp4Videos();
+    res.send('refreshed');
   }
 }

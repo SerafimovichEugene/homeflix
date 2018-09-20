@@ -9,8 +9,7 @@ export class VideoListModel {
   }
 
   public getAllVideos(): any {
-    return this.sequalize.query('SELECT * from files')
-      .then(res => res);
+    return this.sequalize.query('SELECT * from files');
   }
 
   public escapeSingleQuote(str: string): string {
@@ -25,7 +24,10 @@ export class VideoListModel {
       })
       .join(',');
     return this.sequalize.query(`INSERT files(path) VALUES ${values};`)
-      .then(res => console.log(res))
-      .catch(err => console.log('insertVideo error -->>, ', err));
+      .then(res => res)
+      .catch(err => {
+        console.log('insertVideo error -->>, ', err);
+        return Promise.reject(err);
+      });
   }
 }
