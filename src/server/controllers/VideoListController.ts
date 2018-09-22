@@ -25,7 +25,7 @@ export default class VideoListController {
   }
 
   public getVideos(req: any, res: any, next: any) {
-    res.send(Array.from( this.videoListCached.keys() ) );
+    res.send(Array.from( this.videoListCached.entries() ) );
   }
 
   public refreshVideos(req: any, res: any, next: any) {

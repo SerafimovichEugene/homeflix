@@ -22,10 +22,11 @@ export default class Video extends React.Component {
   render() {
     const { id } = this.props.match.params;
     console.log(id);
-    this.videoOptions.sources.src = currentPath;
+    this.videoOptions.sources.src = id;
     return (
       <div>
-        <VideoPlayer {...this.videoOptions} />
+        <span>{id}</span>
+        {/* <VideoPlayer {...this.videoOptions} /> */}
       </div>
     );
   }

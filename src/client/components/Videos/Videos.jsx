@@ -20,13 +20,13 @@ class Videos extends Component {
       <div className="videos">
         <span>videos:</span>
         {
-          videos.map(videoId => (
+          videos.map(videoEntrie => (
             <Link
               className="link"
-              key={videoId}
-              to={`/video/${videoId}`}
+              key={videoEntrie[0]}
+              to={`/video/${videoEntrie[0]}`}
             >
-              {videoId}
+              {videoEntrie[1].fileName}
             </Link>
           ))
         }
