@@ -1,33 +1,31 @@
 import React from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
+import VideoPlayer from './VideoPlayer/VideoPlayer';
 import './Video.scss';
 
-export default class VideoPlayer extends React.Component {
-  componentDidMount() {
-    if (this.videoNode) {
-      this.player = videojs(this.videoNode, this.props, () => {
-        console.log('onPlayerReady', this);
-      });
-    }
+export default class Video extends React.Component {
+  constructor(props) {
+    super(props);
+    this.videoOptions = {
+      autoplay: false,
+      controls: true,
+      sources: [{
+        src: '',
+        type: 'video/mp4',
+      }],
+    };
   }
 
-  componentWillUnmount() {
-    if (this.player) {
-      this.player.dispose();
-    }
-  }
+  // componentDidMount() {
+  //   console.log('video did mount');
+  // }
 
   render() {
-    // const { props } = this.props;
+    const { id } = this.props.match.params;
+    console.log(id);
+    this.videoOptions.sources.src = currentPath;
     return (
-      <div data-vjs-player>
-        <video
-          className="video-js"
-          ref={(ref) => { this.videoNode = ref; }}
-        >
-          <track kind="captions" />
-        </video>
+      <div>
+        <VideoPlayer {...this.videoOptions} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './Videos.scss';
 
 class Videos extends Component {
   static propTypes = {
@@ -15,11 +16,20 @@ class Videos extends Component {
 
   render() {
     const { videos } = this.props;
-    console.log(videos);
     return (
       <div className="videos">
         <span>videos:</span>
-        {videos.map(video => <p key={video.fileName}>{video.fileName}</p>)}
+        {
+          videos.map(videoId => (
+            <Link
+              className="link"
+              key={videoId}
+              to={`/video/${videoId}`}
+            >
+              {videoId}
+            </Link>
+          ))
+        }
       </div>
     );
   }

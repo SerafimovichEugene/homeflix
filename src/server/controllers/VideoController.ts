@@ -14,11 +14,11 @@ export default class Video {
   }
 
   configureRouter(): void {
-    this.router.get('/video', this.videoController);
+    this.router.get('/video/:id', this.videoController);
   }
 
   private videoController(req: any, res: any, next: any) {
-    const path = '/media/evgen/Новый\ том/video/nvz.mp4';
+    const path = req.param('id');
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;

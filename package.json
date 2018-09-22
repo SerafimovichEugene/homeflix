@@ -9,7 +9,7 @@
     "build": "rm -fr dist && rm -fr public && tsc && node ./node_modules/webpack/bin/webpack --progress --colors",
     "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --mode=development --progress --colors",
     "build-serv": "tsc -w",
-    "build-client": "rm -fr public && node ./node_modules/webpack/bin/webpack --watch --hot --progress --colors",
+    "build-client": "rm -fr public && node ./node_modules/webpack/bin/webpack --watch --mode=development --hot --progress --colors",
     "serv": "nodemon ./node_modules/nodemon/bin/nodemon ./dist/index.js"
   },
   "repository": {
