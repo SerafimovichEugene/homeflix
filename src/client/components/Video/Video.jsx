@@ -9,7 +9,7 @@ export default class Video extends React.Component {
       autoplay: false,
       controls: true,
       sources: [{
-        src: '',
+        src: '/video',
         type: 'video/mp4',
       }],
     };
@@ -21,11 +21,7 @@ export default class Video extends React.Component {
 
   render() {
     const { id } = this.props.match.params;
-    console.log(id);
-    // const { videos } = this.props;
-    // const path = videos[id].
-    this.videoOptions.sources.src = `/api/video/${id}`;
-    console.log(this.videoOptions.sources.src);
+    this.videoOptions.sources = [{ src: `/api/video/${id}`, type: 'video/mp4' }];
     return (
       <div>
         <span>{id}</span>
