@@ -65,7 +65,7 @@ class Paginator extends Component {
     }
     if (currentPage >= 1 && currentPage <= totalPages) {
       const { onPage } = this.props;
-      this.setState({ page: currentPage }, () => onPage(currentPage));
+      this.setState({ page: +currentPage }, () => onPage(+currentPage));
     }
   }
 
@@ -81,7 +81,7 @@ class Paginator extends Component {
     const { onPage } = this.props;
     const { page, totalPages } = this.state;
     if (page !== totalPages) {
-      this.setState({ page: totalPages }, () => onPage(totalPages));
+      this.setState({ page: +totalPages }, () => onPage(+totalPages));
     }
   }
 
@@ -96,7 +96,6 @@ class Paginator extends Component {
     const { page, totalPages } = this.state;
     const stackSize = totalPages > 11 ? 11 : totalPages;
     const pagesStack = Paginator.calcPagesStack(page, totalPages, stackSize);
-
     return (
       <div className="paginator">
 
@@ -139,7 +138,7 @@ class Paginator extends Component {
               {pagesStack.map(num => (
                 <li
                   key={num}
-                  className={`${num === page ? 'active' : ''}`}
+                  className={`${num == page ? 'active' : ''}`}
                 >
                   <a
                     onClick={() => this.handleOnPage(num)}

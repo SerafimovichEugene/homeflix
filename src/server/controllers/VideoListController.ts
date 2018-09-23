@@ -1,6 +1,3 @@
-// import * as fs from 'fs';
-// import * as path from 'path';
-// import { Video } from '../domain/Video';
 import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
 export default class VideoListController {
@@ -11,8 +8,9 @@ export default class VideoListController {
   }
 
   public getVideos(req: any, res: any) {
-    const page = req.params['page'];
-    const size = req.params['size'];
+    const page = req.query['page'];
+    console.log('req.query --> ', req.query);
+    const size = req.query['size'];
     const videoPage = this.videListModel.getPage(page, size);
     res.send(videoPage);
   }

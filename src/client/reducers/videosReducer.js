@@ -2,7 +2,7 @@ const initialState = {
   videos: [],
 };
 
-const filterSubjectReducer = (state = initialState, action) => {
+const videosReducer = (state = initialState, action) => {
   const {
     type,
     totalVideos,
@@ -26,4 +26,4 @@ const filterSubjectReducer = (state = initialState, action) => {
   }
 };
 
-export default filterSubjectReducer;
+export default videosReducer;

@@ -18,8 +18,7 @@ export const gotVideos = (res) => {
   };
 };
 
-
-export const getVideosAsync = () => (dispatch) => {
-  getVideos()
+export const getVideosAsync = params => (dispatch) => {
+  getVideos(params)
     .then(res => dispatch(gotVideos(res)));
 };

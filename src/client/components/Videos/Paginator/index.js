@@ -1,22 +1,22 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import { createSelector } from 'reselect';
-
+import Paginator from '../../common/Paginator';
 import { getVideosAsync } from '../../../actions/videosAction';
 
 const mapStateToProps = state => ({
-  page: state.strategyReducer.pageNumber + 1,
-  number: state.strategyReducer.pageNumber,
-  totalPages: state.strategyReducer.totalPages,
-  totalElements: state.strategyReducer.totalVideos,
-  size: state.strategyReducer.size,
-  first: state.strategyReducer.first,
-  last: state.strategyReducer.last,
+  page: state.videosReducer.pageNumber + 1,
+  number: state.videosReducer.pageNumber,
+  totalPages: state.videosReducer.totalPages,
+  totalElements: state.videosReducer.totalVideos,
+  size: state.videosReducer.size,
+  first: false,
+  last: false,
 });
 
 const mapDispatchToProps = dispatch => ({
   onPage: (page) => {
-    dispatch(getVideosAsync());
+    console.log(page);
+    dispatch(getVideosAsync({ page: +page - 1 }));
   },
 });
 

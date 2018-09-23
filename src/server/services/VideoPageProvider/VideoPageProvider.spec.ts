@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { VideoPageProvider } from './VideoPageProvider';
-
+import {  } from '../VideoListProvider/VideoLocalListProvider';
 const VideoPageProviderInstance = new VideoPageProvider();
 
 describe('get total pages, size = 20', () => {
@@ -18,5 +18,13 @@ describe('get total pages, size = 20', () => {
   it('total = 0', () => {
     const pages = VideoPageProviderInstance.getTotalsPages(0, size);
     assert.equal(pages, 1);
+  });
+});
+
+describe('get video page method, size = 20', () => {
+  const size = 20;
+  it('page = 0', () => {
+    const page = VideoPageProviderInstance.getVideoPage(0, size);
+    assert.equal(page.videos, 0);
   });
 });
