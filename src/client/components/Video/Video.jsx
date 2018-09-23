@@ -15,10 +15,6 @@ export default class Video extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log('video did mount');
-  }
-
   render() {
     const { id } = this.props.match.params;
     this.videoOptions.sources = [{ src: `/api/video/${id}`, type: 'video/mp4' }];
