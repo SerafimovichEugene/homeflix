@@ -15,8 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onPage: (page) => {
-    console.log(page);
-    dispatch(getVideosAsync({ page: +page - 1 }));
+    dispatch(getVideosAsync({ page: page - 1 }));
   },
 });
 
