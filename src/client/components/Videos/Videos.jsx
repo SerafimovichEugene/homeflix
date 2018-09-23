@@ -5,7 +5,7 @@ import './Videos.scss';
 
 class Videos extends Component {
   static propTypes = {
-    videos: PropTypes.array,
+    videos: PropTypes.object,
     getVideos: PropTypes.func,
   }
 
