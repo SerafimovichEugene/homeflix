@@ -16,17 +16,18 @@ class Videos extends Component {
 
   render() {
     const { videos } = this.props;
+
     return (
       <div className="videos">
         <span>videos:</span>
         {
-          videos.map(videoEntrie => (
+          Object.keys(videos).map(id => (
             <Link
               className="link"
-              key={videoEntrie[0]}
-              to={`/video/${videoEntrie[0]}`}
+              key={id}
+              to={`/video/${id}`}
             >
-              {videoEntrie[1].fileName}
+              {videos[id].fileName}
             </Link>
           ))
         }

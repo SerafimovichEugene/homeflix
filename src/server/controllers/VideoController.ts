@@ -1,24 +1,21 @@
-import * as express from 'express';
 import * as fs from 'fs';
-import { Router } from 'express';
+import { Video } from '../domain/Video';
+import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
-export default class Video {
-  private router: Router;
-  constructor() {
-    this.router = express.Router();
-    this.configureRouter();
+export default class VideoController {
+  private videListModel: VideoListModel
+  private videoList: Map<string, Video>;
+  constructor(model: VideoListModel) {
+    this.videListModel = model;
+    this.videoList = this.videListModel.getLocalvideos();
+    this.getVideo = this.getVideo.bind(this);
   }
 
-  public getRouterInstance(): Router {
-    return this.router;
-  }
-
-  configureRouter(): void {
-    this.router.get('/video/:id', this.videoController);
-  }
-
-  private videoController(req: any, res: any, next: any) {
-    const path = req.param('id');
+  public getVideo(req: any, res: any, next: any) {
+    const id = req.param('id');
+    const video = this.videoList.get(id);
+    const path = `${video.path}/${video.fileName}`;
+    console.log('path123 ... -> ', path);
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;

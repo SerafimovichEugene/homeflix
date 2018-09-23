@@ -8,13 +8,15 @@ import './App.scss';
 
 class App extends React.Component {
   render() {
+    const noMatch = (<span>No match</span>);
     return (
       <div>
         <header>123</header>
         <main>
           <Switch>
             <Route exact path="/" component={Videos} />
-            <Route exact path="/video/:id" component={Video} />
+            <Route path="/video/:id" component={Video} />
+            <Route path="*" component={noMatch} />
           </Switch>
         </main>
       </div>

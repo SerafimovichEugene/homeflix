@@ -15,18 +15,21 @@ export default class Video extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   console.log('video did mount');
-  // }
+  componentDidMount() {
+    console.log('video did mount');
+  }
 
   render() {
     const { id } = this.props.match.params;
     console.log(id);
-    this.videoOptions.sources.src = id;
+    // const { videos } = this.props;
+    // const path = videos[id].
+    this.videoOptions.sources.src = `/api/video/${id}`;
+    console.log(this.videoOptions.sources.src);
     return (
       <div>
         <span>{id}</span>
-        {/* <VideoPlayer {...this.videoOptions} /> */}
+        <VideoPlayer {...this.videoOptions} />
       </div>
     );
   }
