@@ -7,7 +7,7 @@ export default class VideoController {
   private videoList: Map<string, Video>;
   constructor(model: VideoListModel) {
     this.videListModel = model;
-    this.videoList = this.videListModel.getLocalvideos();
+    this.videoList = this.videListModel.getCachedVideosMap();
     this.getVideo = this.getVideo.bind(this);
   }
 

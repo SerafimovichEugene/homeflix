@@ -5,7 +5,7 @@ import './Videos.scss';
 
 class Videos extends Component {
   static propTypes = {
-    videos: PropTypes.object,
+    videos: PropTypes.array,
     getVideos: PropTypes.func,
   }
 
@@ -21,13 +21,13 @@ class Videos extends Component {
       <div className="videos">
         <span>videos:</span>
         {
-          Object.keys(videos).map(id => (
+          videos.map(video => (
             <Link
               className="link"
-              key={id}
-              to={`/video/${id}`}
+              key={video.id}
+              to={`/video/${video.id}`}
             >
-              {videos[id].fileName}
+              {video.fileName}
             </Link>
           ))
         }

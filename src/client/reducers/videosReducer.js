@@ -3,10 +3,23 @@ const initialState = {
 };
 
 const filterSubjectReducer = (state = initialState, action) => {
-  const { videos } = action;
-  switch (action.type) {
+  const {
+    type,
+    totalVideos,
+    totalPages,
+    videos,
+    size,
+    pageNumber,
+  } = action;
+  switch (type) {
     case 'GOT_VIDEOS': {
-      return Object.assign({}, state, { videos });
+      return Object.assign(
+        {},
+        state,
+        {
+          videos, totalVideos, totalPages, size, pageNumber,
+        },
+      );
     }
     default:
       return state;

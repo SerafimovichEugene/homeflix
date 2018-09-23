@@ -1,11 +1,25 @@
 import { getVideos } from '../services/httpService';
 
-export const goVideos = videos => ({
-  type: 'GOT_VIDEOS',
-  videos,
-});
+export const gotVideos = (res) => {
+  const {
+    totalVideos,
+    totalPages,
+    videos,
+    size,
+    pageNumber,
+  } = res;
+  return {
+    type: 'GOT_VIDEOS',
+    totalVideos,
+    totalPages,
+    videos,
+    size,
+    pageNumber,
+  };
+};
+
 
 export const getVideosAsync = () => (dispatch) => {
   getVideos()
-    .then(videos => dispatch(goVideos(videos)));
+    .then(res => dispatch(gotVideos(res)));
 };

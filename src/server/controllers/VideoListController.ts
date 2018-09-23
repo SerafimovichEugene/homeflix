@@ -1,28 +1,19 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { Video } from '../domain/Video';
+// import * as fs from 'fs';
+// import * as path from 'path';
+// import { Video } from '../domain/Video';
 import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
 export default class VideoListController {
   private videListModel: VideoListModel
-  private videoListCached: Map<string, Video>;
   constructor(model: VideoListModel) {
     this.videListModel = model;
-    this.videoListCached = model.getLocalvideos();
     this.getVideos = this.getVideos.bind(this);
-    this.refreshVideos = this.refreshVideos.bind(this);
   }
 
-  public getVideos(req: any, res: any, next: any) {
-    // const map = {};
-    // this.videoListCached.forEach((value, key) => {
-    //   map[key] = value;
-    // });
-    // res.send(map);
-  }
-
-  public refreshVideos(req: any, res: any, next: any) {
-    this.videListModel.refreshVideoListCached();
-    res.send('refreshed');
+  public getVideos(req: any, res: any) {
+    const page = req.params['page'];
+    const size = req.params['size'];
+    const videoPage = this.videListModel.getPage(page, size);
+    res.send(videoPage);
   }
 }
