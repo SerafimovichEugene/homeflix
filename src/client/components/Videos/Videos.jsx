@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Paginator from './Paginator';
 import './Videos.scss';
 
 class Videos extends Component {
@@ -31,6 +32,9 @@ class Videos extends Component {
             </Link>
           ))
         }
+        <div>
+          <Paginator />
+        </div>
       </div>
     );
   }

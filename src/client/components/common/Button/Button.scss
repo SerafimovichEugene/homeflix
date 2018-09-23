@@ -1,0 +1,32 @@
+.dh-button {
+  height: 36px;
+  border-radius: 3px;
+  padding: 0px 18px;
+  background-color: #39C2D7;
+  text-align: center;
+  font-family: 'Source Sans Pro Regular';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  line-height: 18px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline:none;
+
+  &:hover {
+    background-color: #1A9CB0;
+  }
+
+  &.transparent {
+    color: #39C2D7;
+    background-color: white;
+    border: 1px solid #39C2D7;
+
+    &:hover {
+      background-color:  white;
+      border-color: #1A9CB0;
+    }
+  }
+}

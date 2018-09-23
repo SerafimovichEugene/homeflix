@@ -1,0 +1,28 @@
+@import '~styles/variables';
+
+.alert-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  height: 36px;
+  color: $white;
+
+  .alert-message {
+    span {
+      font-family: "Source Sans Pro Regular";
+      strong {
+        margin-right: 10px;
+      }
+      margin-left: 10px;
+      font-size: 14px;
+
+    }
+  }
+
+  .alert-close {
+    margin-left: auto;
+    button {
+      color: $white;
+    }
+  }
+}
