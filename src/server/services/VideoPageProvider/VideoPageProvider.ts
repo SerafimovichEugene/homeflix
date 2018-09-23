@@ -18,7 +18,7 @@ export class VideoPageProvider {
     const totalVideosNum = videos.length;
     newPage.videos = videos.slice(page * size, (page * size) + size);
     newPage.size = size;
-    newPage.pageNumber = +page;
+    newPage.pageNumber = page;
     newPage.totalPages = this.getTotalsPages(totalVideosNum, size);
     return newPage;
   }

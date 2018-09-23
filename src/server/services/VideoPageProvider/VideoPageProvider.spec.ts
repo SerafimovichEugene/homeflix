@@ -21,10 +21,3 @@ describe('get total pages, size = 20', () => {
   });
 });
 
-describe('get video page method, size = 20', () => {
-  const size = 20;
-  it('page = 0', () => {
-    const page = VideoPageProviderInstance.getVideoPage(0, size);
-    assert.equal(page.videos, 0);
-  });
-});
