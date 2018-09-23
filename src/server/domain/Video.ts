@@ -1,5 +1,3 @@
-import { join } from "path";
-
 enum fileStatusEnums {
   new = 1,
   common,
@@ -13,7 +11,7 @@ export class Video {
   public fileStatus: fileStatusEnums;
 
   constructor(path: string, name: string, fileStatus?: fileStatusEnums) {
-    this.id = name.trim().split(' ').join('_');
+    this.id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     this.path = path;
     this.fileName = name;
     this.fileStatus = fileStatus;

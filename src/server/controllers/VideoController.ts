@@ -7,7 +7,7 @@ export default class VideoController {
   private videoList: Map<string, Video>;
   constructor(model: VideoListModel) {
     this.videListModel = model;
-    this.videoList = this.videListModel.getLocalvideos();
+    this.videoList = this.videListModel.getCachedVideosMap();
     this.getVideo = this.getVideo.bind(this);
   }
 
@@ -15,7 +15,6 @@ export default class VideoController {
     const id = req.param('id');
     const video = this.videoList.get(id);
     const path = `${video.path}/${video.fileName}`;
-    console.log('path123 ... -> ', path);
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;

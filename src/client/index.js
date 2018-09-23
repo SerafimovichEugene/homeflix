@@ -12,6 +12,7 @@ import App from './components/App';
 import reducers from './reducers/index';
 
 import './styles/index.scss';
+import './styles/fonts/font-awesome/css/font-awesome.min.css';
 
 const history = createHistory({
   basename: process.env.BASE_HREF,

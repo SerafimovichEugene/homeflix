@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Paginator from './Paginator';
 import './Videos.scss';
 
 class Videos extends Component {
@@ -21,16 +22,19 @@ class Videos extends Component {
       <div className="videos">
         <span>videos:</span>
         {
-          Object.keys(videos).map(id => (
+          videos.map(video => (
             <Link
               className="link"
-              key={id}
-              to={`/video/${id}`}
+              key={video.id}
+              to={`/video/${video.id}`}
             >
-              {videos[id].fileName}
+              {video.fileName}
             </Link>
           ))
         }
+        <div>
+          <Paginator />
+        </div>
       </div>
     );
   }

@@ -19,9 +19,9 @@ export default class RouterConfiguration {
 
     this.router.use('/api/videos/', videoListController.getVideos);
     this.router.use('/api/video/:id', videoController.getVideo);
-    this.router.use('/api/refresh/', videoListController.refreshVideos);
+    // this.router.use('/api/refresh/', videoListController.refreshVideos);
 
-    this.router.get('/', (req, res, next) => {
+    this.router.get('*', (req, res, next) => {
       res.sendFile(path.join(`/${__dirname}/../../public/index.html`));
     });
   }

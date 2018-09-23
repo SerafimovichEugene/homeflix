@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import { createSelector } from 'reselect';
 
 import { getVideosAsync } from '../../actions/videosAction';
 

@@ -1,14 +1,20 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Video } from "../domain/Video";
+import { IVideoListProvider } from './IVideoListProvider';
+import { Video } from "../../domain/Video";
 
-export class VideoListProvider {
+export class VideoLocalListProvider implements IVideoListProvider {
+
   static getMp4Videos(): Video[] {
-    const videofiles = VideoListProvider.readFilesRecoursevly(process.env.ROOT_PATH_DERICTORY, []);
+    const videofiles = VideoLocalListProvider.readFilesRecoursevly(process.env.ROOT_PATH_DERICTORY, []);
     return videofiles.filter((item) => {
       const arr = item.fileName.split('.');
       return arr[arr.length - 1] === 'mp4';
     });
+  }
+
+  public getVideos(): Video[] {
+    return VideoLocalListProvider.getMp4Videos();
   }
 
   private static readFilesRecoursevly(dir: string, fileList: Video[]): Video[] {

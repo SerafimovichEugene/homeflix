@@ -1,0 +1,27 @@
+.dh-panel {
+  border: 1px solid #EAEDF5;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+
+  > .header {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 18px;
+    background-color: #F8F9FB;
+    border-bottom: 1px solid #EAEDF5;
+
+    h4 {
+      margin: 0;
+      color: #868996;
+      font-family: "Source Sans Pro Regular";
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 18px;
+    }
+  }
+
+  > .body {
+    padding: 20px 18px;
+  }
+}

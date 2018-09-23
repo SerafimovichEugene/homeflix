@@ -1,11 +1,8 @@
 import * as express from 'express';
 import { Application } from 'express';
 import * as path from 'path';
-import * as dotenv from 'dotenv';
 import RouterConfiguration from './routes/RouterConfiguration';
 import { DBConnector } from './models/DBConnector';
-
-dotenv.config();
 
 export class Server {
   private app: Application;
