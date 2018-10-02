@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Application } from 'express';
 import * as path from 'path';
 import RouterConfiguration from './routes/RouterConfiguration';
-import { DBConnector } from './models/DBConnector';
+import { DBConnector } from './services/DBConnector';
 
 export class Server {
   private app: Application;

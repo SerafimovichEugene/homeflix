@@ -1,14 +1,16 @@
 import { Sequelize } from 'sequelize';
-import { DBConnector } from '../DBConnector';
+import { DBConnector } from '../../services/DBConnector';
 import { Video } from '../../domain/Video';
 import { VideoPage } from '../../domain/VideoPage';
 import { VideoPageProvider } from '../../services/VideoPageProvider/VideoPageProvider';
-import { VideoLocalListProvider } from '../../services/VideoListProvider/VideoLocalListProvider';
+// import { VideoLocalListProvider } from '../../services/VideoListProvider/VideoLocalListProvider';
+import { VideoDBListProvider } from '../../services/VideoListProvider/VideoDBListProvider';
 
 export class VideoListModel {
   private provider: VideoPageProvider;
   constructor() {
-    this.provider = new VideoPageProvider(new VideoLocalListProvider());
+    // this.provider = new VideoPageProvider(new VideoLocalListProvider());
+    this.provider = new VideoPageProvider(new VideoDBListProvider());
   }
 
   public getPage(page: number, size: number): VideoPage {
