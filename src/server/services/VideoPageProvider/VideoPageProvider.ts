@@ -8,8 +8,11 @@ export class VideoPageProvider {
   private cachedVideosMap: Map<string, Video>
   constructor(provider?: IVideoListProvider) {
     this.videoListProvider = provider;
-    this.cachedVideos = this.videoListProvider.getVideos();
-    this.cachedVideosMap = this.buildMap(this.cachedVideos);
+    this.videoListProvider.getVideos()
+      .then(res => {
+        this.cachedVideos = res;
+        this.cachedVideosMap = this.buildMap(res);
+      });
   }
 
   public getVideoPage(page = 0, size = 20): VideoPage {

@@ -17,7 +17,6 @@ class Videos extends Component {
 
   render() {
     const { videos } = this.props;
-
     return (
       <div className="videos">
         <span>videos:</span>

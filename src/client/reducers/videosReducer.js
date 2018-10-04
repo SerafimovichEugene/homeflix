@@ -1,4 +1,8 @@
 const initialState = {
+  pageNumber: 0,
+  size: 20,
+  totalPages: null,
+  totalVideos: null,
   videos: [],
 };
 

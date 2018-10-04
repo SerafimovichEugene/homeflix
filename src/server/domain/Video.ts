@@ -10,10 +10,11 @@ export class Video {
   public fileName: string;
   public fileStatus: fileStatusEnums;
 
-  constructor(path: string, name: string, fileStatus?: fileStatusEnums) {
+  constructor(path: string, fileStatus?: fileStatusEnums) {
     this.id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     this.path = path;
-    this.fileName = name;
+    const parts = path.split('/');
+    this.fileName = parts[parts.length - 1];
     this.fileStatus = fileStatus;
   }
 }

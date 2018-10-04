@@ -4,17 +4,17 @@ import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
 export default class VideoController {
   private videListModel: VideoListModel
-  private videoList: Map<string, Video>;
+  // private videoList: Map<string, Video>;
   constructor(model: VideoListModel) {
     this.videListModel = model;
-    this.videoList = this.videListModel.getCachedVideosMap();
     this.getVideo = this.getVideo.bind(this);
   }
 
   public getVideo(req: any, res: any, next: any) {
+    const videosMap = this.videListModel.getCachedVideosMap();
     const id = req.param('id');
-    const video = this.videoList.get(id);
-    const path = `${video.path}/${video.fileName}`;
+    const video = videosMap.get(id);
+    const path = video.path;
     const stat = fs.statSync(path);
     const fileSize = stat.size;
     const range = req.headers.range;

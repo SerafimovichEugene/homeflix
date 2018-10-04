@@ -18,7 +18,10 @@ export const gotVideos = (res) => {
   };
 };
 
-export const getVideosAsync = params => (dispatch) => {
-  getVideos(params)
+export const getVideosAsync = params => (dispatch, getState) => {
+  const state = getState().videosReducer;
+  const { pageNumber, size } = state;
+  const updatedParams = Object.assign({}, { page: pageNumber, size }, params);
+  getVideos(updatedParams)
     .then(res => dispatch(gotVideos(res)));
 };

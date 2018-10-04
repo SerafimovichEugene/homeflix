@@ -6,5 +6,4 @@ export class VideoTestListProvider implements IVideoListProvider {
   public getVideos(): Video[] {
     return [];
   }
-
 }
