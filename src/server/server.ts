@@ -10,7 +10,7 @@ export class Server {
     this.app = express();
     this.configureServer();
     this.configureRoutes();
-    this.configureDB();
+    // this.configureDB();
   }
 
   private configureServer(): void {
