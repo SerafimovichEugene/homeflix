@@ -9,9 +9,9 @@ export default class VideoListController {
 
   public getVideos(req: any, res: any) {
     let page = req.query['page'];
-    let size = req.query['size'];
+    const size = req.query['size'];
+    const query = req.query['query'];
     page = page || 0;
-    size = size || 0;
     const videoPage = this.videListModel.getPage(+page, +size);
     res.send(videoPage);
   }
