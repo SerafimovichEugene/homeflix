@@ -1,7 +1,9 @@
 import { assert } from 'chai';
 import { VideoPageProvider } from './VideoPageProvider';
-import {  } from '../VideoListProvider/VideoLocalListProvider';
-const VideoPageProviderInstance = new VideoPageProvider();
+import { VideoTestListProvider } from '../VideoListProvider/VideoTestListProvider';
+
+
+const VideoPageProviderInstance = new VideoPageProvider(new VideoTestListProvider());
 
 describe('get total pages, size = 20', () => {
   const size = 20;

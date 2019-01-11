@@ -3,7 +3,7 @@ import { Video } from "../../domain/Video";
 
 export class VideoTestListProvider implements IVideoListProvider {
 
-  public getVideos(): Video[] {
+  public async getVideos(): Promise<Video[]> {
     return [];
   }
 }

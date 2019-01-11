@@ -1,5 +1,5 @@
-import { Sequelize } from 'sequelize';
-import { DBConnector } from '../../services/DBConnector';
+// import { Sequelize } from 'sequelize';
+// import { DBConnector } from '../../services/DBConnector';
 import { Video } from '../../domain/Video';
 import { VideoPage } from '../../domain/VideoPage';
 import { VideoPageProvider } from '../../services/VideoPageProvider/VideoPageProvider';

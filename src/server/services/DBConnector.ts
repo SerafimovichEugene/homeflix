@@ -8,7 +8,7 @@ export class DBConnector {
   public sequalize: Sequelize;
 
   constructor() {
-    this.sequalize = new sequalize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASS, {
+    this.sequalize = new sequalize(process.env.DB_NAME!, process.env.DB_USERNAME!, process.env.DB_PASS!, {
       dialect: 'mysql',
       host: 'localhost',
       port: 3306,

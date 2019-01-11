@@ -3,5 +3,4 @@ import { Server } from './server';
 
 dotenv.config();
 
-const serverInstace = new Server();
-serverInstace.run(+process.env.PORT);
+new Server().run(+process.env.PORT!);

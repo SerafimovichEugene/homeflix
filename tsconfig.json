@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
+    "target": "es2017",
     "module": "commonjs",
-    "target": "es6",
+    "allowJs": true,
+    "checkJs": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
   },
   "include": [
-      "./src/**/*"
+      "./src/server/**/*"
   ],
   "exclude": [
       "node_modules"

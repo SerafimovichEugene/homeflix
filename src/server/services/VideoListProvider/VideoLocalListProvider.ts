@@ -5,16 +5,20 @@ import { Video } from "../../domain/Video";
 
 export class VideoLocalListProvider implements IVideoListProvider {
 
-  static getMp4Videos(): Video[] {
-    const videofiles = VideoLocalListProvider.readFilesRecoursevly(process.env.ROOT_PATH_DERICTORY, []);
+  static getMp4Videos(path: string): Video[] {
+    const videofiles = VideoLocalListProvider.readFilesRecoursevly(path, []);
     return videofiles.filter((item) => {
       const arr = item.fileName.split('.');
       return arr[arr.length - 1] === 'mp4';
     });
   }
+  //
 
-  public getVideos(): Video[] {
-    return VideoLocalListProvider.getMp4Videos();
+  public async getVideos (): Promise<Video[]> {
+    debugger;
+    const paths = process.env.ROOT_PATH_DERICTORY!;
+    console.log(paths);
+    return await VideoLocalListProvider.getMp4Videos(paths[0]);
   }
 
   private static readFilesRecoursevly(dir: string, fileList: Video[]): Video[] {

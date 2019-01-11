@@ -4,9 +4,9 @@ import { IVideoListProvider } from '../VideoListProvider/IVideoListProvider';
 
 export class VideoPageProvider {
   private videoListProvider: IVideoListProvider
-  private cachedVideos: Video[]
-  private cachedVideosMap: Map<string, Video>
-  constructor(provider?: IVideoListProvider) {
+  private cachedVideos: Video[] = []
+  private cachedVideosMap: Map<string, Video> = new Map()
+  constructor(provider: IVideoListProvider) {
     this.videoListProvider = provider;
     this.videoListProvider.getVideos()
       .then(res => {

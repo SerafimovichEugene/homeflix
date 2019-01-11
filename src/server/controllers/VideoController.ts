@@ -12,8 +12,8 @@ export default class VideoController {
 
   public getVideo(req: any, res: any, next: any) {
     const videosMap = this.videListModel.getCachedVideosMap();
-    const id = req.param('id');
-    const video = videosMap.get(id);
+    const id: string = req.param('id');
+    const video = videosMap.get(id)!;
     const path = video.path;
     const stat = fs.statSync(path);
     const fileSize = stat.size;
