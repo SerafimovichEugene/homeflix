@@ -1,4 +1,3 @@
-// @ts-ignore
 import 'dotenv/config';
 import config from 'config';
 import { Application } from 'express';
