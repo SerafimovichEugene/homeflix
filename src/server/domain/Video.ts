@@ -1,9 +1,3 @@
-// enum fileStatusEnums {
-//   new = 1,
-//   common,
-//   deleted,
-// }
-
 export class Video {
   public id: string;
   public path: string;

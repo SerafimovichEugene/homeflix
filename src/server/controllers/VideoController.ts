@@ -1,16 +1,16 @@
 import * as fs from 'fs';
-import { Video } from '../domain/Video';
 import { VideoListModel } from '../models/VideoListModel/VideoListModel';
 
 export default class VideoController {
+
   private videListModel: VideoListModel
-  // private videoList: Map<string, Video>;
+
   constructor(model: VideoListModel) {
     this.videListModel = model;
     this.getVideo = this.getVideo.bind(this);
   }
 
-  public getVideo(req: any, res: any, next: any) {
+  public getVideo(req: any, res: any) {
     const videosMap = this.videListModel.getCachedVideosMap();
     const id: string = req.param('id');
     const video = videosMap.get(id)!;

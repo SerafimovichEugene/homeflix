@@ -12,13 +12,10 @@ export class VideoLocalListProvider implements IVideoListProvider {
       return arr[arr.length - 1] === 'mp4';
     });
   }
-  //
 
   public async getVideos (): Promise<Video[]> {
-    debugger;
-    const paths = process.env.ROOT_PATH_DERICTORY!;
-    console.log(paths);
-    return await VideoLocalListProvider.getMp4Videos(paths[0]);
+    const paths = process.env.ROOT_PATH_DIRECTORY!;
+    return VideoLocalListProvider.getMp4Videos(paths[0]);
   }
 
   private static readFilesRecoursevly(dir: string, fileList: Video[]): Video[] {
