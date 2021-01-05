@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/SerafimovichEugene/homeflix#readme",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "express": "^4.16.3",
     "history": "^4.7.2",
     "mysql2": "^1.6.1",
