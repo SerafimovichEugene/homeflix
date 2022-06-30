@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./db-populator/tsconfig.ref.json"
+    },
+  ],
+}

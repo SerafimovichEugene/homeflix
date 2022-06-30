@@ -1,0 +1,13 @@
+{
+  "__comment__": "This file is loaded by webpack during 'npm run build'. Also Webstorm or VSCode use it as default to typechecking. It is strict and checks noImplicitAny",
+  "extends": "@tsconfig/node14/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false,
+    "allowSyntheticDefaultImports": true,
+    "skipDefaultLibCheck": true
+  }
+}
