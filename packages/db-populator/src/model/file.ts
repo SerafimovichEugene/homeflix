@@ -44,10 +44,9 @@ export class FileEntityLoc implements FileEntity {
   id: string
   path: string
   name: string
-  private namespace = '6ba7b812-9dad-11d1-80b4-00c04fd430c8'
 
   constructor(name: string, path: string) {
-    this.id = uuid(name, this.namespace);
+    this.id = uuid(name, uuid.DNS);
     this.name = name;
     this.path = path;
   }
@@ -62,5 +61,41 @@ export class FileEntityDb implements FileEntity {
     this.id = id;
     this.name = name;
     this.path = path;
+  }
+}
+
+export class FileEntityResult implements FileEntity {
+  public id: string
+  public path: string
+  public name: string
+
+  private _isExistent: boolean
+  private _isNew: boolean
+
+  constructor(id: string, name: string, path: string) {
+    this.id = id;
+    this.name = name;
+    this.path = path;
+    this._isNew = true;
+    this._isExistent = true;
+  }
+
+  public set isNew(value: boolean) {
+    this._isNew = value;
+  }
+
+  public get isNew() {
+    return this._isNew;
+  }
+
+  public set isExistent(value: boolean) {
+    if (!value) {
+      this._isNew = value;
+    }
+    this._isExistent = value;
+  }
+
+  public get isExistent() {
+    return this._isExistent;
   }
 }
