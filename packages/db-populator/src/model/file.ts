@@ -41,6 +41,14 @@ export class FileSystemProvider {
   }
 }
 
+export interface FileEntityRaw {
+  file_id: string
+  file_path: string
+  file_name: string
+  file_is_existent: boolean
+  file_is_new: boolean
+}
+
 export interface FileEntity {
   id: string
   path: string
@@ -60,18 +68,6 @@ export class FileEntityLoc implements FileEntity {
 }
 
 export class FileEntityDb implements FileEntity {
-  id: string
-  path: string
-  name: string
-
-  constructor(id: string, name: string, path: string) {
-    this.id = id;
-    this.name = name;
-    this.path = path;
-  }
-}
-
-export class FileEntityResult implements FileEntity {
   public id: string
   public path: string
   public name: string
@@ -79,12 +75,12 @@ export class FileEntityResult implements FileEntity {
   private _isExistent: boolean
   private _isNew: boolean
 
-  constructor(id: string, name: string, path: string) {
+  constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean) {
     this.id = id;
     this.name = name;
     this.path = path;
-    this._isNew = true;
-    this._isExistent = true;
+    this._isNew = isNew;
+    this._isExistent = isExistent;
   }
 
   public set isNew(value: boolean) {

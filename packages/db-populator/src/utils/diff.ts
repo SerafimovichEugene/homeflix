@@ -1,12 +1,12 @@
-import { FileEntity, FileEntityResult } from '../model/file';
+import { FileEntity, FileEntityDb } from '../model/file';
 
-export const getDiff = (sourceFiles: FileEntity[], populatingFiles: FileEntity[]): [FileEntityResult[], FileEntityResult[]] => {
+export const getDiff = (sourceFiles: FileEntity[], populatingFiles: FileEntityDb[]): [FileEntityDb[], FileEntityDb[], FileEntityDb[]] => {
   const sourceFilesMap = new Set(sourceFiles.map(f => f.id));
   const populatingFilesMap = new Set(populatingFiles.map(f => f.id));
 
-  const newFiles = sourceFiles.reduce<FileEntityResult[]>((acc, f) => {
+  const newFiles = sourceFiles.reduce<FileEntityDb[]>((acc, f) => {
     if (!populatingFilesMap.has(f.id)) {
-      const newFile = new FileEntityResult(f.id, f.name, f.path)
+      const newFile = new FileEntityDb(f.id, f.name, f.path, true, true)
       newFile.isNew = true;
       newFile.isExistent = true;
       acc.push(newFile)
@@ -14,14 +14,21 @@ export const getDiff = (sourceFiles: FileEntity[], populatingFiles: FileEntity[]
     return acc;
   }, []);
 
-  const deletedFiles = populatingFiles.reduce<FileEntityResult[]>((acc, f) => {
+  const deletedFiles = populatingFiles.reduce<FileEntityDb[]>((acc, f) => {
     if (!sourceFilesMap.has(f.id)) {
-      const newFile = new FileEntityResult(f.id, f.name, f.path)
-      newFile.isNew = false;
-      newFile.isExistent = false;
-      acc.push(newFile)
+      f.isExistent = false;
+      acc.push(f)
     }
     return acc;
   }, [])
-  return [newFiles, deletedFiles];
+
+  const restoredFiles = populatingFiles.reduce<FileEntityDb[]>((acc, f) => {
+    if (sourceFilesMap.has(f.id) && !f.isExistent) {
+      f.isNew = false;
+      f.isExistent = true;
+      acc.push(f);
+    }
+    return acc;
+  }, [])
+  return [newFiles, deletedFiles, restoredFiles];
 }

@@ -14,26 +14,41 @@ const populate = async () => {
   console.log('start populating--');
 
   await pgProvider.initConnection();
+  console.log('--connected');
 
   const dbFiles = await pgProvider.getFiles();
   const sourceFiles = fileSystemProvider.getFiles();
 
-  const [newFiles, deletedFiles] = getDiff(sourceFiles, dbFiles);
+  console.log('--sourceFiles', sourceFiles.length);
+  console.log('--dbFiles', dbFiles.length);
 
-  await pgProvider.insertNewFiles(newFiles);
-  await pgProvider.markNonexistentFiles(deletedFiles);
+  const [newFiles, deletedFiles, restoredFiles] = getDiff(sourceFiles, dbFiles);
+  console.log('--new', newFiles.length);
+  console.log('--deleted', deletedFiles.length);
+  console.log('--restored', restoredFiles.length);
+
+  if (newFiles.length > 0) {
+    await pgProvider.insertNewFiles(newFiles);
+  }
+  if (deletedFiles.length > 0) {
+    await pgProvider.markNonexistentFiles(deletedFiles);
+  }
+  if (restoredFiles.length > 0) {
+    await pgProvider.markRestoredFiles(restoredFiles);
+  }
 }
 
 populate()
   .then(() => {
-    console.log('Finished');
+    console.log('--Finished');
     process.exit(0);
   })
   .catch(async (error) => {
-    await pgProvider.client.end();
-
-    console.log('Error--');
+    console.log('--Error');
     console.log(error);
     process.exit(1);
+  })
+  .finally(async () => {
+    await pgProvider.client.end();
   });
 
