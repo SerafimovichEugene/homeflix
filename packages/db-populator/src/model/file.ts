@@ -1,3 +1,4 @@
+
 import fs from 'fs';
 import path from 'path';
 import { v5 as uuid } from 'uuid';
@@ -10,9 +11,15 @@ export class FileSystemProvider {
     this.inProgress = true;
   }
 
-  public getFiles(dir: string = '/files_test'): FileEntity[] {
+  public getFiles(): FileEntity[] {
     this.inProgress = true;
-    const result = FileSystemProvider.readFiles(dir, []).filter((item) => {
+    const { FILE_ROOT_DIR } = process.env;
+
+    if (!FILE_ROOT_DIR) {
+      throw new Error('directory variable is absent');
+    }
+
+    const result = FileSystemProvider.readFiles(FILE_ROOT_DIR, []).filter((item) => {
       const arr = item.name.split('.');
       return arr[arr.length - 1] === 'mp4';
     });

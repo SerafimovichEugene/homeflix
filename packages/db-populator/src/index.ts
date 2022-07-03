@@ -1,13 +1,18 @@
+import dotenv from 'dotenv';
+import path from 'path';
 import { FileSystemProvider } from './model/file';
 import { PGProvider } from './model/db';
 import { getDiff } from './utils/diff';
+
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+
+const fileSystemProvider = new FileSystemProvider();
+const pgProvider = new PGProvider();
 
 const populate = async () => {
   // we always add, not remove
   console.log('start populating--');
 
-  const fileSystemProvider = new FileSystemProvider();
-  const pgProvider = new PGProvider();
   await pgProvider.initConnection();
 
   const dbFiles = await pgProvider.getFiles();
@@ -24,7 +29,9 @@ populate()
     console.log('Finished');
     process.exit(0);
   })
-  .catch((error) => {
+  .catch(async (error) => {
+    await pgProvider.client.end();
+
     console.log('Error--');
     console.log(error);
     process.exit(1);

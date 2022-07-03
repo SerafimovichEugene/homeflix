@@ -5,7 +5,33 @@ import { FileEntity, FileEntityDb, FileEntityResult } from './file';
 export class PGProvider {
   public client: Client;
   constructor () {
-    this.client = new Client();
+    const {
+      POSTGRES_USER,
+      POSTGRES_PASSWORD,
+      POSTGRES_DATABASE,
+      POSTGRES_HOST,
+      POSTGRES_PORT,
+    } = process.env;
+
+    console.log('--env', {
+      POSTGRES_USER,
+      POSTGRES_PASSWORD,
+      POSTGRES_DATABASE,
+      POSTGRES_HOST,
+      POSTGRES_PORT
+    });
+
+    if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DATABASE || !POSTGRES_HOST || !POSTGRES_PORT) {
+      throw new Error('Some env db variables are absent');
+    }
+
+    this.client = new Client({
+      host: POSTGRES_HOST,
+      port: Number(POSTGRES_PORT),
+      user: POSTGRES_USER,
+      password: POSTGRES_PASSWORD,
+      database: POSTGRES_DATABASE,
+    });
   }
 
   public async initConnection() {
