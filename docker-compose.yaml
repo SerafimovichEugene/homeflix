@@ -1,6 +1,7 @@
 services:
-  postgres:
+  flx-db:
     container_name: postgres_container
+    hostname: 'flx-db-pg'
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -8,8 +9,25 @@ services:
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
+      # the sql script to create table
+      - ./packages/db/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+    restart: unless-stopped
+
+  flx-web-app-back:
+    build: ./packages/web-app-back
+    hostname: 'flx-web-app-back'
+    depends_on:
+      - 'flx-db'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    ports:
+      - '8282:8282'
     restart: unless-stopped
 
 volumes:

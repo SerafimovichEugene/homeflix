@@ -30,6 +30,5 @@ pool.on('error', (err, client) => {
 })
 
 export const getPgClient = async (): Promise<PoolClient> => {
-   const client = await pool.connect();
-   return client;
+  return await pool.connect();
 }

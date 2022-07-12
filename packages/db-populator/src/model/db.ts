@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 import format from 'pg-format';
-import {FileEntity, FileEntityDb, FileEntityRaw} from './file';
+import { FileEntity, FileEntityDb, FileEntityRaw } from './file';
 
 export class PGProvider {
   public client: Client;
