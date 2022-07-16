@@ -26,9 +26,18 @@ services:
       POSTGRES_DATABASE: ${POSTGRES_DATABASE}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
+#        - plugins.security.disabled=true
+#        - discovery.type=single-node
+#        - http.cors.enabled=true
+#        - http.cors.allow-origin=*
+#        - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+#        - http.cors.allow-credentials=true
+#        - bootstrap.memory_lock=true
+#        - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
     ports:
       - '8282:8282'
     restart: unless-stopped
 
 volumes:
   postgres:
+

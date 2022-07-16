@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY package*.json ./
 
-RUN npm ci
+RUN npm i
 
 COPY . /usr/src/app
 

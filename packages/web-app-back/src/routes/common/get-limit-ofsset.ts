@@ -1,7 +1,7 @@
 
 export type PaginationProps = { page?: number; limit?: number };
 
-export const MAX_LIST_LIMIT = 1000;
+export const MAX_LIST_LIMIT = 1000000;
 export const DEFAULT_PAGE_SIZE = 25;
 
 const clamp = (value: number, minVal: number, maxVal: number): number => Math.max(Math.min(value, maxVal), minVal);

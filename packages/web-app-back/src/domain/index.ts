@@ -11,3 +11,8 @@ export interface FileEntityRaw {
   file_is_existent: boolean
   file_is_new: boolean
 }
+
+export abstract class FileEntityProvider {
+  public abstract getFileEntities(page: number, limit: number): Promise<FileEntity[]>
+  public abstract getFileEntity(id: string): Promise<FileEntity>
+}

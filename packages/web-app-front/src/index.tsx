@@ -6,7 +6,7 @@ const rootDomElement = document.getElementById('root');
 
 if (rootDomElement) {
   const root = createRoot(rootDomElement);
-  root.render(<App message='hello man' />);
+  root.render(<App />);
 }
 
 
