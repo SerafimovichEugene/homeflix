@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import express from 'express';
 
+//should happen as earlier
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 import { getListFile } from './routes/get-list-file';
@@ -20,13 +21,8 @@ const main = async () => {
     try {
       const page = req.query['page'] ? Number(req.query['page']) : 1;
       const limit = req.query['limit'] ? Number(req.query['limit']) : 10;
-
-      console.log('--page and limit', page, limit);
-
       const result = await getListFile(page, limit);
-
       res.send(result);
-
     } catch (error) {
       console.log('--list route err');
       console.log(error.stack);
@@ -39,9 +35,10 @@ const main = async () => {
   })
 }
 
-main().catch(err => {
+main().catch((err: Error) => {
   console.log('--Error');
-  console.log(err);
+  console.log('--name and message', err.name, err.message, err.stack);
+  console.log('--stack', err.stack);
 });
 
 
