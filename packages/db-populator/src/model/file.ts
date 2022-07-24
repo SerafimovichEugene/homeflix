@@ -1,7 +1,20 @@
-
 import fs from 'fs';
 import path from 'path';
 import { v5 as uuid } from 'uuid';
+
+export interface FileEntity {
+  id: string
+  path: string
+  name: string
+}
+
+export interface FileEntityRaw {
+  file_id: string
+  file_path: string
+  file_name: string
+  file_is_existent: boolean
+  file_is_new: boolean
+}
 
 export class FileSystemProvider {
 
@@ -39,20 +52,6 @@ export class FileSystemProvider {
     });
     return fileList;
   }
-}
-
-export interface FileEntityRaw {
-  file_id: string
-  file_path: string
-  file_name: string
-  file_is_existent: boolean
-  file_is_new: boolean
-}
-
-export interface FileEntity {
-  id: string
-  path: string
-  name: string
 }
 
 export class FileEntityLoc implements FileEntity {

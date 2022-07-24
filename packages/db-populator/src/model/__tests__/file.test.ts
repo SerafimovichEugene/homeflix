@@ -1,15 +1,16 @@
 import path  from 'path';
-import {File, FileProvider} from '../file';
+import { FileEntityLoc, FileSystemProvider } from '../file';
 
 describe('FileProvider class', () => {
   it('should find files in directory', () => {
-    const inst = new FileProvider();
+    const inst = new FileSystemProvider();
     const absolutePath = path.resolve('src/model/__tests__/__mocks__');
-    expect(inst.getFiles(absolutePath))
+    process.env.FILE_ROOT_DIR = absolutePath;
+    expect(inst.getFiles())
       .toEqual([
-        new File('test3.mp4', path.resolve(absolutePath,'files/files')),
-        new File('test2.mp4', path.resolve(absolutePath,'files')),
-        new File('test1.mp4', absolutePath),
+        new FileEntityLoc('test3.mp4', path.resolve(absolutePath,'files/files')),
+        new FileEntityLoc('test2.mp4', path.resolve(absolutePath,'files')),
+        new FileEntityLoc('test1.mp4', absolutePath),
       ])
   })
 })
