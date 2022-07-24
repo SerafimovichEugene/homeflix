@@ -13,6 +13,6 @@ export interface FileEntityRaw {
 }
 
 export abstract class FileEntityProvider {
-  public abstract getFileEntities(page: number, limit: number): Promise<FileEntity[]>
+  public abstract getFileEntities(page: number, limit: number, search?: string): Promise<FileEntity[]>
   public abstract getFileEntity(id: string): Promise<FileEntity>
 }

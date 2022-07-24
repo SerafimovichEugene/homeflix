@@ -13,7 +13,6 @@ import fs from "fs";
 const main = async () => {
   const app = express();
   const port = 8282;
-
   const pgDataProvider = new PostgresDataService();
   const memoryDataProvider = new MemoryDataService(pgDataProvider);
   await memoryDataProvider.refreshFiles();
@@ -29,7 +28,8 @@ const main = async () => {
     try {
       const page = req.query['page'] ? Number(req.query['page']) : 1;
       const limit = req.query['limit'] ? Number(req.query['limit']) : 10;
-      const result = await memoryDataProvider.getFileEntities(page, limit);
+      const search = req.query['search'] as string ?? '';
+      const result = await memoryDataProvider.getFileEntities(page, limit, search);
       res.send({
         items: result,
         page,

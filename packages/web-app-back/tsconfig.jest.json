@@ -1,0 +1,17 @@
+{
+  "__comment__": "This config file is loaded by jest (ts-jest module). We dont use babel in jest. Used by husky hooks. Doesnt check noImplicitAny",
+  "extends": "@tsconfig/node14/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false,
+    "allowSyntheticDefaultImports": true,
+    "skipDefaultLibCheck": true
+  },
+  "include": [
+    "src/**/*",
+  ],
+  "exclude": ["**/__debug__/**/*", "**/__mocks__/**/*", "**/__tests__/**/*"]
+}

@@ -1,12 +1,26 @@
+export interface PaginationProps {
+  page?: number
+  limit?: number
+}
 
-export type PaginationProps = { page?: number; limit?: number };
+class LimitOffset extends Array {
+  constructor(limit: number, offset: number) {
+    super();
+    this.push(limit, offset);
+  }
+  get limit(): number {
+    return this[0];
+  }
+  get offset(): number {
+    return this[1];
+  }
+}
 
 export const MAX_LIST_LIMIT = 1000000;
 export const DEFAULT_PAGE_SIZE = 25;
 
 const clamp = (value: number, minVal: number, maxVal: number): number => Math.max(Math.min(value, maxVal), minVal);
 const isBadLimit = (limit: number): boolean => Number.isNaN(limit) || (limit | 0) < 1 || (limit | 0) > MAX_LIST_LIMIT;
-
 export default function getLimitOffset(props: PaginationProps | null | undefined, count = 0): LimitOffset {
   let offset = 0;
 
@@ -31,19 +45,4 @@ export default function getLimitOffset(props: PaginationProps | null | undefined
   }
 
   return new LimitOffset(limit | 0, offset);
-}
-
-class LimitOffset extends Array {
-  constructor(limit: number, offset: number) {
-    super();
-    this.push(limit, offset);
-  }
-
-  get limit(): number {
-    return this[0];
-  }
-
-  get offset(): number {
-    return this[1];
-  }
-}
+};

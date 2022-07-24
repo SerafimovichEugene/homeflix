@@ -1,6 +1,7 @@
-import { FileEntity, FileEntityProvider } from "../../domain";
+import { FileEntity, FileEntityProvider } from '../../domain';
+import getLimitOffset from '../../routes/common/get-limit-ofsset';
 
-export class MemoryDataService implements FileEntityProvider{
+export class MemoryDataService implements FileEntityProvider {
   private files: FileEntity[]
   private fileMap: Map<string, FileEntity>
   private fileEntityProvider: FileEntityProvider
@@ -12,17 +13,31 @@ export class MemoryDataService implements FileEntityProvider{
   }
 
   public async refreshFiles() {
-    this.files = await this.fileEntityProvider.getFileEntities(1, 10000);
+    this.files = await this.fileEntityProvider.getFileEntities(1, 1000000);
     this.fileMap = new Map();
     this.files.forEach(f => {
       this.fileMap.set(f.id, f);
-    })
+    });
+    this.files = this.files.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
     console.log('--refresh result: ', '\n', 'files: ', this.files.length);
   }
 
-  public getFileEntities(page: number, limit: number): Promise<FileEntity[]> {
-    const start = limit * (page - 1);
-    return Promise.resolve(this.files.slice(start, limit));
+  public getFileEntities(page: number, limit: number, search?: string): Promise<FileEntity[]> {
+    const files = search
+      ? this.files.filter(f => {
+        const re = new RegExp(`${search}`, 'i');
+        return re.test(f.name);
+      })
+      : this.files;
+    const { offset: start, limit: validLimit } = getLimitOffset({ page, limit }, files.length);
+    const end = start + validLimit;
+    return Promise.resolve(files.length ? files.slice(start, end) : []);
   }
 
   public getFileEntity(id: string): Promise<FileEntity> {

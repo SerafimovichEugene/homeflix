@@ -44,7 +44,7 @@ export class PostgresDataService implements FileEntityProvider {
       const { count } = countResult.rows[0];
       const { limit: validLimit, offset: validOffset } = getLimitOffset({ limit, page }, Number(count));
       const { rows } = await client.query<FileEntityRaw>(PostgresDataService.getListFileSql(validOffset, validLimit));
-      return rows.map<FileEntity>(r => ({id: r.file_id, name: r.file_name, path: r.file_path}));
+      return rows.map<FileEntity>(r => ({ id: r.file_id, name: r.file_name, path: r.file_path }));
     } catch (error) {
       console.log('--postgres data service, getFileEntities', error);
       throw error;
@@ -53,7 +53,9 @@ export class PostgresDataService implements FileEntityProvider {
     }
   }
 
-  getFileEntity = async (id: string): Promise<FileEntity> => Promise.resolve({id: 'id1', name: 'name1', path: 'path1'});
+  async getFileEntity(): Promise<FileEntity> {
+    throw new Error('not implemented');
+  }
 
   private static getListFileSql(offset: number, limit: number): string {
     return format(`
