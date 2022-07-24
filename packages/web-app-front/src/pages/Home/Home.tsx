@@ -3,11 +3,22 @@ import { Link, Outlet } from "react-router-dom";
 
 const Home = () => (
   <div>
-    <nav>
-      <Link to="videos">Videos</Link> | {" "}
-      {/*<Link to="dashboard">Dashboard</Link>*/}
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">Home</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="videos">Videos</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
-    <div className="content">
+    <div className="container">
+      <div className="mb-2"></div>
       <Outlet />
     </div>
   </div>
