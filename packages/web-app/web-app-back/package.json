@@ -2,7 +2,9 @@
   "name": "web-app-back",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ./src/index.ts"
+    "start:d": "ts-node src/index.ts",
+    "start": "node ./dist/index.js",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

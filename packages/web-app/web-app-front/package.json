@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.tsx --bundle --minify --sourcemap --outfile=public/bundle.js",
+    "build": "rm -fr public && mkdir -p public && cp src/index.html ./public && esbuild ./src/index.tsx --bundle --minify --sourcemap --outfile=public/bundle.js",
     "start": "npm run build && live-server public"
   },
   "author": "",

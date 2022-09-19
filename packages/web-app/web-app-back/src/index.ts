@@ -1,14 +1,11 @@
+import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import express from 'express';
-
-//should happen as earlier
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
-
-import { PostgresDataService } from "./service/postgres.service";
-import { MemoryDataService } from "./service/memory-data.service";
-import fs from "fs";
+import cors from 'cors';
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') }); //should happen as earlier
+import { PostgresDataService } from './service/postgres.service';
+import { MemoryDataService } from './service/memory-data.service';
 
 const main = async () => {
   const app = express();
@@ -18,7 +15,10 @@ const main = async () => {
   await memoryDataProvider.refreshFiles();
 
   app.use(cors({ origin: '*' }));
-  app.use(express.static(path.join(__dirname, '/public')));
+
+  // app.use(express.static(path.join(__dirname, '/public')));
+
+  app.use(express.static('public'))
 
   app.get('/', (req, res) => {
     res.send('Hello World!');
@@ -91,7 +91,7 @@ const main = async () => {
 
 main().catch((err: Error) => {
   console.log('--Error');
-  console.log('--name and message', err.name, err.message, err.stack);
+  console.log('--name and message', err.name, err.message);
   console.log('--stack', err.stack);
 });
 

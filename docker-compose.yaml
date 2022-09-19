@@ -15,9 +15,9 @@ services:
       - "5432:5432"
     restart: unless-stopped
 
-  flx-web-app-back:
-    build: ./packages/web-app-back
-    hostname: 'flx-web-app-back'
+  flx-web-app:
+    build: packages/web-app
+    hostname: 'flx-web-app'
     depends_on:
       - 'flx-db'
     environment:
@@ -34,5 +34,4 @@ services:
 
 volumes:
   postgres:
-  mydata:
 
