@@ -7,3 +7,5 @@ dist
 *.log
 .yarn
 .idea
+*.DS_Store
+
