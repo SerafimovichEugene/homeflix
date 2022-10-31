@@ -2,6 +2,9 @@
   "name": "homeflix",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/web-app/web-app-back/*",
+    "packages/web-app/web-app-front/*",
+    "packages/web-app/web-app-back",
+    "packages/web-app/web-app-front"
   ]
 }
