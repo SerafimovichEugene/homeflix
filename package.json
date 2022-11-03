@@ -2,6 +2,7 @@
   "name": "homeflix",
   "private": true,
   "workspaces": [
+    "packages/db-populator",
     "packages/web-app/web-app-back/*",
     "packages/web-app/web-app-front/*",
     "packages/web-app/web-app-back",
