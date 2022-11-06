@@ -9,5 +9,3 @@ if (rootDomElement) {
   const root = createRoot(rootDomElement);
   root.render(<App />);
 }
-
-

@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -fr public && mkdir -p public && cp src/index.html ./public && esbuild ./src/index.tsx --bundle --minify --sourcemap --outfile=public/bundle.js",
-    "start": "npm run build && live-server public"
+    "start": "echo \"Error: no start specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +14,6 @@
     "@types/react-dom": "^18.0.6",
     "chokidar": "^3.5.3",
     "esbuild": "^0.14.49",
-    "live-server": "^1.1.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"
   },
