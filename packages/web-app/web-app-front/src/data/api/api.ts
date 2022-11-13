@@ -18,7 +18,7 @@ const axiosInstance = axios.create({
 });
 
 const getVideosList = (query: DataQuery) => () => {
-  return axiosInstance.get<DataItems<FileEntity>>('/list', { params: query })
+  return axiosInstance.get<DataItems<FileEntity>>('/api/list', { params: query })
     .then(({ data }) => data);
 };
 

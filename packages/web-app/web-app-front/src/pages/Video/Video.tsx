@@ -11,7 +11,7 @@ const Video = () => {
       <div className="row">
         <div className="col">
           <video controls>
-            <source src={`http://localhost:8282/list/${id}`} type="video/mp4" />
+            <source src={`http://localhost:8282/api/list/${id}`} type="video/mp4" />
           </video>
         </div>
 

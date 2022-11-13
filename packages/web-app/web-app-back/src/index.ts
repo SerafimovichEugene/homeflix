@@ -20,7 +20,7 @@ const main = async () => {
 
   app.use(express.static(path.resolve(__dirname, '../../web-app-front/public')));
 
-  app.get('/list', async (req, res) => {
+  app.get('/api/list', async (req, res) => {
     try {
       const re = Boolean(req.query['re']);
       const page = req.query['page'] ? Number(req.query['page']) : 1;
@@ -49,9 +49,9 @@ const main = async () => {
       console.log(error.stack);
       res.status(500).send();
     }
-  })
+  });
 
-  app.get('/list/:id', async (req, res) => {
+  app.get('/api/list/:id', async (req, res) => {
     try {
       const id = req.params.id;
       const file = await memoryDataProvider.getFileEntity(id);
@@ -91,7 +91,11 @@ const main = async () => {
       console.log(error.stack);
       res.status(500).send();
     }
-  })
+  });
+
+  app.get('*', function(req, res) {
+    res.sendFile('index.html', { root: path.resolve(__dirname, '../../web-app-front/public') });
+  });
 
   app.listen(port, () => {
     console.log(`app listening on port ${port}`);
