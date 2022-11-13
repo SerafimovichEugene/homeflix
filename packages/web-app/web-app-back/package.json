@@ -6,7 +6,8 @@
     "start:dev": "ts-node-dev src/index.ts",
     "start": "node ./dist/index.js",
     "build": "tsc",
-    "start:w": "nodemon ./src/index.ts"
+    "start:w": "nodemon ./src/index.ts",
+    "start:inspect": "nodemon --inspect ./src/index.ts"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
