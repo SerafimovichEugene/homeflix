@@ -24,6 +24,11 @@ export class PostgresDataService implements FileEntityProvider {
       POSTGRES_PORT,
     } = process.env;
 
+    console.log('POSTGRES_USER ', POSTGRES_USER);
+    console.log('POSTGRES_DATABASE ', POSTGRES_DATABASE);
+    console.log('POSTGRES_HOST ', POSTGRES_HOST);
+    console.log('POSTGRES_PORT ', POSTGRES_PORT);
+
     if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DATABASE || !POSTGRES_HOST || !POSTGRES_PORT) {
       throw new Error('--Some env db variables are absent');
     }
@@ -71,5 +76,4 @@ export class PostgresDataService implements FileEntityProvider {
       FROM file;
     `);
   }
-
 }

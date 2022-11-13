@@ -1,4 +1,4 @@
-FROM node:16.17.0-alpine
+FROM node:18.12.1-alpine
 
 WORKDIR ./web-app-back
 COPY ./web-app-back ./
@@ -10,7 +10,7 @@ COPY ./web-app-front ./
 RUN npm i
 RUN npm run build
 
-RUN cp -r /web-app-front/public /web-app-back/public
+#RUN cp -r /web-app-front/public /web-app-back/public
 
 WORKDIR ../web-app-back
 

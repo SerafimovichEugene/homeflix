@@ -37,7 +37,7 @@ export class MemoryDataService implements FileEntityProvider {
       : this.files;
     const { offset: start, limit: validLimit } = getLimitOffset({ page, limit }, files.length);
     const end = start + validLimit;
-    return Promise.resolve(files.length ? files.slice(start, end) : []);
+    return Promise.resolve(files.length > 0 ? files.slice(start, end) : []);
   }
 
   public getFileEntity(id: string): Promise<FileEntity> {

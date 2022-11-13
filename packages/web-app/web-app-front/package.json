@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -fr public && mkdir -p public && cp src/index.html ./public && esbuild ./src/index.tsx --bundle --minify --sourcemap --outfile=public/bundle.js",
+    "build:w": "rm -fr public && mkdir -p public && cp src/index.html ./public && esbuild ./src/index.tsx --bundle --sourcemap --outfile=public/bundle.js --watch",
     "start": "echo \"Error: no start specified\" && exit 1"
   },
   "author": "",

@@ -3,7 +3,9 @@ import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') }); //should happen as earlier
+
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+
 import { PostgresDataService } from './service/postgres.service';
 import { MemoryDataService } from './service/memory-data.service';
 
@@ -16,23 +18,32 @@ const main = async () => {
 
   app.use(cors({ origin: '*' }));
 
-  // app.use(express.static(path.join(__dirname, '/public')));
-
-  app.use(express.static('public'))
-
-  app.get('/', app.use(express.static('public')))
+  app.use(express.static(path.resolve(__dirname, '../../web-app-front/public')));
 
   app.get('/list', async (req, res) => {
     try {
+      const re = Boolean(req.query['re']);
       const page = req.query['page'] ? Number(req.query['page']) : 1;
       const limit = req.query['limit'] ? Number(req.query['limit']) : 10;
       const search = req.query['search'] as string ?? '';
-      const result = await memoryDataProvider.getFileEntities(page, limit, search);
-      res.send({
-        items: result,
-        page,
-        limit,
-      });
+      if (re) {
+        console.log('--refresh');
+        await memoryDataProvider.refreshFiles();
+        console.log('--list from pg');
+        res.send({
+          items: await pgDataProvider.getFileEntities(page, limit),
+          page,
+          limit,
+        });
+      } else {
+        console.log('--list from memory');
+        res.send({
+          items: await memoryDataProvider.getFileEntities(page, limit, search),
+          page,
+          limit,
+        });
+      }
+
     } catch (error) {
       console.log('--list route err');
       console.log(error.stack);
