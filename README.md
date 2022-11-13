@@ -3,8 +3,9 @@ This package allows you to stream videos from your folder on your computer to yo
 
 ##### Required
 - docker
+- node.js 18+
 - `npm i`
-- Set up a folder with video files. Only .mp4 file extension supported.
+- Create a folder with video files. Only .mp4 file extension supported.
 - Create a file with name .env within repo with the next Environment variables:
 
 `POSTGRES_USER=postgres`
