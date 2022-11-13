@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import './index.css';
 
 const Video = () => {
   const { id } = useParams();
@@ -10,8 +11,8 @@ const Video = () => {
       </div>
       <div className="row">
         <div className="col">
-          <video controls>
-            <source src={`http://localhost:8282/api/list/${id}`} type="video/mp4" />
+          <video controls className='video'>
+            <source src={`/api/list/${id}`} type="video/mp4" />
           </video>
         </div>
 
