@@ -4,7 +4,7 @@ import { FileEntityLoc, FileSystemProvider } from '../file';
 describe('FileProvider class', () => {
   it('should find files in directory', () => {
     const inst = new FileSystemProvider();
-    const absolutePath = path.resolve('src/model/__tests__/__mocks__');
+    const absolutePath = path.resolve('src_migrate/model/__tests__/__mocks__');
     process.env.FILE_ROOT_DIR = absolutePath;
     expect(inst.getFiles())
       .toEqual([

@@ -5,7 +5,7 @@ module.exports = {
       tsconfig: 'tsconfig.jest.json', // https://huafu.github.io/ts-jest/user/config/tsConfig
     },
   },
-  // collectCoverageFrom: ['src/**/*.ts'],
+  // collectCoverageFrom: ['src_migrate/**/*.ts'],
   // coverageReporters: ['lcov', 'text'],
   // coverageThreshold: {
   //   global: {
@@ -18,7 +18,7 @@ module.exports = {
   // globalSetup: '<rootDir>/.bin/jest-global-setup',
   // globalTeardown: '<rootDir>/.bin/jest-global-teardown',
   // setupFiles: ['<rootDir>/.bin/jest-setup-env'],
-  roots: ['<rootDir>/src/'],
+  roots: ['<rootDir>/src_migrate/'],
   testEnvironment: 'node',
   testRegex: '.+\\.test\\.ts$',
   resetModules: true,
