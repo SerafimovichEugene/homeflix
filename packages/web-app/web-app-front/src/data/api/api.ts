@@ -6,6 +6,7 @@ import { FileEntity } from '../../domain';
 interface DataQuery {
   page: number
   limit: number
+  search: string
 }
 
 interface DataItems<T> {
@@ -13,9 +14,7 @@ interface DataItems<T> {
   count: number
 }
 
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8282'
-});
+const axiosInstance = axios.create();
 
 const getVideosList = (query: DataQuery) => () => {
   return axiosInstance.get<DataItems<FileEntity>>('/api/list', { params: query })

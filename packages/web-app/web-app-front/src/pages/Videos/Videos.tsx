@@ -8,9 +8,13 @@ export const Videos = () => {
   const [page] = useState(1);
 
   const { useVideosList } = useVideos();
-  const { data, isLoading } = useVideosList({
+
+  const [search, setSearch] = useState('');
+
+  const { data, isLoading, refetch } = useVideosList({
     page,
-    limit: 20,
+    limit: 100,
+    search,
   });
 
   return (
@@ -21,10 +25,14 @@ export const Videos = () => {
             className="form-control form-control-sm"
             type="text"
             placeholder="search.."
+            onChange={(event) => {
+              console.log(event.target.value);
+              setSearch(event.target.value);
+            }}
           />
         </div>
         <div className="col-4">
-          <button type="button" className="btn btn-outline-success btn-sm">Find</button>
+          <button type="button" className="btn btn-outline-success btn-sm" onClick={() => refetch()}>Find</button>
         </div>
       </div>
       { isLoading && <h6>Loading...</h6> }
