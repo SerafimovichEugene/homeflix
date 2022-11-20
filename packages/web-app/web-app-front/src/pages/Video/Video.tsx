@@ -1,6 +1,6 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import './index.css';
+import React from "react";
+import { useParams } from "react-router-dom";
+import "./index.css";
 
 const Video = () => {
   const { id } = useParams();
@@ -11,15 +11,13 @@ const Video = () => {
       </div>
       <div className="row">
         <div className="col">
-          <video controls className='video'>
-            <source src={`/api/list/${id}`} type="video/mp4" />
+          <video controls className="video">
+            <source src={`/api/videos/${id}`} type="video/mp4" />
           </video>
         </div>
-
       </div>
-
     </div>
-  )
+  );
 };
 
-export default Video
+export default Video;
