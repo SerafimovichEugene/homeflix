@@ -1,7 +1,7 @@
+import { Like, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entity/video.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class VideosService {
@@ -10,9 +10,24 @@ export class VideosService {
     private videosRepository: Repository<Video>,
   ) {}
 
-  getVideos(page: number, limit: number): Promise<Video[]> {
+  async getVideos(page: number, limit: number, search: string = ''): Promise<Video[]> {
     const take = limit;
     const skip = page * limit - limit;
-    return this.videosRepository.find({ take, skip });
+    return this.videosRepository.find({ 
+      take, 
+      skip, 
+      order: { file_name: 'ASC' }, 
+      where: {
+        file_name: Like(`%${search}%`)
+      }
+    });
+  };
+
+  async getVideosCount(search: string = ''): Promise<number> {
+    return this.videosRepository.count({
+      where: {
+        file_name: Like(`%${search}%`)
+      }
+    });
   }
 }

@@ -5,9 +5,9 @@
     "populate": "npm run populate -w db-populator",
     "start": "docker compose up -d",
     "stop": "docker compose down",
-    "start:db": "docker-compose up flx-db -d",
+    "start:db": "docker compose up flx-db -d",
     "build:web-app-front": "npm run build:w -w web-app-front",
-    "start:web-app-back": "npm run start:w -w web-app-back"
+    "start:web-app-back": "npm run start:dev -w web-app-back"
   },
   "workspaces": [
     "packages/db-populator",
