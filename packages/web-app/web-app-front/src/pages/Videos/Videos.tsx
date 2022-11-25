@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useVideos } from "../../data/api/api";
 import "./index.css";
 
+const limit = 20;
+
 export const Videos = () => {
   const [page] = useState(1);
 
@@ -12,7 +14,7 @@ export const Videos = () => {
 
   const { data, isLoading, refetch } = useVideosList({
     page,
-    limit: 100,
+    limit,
     ...(search ? { search } : {}),
   });
 
@@ -25,8 +27,12 @@ export const Videos = () => {
             type="text"
             placeholder="search.."
             onChange={(event) => {
-              console.log(event.target.value);
               setSearch(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                refetch();
+              }
             }}
           />
         </div>
@@ -36,20 +42,22 @@ export const Videos = () => {
           </button>
         </div>
       </div>
-      {isLoading && <h6>Loading...</h6>}
-      {!isLoading &&
-        data &&
-        data.items.map((i) => {
-          return (
-            <div className="row align-items-start">
-              <div className="col">
-                <div className="p-1 border bg-body">
-                  <Link to={i.id}>{i.name}</Link>
+      <div className="container p-2 border-1 border-dark">
+        {isLoading && <h6>Loading...</h6>}
+        {!isLoading &&
+          data &&
+          data.items.map((i) => {
+            return (
+              <div key={i.id} className="row align-items-start">
+                <div className="col">
+                  <div className="p-1 bg-body">
+                    <Link to={i.id}>{i.name}</Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+      </div>
     </div>
   );
 };

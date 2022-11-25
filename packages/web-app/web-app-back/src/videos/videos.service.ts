@@ -1,4 +1,4 @@
-import { Like, Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entity/video.entity';
@@ -18,7 +18,7 @@ export class VideosService {
       skip,
       order: { file_name: 'ASC' },
       where: {
-        file_name: Like(`%${search}%`),
+        file_name: ILike(`%${search}%`),
       },
     });
   }
@@ -26,7 +26,7 @@ export class VideosService {
   async getVideosCount(search = ''): Promise<number> {
     return this.videosRepository.count({
       where: {
-        file_name: Like(`%${search}%`),
+        file_name: ILike(`%${search}%`),
       },
     });
   }

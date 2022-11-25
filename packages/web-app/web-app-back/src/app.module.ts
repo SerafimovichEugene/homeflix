@@ -1,4 +1,4 @@
-import { resolve, join } from 'path';
+import { resolve } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
