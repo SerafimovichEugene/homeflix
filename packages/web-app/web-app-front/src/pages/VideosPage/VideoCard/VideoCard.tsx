@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// @ts-ignore
 import Placeholder from "../../../images/placeholder.png";
 
 type VideoCardType = {
