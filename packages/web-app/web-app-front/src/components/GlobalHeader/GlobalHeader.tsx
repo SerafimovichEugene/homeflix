@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { useVideos } from "../../data/api";
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from '../../globalConstants';
+import { useVideos } from "../../data/api/api";
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from "../../constants";
 import "./styles.css";
 
 const GlobalHeader: React.FC = () => {
@@ -19,34 +19,32 @@ const GlobalHeader: React.FC = () => {
   });
 
   return (
-    <div className="container-fluid header-container">
-      <nav className="navbar bg-light">
-        <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            Homeflix
-          </Link>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              onChange={(event) => {
-                setSearch(event.target.value);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  refetch();
-                }
-              }}
-            />
-            <button className="btn btn-outline-success" type="submit" onClick={() => refetch()}>
-              Search
-            </button>
-          </form>
-        </div>
-      </nav>
-    </div>
+    <nav className="navbar bg-light">
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand">
+          Homeflix
+        </Link>
+        <form className="d-flex" role="search">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            onChange={(event) => {
+              setSearch(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                refetch();
+              }
+            }}
+          />
+          <button className="btn btn-outline-success" type="submit" onClick={() => refetch()}>
+            Search
+          </button>
+        </form>
+      </div>
+    </nav>
   );
 };
 

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import { VideoCard } from "./VideoCard/VideoCard";
 import { FileEntity } from "../../domain/index";
-import { Spinner } from "../../components/Spinner";
+import { Spinner } from "../../components/Spinner/Spinner";
 import { useVideos } from "../../data/api/api";
 import { Paginator } from "../../components/Paginator/Paginator";
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from "../../globalConstants";
+import { DEFAULT_PAGE, DEFAULT_LIMIT } from "../../constants";
 import "./styles.css";
 
 const VideosPage = () => {

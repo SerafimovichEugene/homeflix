@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Spinner } from "../components/Spinner";
+import { Spinner } from "../components/Spinner/Spinner";
 const GlobalHeader = lazy(() => import("../components/GlobalHeader/GlobalHeader"));
 const VideosPage = lazy(() => import("../pages/VideosPage/VideosPage"));
 const VideoPage = lazy(() => import("../pages/Video/Video"));
