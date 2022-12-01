@@ -36,7 +36,7 @@ const VideosPage = () => {
   return (
     <Container>
       <Row>
-        <Search setSearch={setSearch} search={() => refetch()} />
+        <Search setSearch={setSearch} />
       </Row>
       <Row>
         {isLoading && <Spinner />}

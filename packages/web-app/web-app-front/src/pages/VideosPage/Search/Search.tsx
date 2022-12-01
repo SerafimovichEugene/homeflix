@@ -1,12 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 
 interface SearchProps {
   setSearch: (value: string) => void;
-  search: () => void;
 }
 
-export const Search: FC<SearchProps> = ({ setSearch, search }) => {
+export const Search: FC<SearchProps> = ({ setSearch }) => {
+  const [input, setInput] = useState("");
+  const handleSubmit = () => { 
+    setSearch(input);
+  }
   return (
     <Stack direction="horizontal" gap={3}>
       <Form.Control 
@@ -14,10 +17,10 @@ export const Search: FC<SearchProps> = ({ setSearch, search }) => {
         placeholder="find.." 
         aria-label="Search" 
         onChange={(event) => {
-          setSearch(event.target.value);
+          setInput(event.target.value);
         }}
-        onSubmit={search} />
-      <Button variant="primary" type="submit" onClick={search}>
+        onSubmit={handleSubmit} />
+      <Button variant="primary" type="submit" onClick={handleSubmit}>
         Submit
       </Button>
     </Stack>
