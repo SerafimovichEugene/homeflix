@@ -24,7 +24,10 @@ export const useVideos = () => {
   return useMemo(
     () => ({
       useVideosList: (query: DataQuery) =>
-        useQuery(["videos", query.page], getVideosList(query), { keepPreviousData: true, retry: false }),
+        useQuery(["videos", query.page, query.limit, query.search], getVideosList(query), {
+          keepPreviousData: true,
+          retry: false,
+        }),
     }),
     []
   );

@@ -1,11 +1,11 @@
-import ESBuild from "esbuild";
-import path from "path";
+import { build } from "esbuild";
+import { resolve } from "path";
 
 function resolveRoot(...segments: string[]): string {
-  return path.resolve(__dirname, "..", ...segments);
+  return resolve(__dirname, "..", ...segments);
 }
 
-ESBuild.build({
+build({
   outdir: resolveRoot("public"),
   entryPoints: [resolveRoot("src", "index.tsx")],
   minify: false,
@@ -27,4 +27,6 @@ ESBuild.build({
       }
     },
   },
+}).then(() => {
+  console.log("build done");
 });

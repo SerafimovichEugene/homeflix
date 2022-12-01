@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Spinner } from "../components/Spinner/Spinner";
-const GlobalHeader = lazy(() => import("../components/GlobalHeader/GlobalHeader"));
+const GlobalHeader = lazy(() => import("../components/Header/Header"));
 const VideosPage = lazy(() => import("../pages/VideosPage/VideosPage"));
 const VideoPage = lazy(() => import("../pages/Video/Video"));
 
