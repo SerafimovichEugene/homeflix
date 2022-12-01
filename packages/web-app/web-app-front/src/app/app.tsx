@@ -3,16 +3,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Spinner } from "../components/Spinner/Spinner";
-const GlobalHeader = lazy(() => import("../components/Header/Header"));
+const Header = lazy(() => import("../components/Header/Header"));
 const VideosPage = lazy(() => import("../pages/VideosPage/VideosPage"));
-const VideoPage = lazy(() => import("../pages/Video/Video"));
+const VideoPage = lazy(() => import("../pages/VideoPage/VideoPage"));
 
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={new QueryClient()}>
       <Router>
         <Suspense fallback={null}>
-          <GlobalHeader />
+          <Header />
         </Suspense>
         <Routes>
           <Route

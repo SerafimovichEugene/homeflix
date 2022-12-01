@@ -6,8 +6,8 @@
     "start": "docker compose up -d",
     "stop": "docker compose down",
     "start:db": "docker compose up flx-db -d",
-    "build:web-app-front": "npm run build:w -w web-app-front",
-    "start:web-app-back": "npm run start:dev -w web-app-back"
+    "ff": "npm run build:w -w web-app-front",
+    "bb": "npm run start:dev -w web-app-back"
   },
   "workspaces": [
     "packages/db-populator",
