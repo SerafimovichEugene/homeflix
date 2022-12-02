@@ -1,16 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { FC } from "react";
+import { Container, Navbar } from "react-bootstrap";
 import "./styles.css";
 
-const Header: React.FC = () => {
+const Header: FC = () => {
   return (
-    <nav className="navbar bg-light">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
-          Homeflix
-        </Link>
-      </div>
-    </nav>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/">Homeflix</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      </Container>
+    </Navbar>
   );
 };
 

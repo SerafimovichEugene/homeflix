@@ -1,9 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import "./index.css";
 
-const Video = () => {
+const Video: FC = () => {
   const { id } = useParams();
   return (
     <Container>
