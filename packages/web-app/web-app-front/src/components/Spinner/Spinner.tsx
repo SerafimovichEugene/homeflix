@@ -1,9 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
+import { Spinner } from "react-bootstrap";
 
-export const Spinner = () => {
+export const CustomSpinner: FC = () => {
   return (
-    <div className="spinner-border" role="status">
+    <Spinner animation="border" role="status">
       <span className="visually-hidden">Loading...</span>
-    </div>
-  )
-}
+    </Spinner>
+  );
+};

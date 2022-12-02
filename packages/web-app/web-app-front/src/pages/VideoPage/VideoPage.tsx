@@ -1,22 +1,23 @@
-import React from "react";
+import React, { FC } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import "./index.css";
 
-const Video = () => {
+const Video: FC = () => {
   const { id } = useParams();
   return (
-    <div className="container">
-      <div className="row">
+    <Container>
+      <Row>
         <h6>My id: {id}</h6>
-      </div>
-      <div className="row">
-        <div className="col">
+      </Row>
+      <Row>
+        <Col>
           <video controls className="video">
             <source src={`/api/videos/${id}`} type="video/mp4" />
           </video>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
