@@ -33,6 +33,11 @@ const VideosPage: FC = () => {
     setPage(pageNumber);
   };
 
+  const handleSearch = (search: string): void => {
+    setPage(1);
+    setSearch(search);
+  };
+
   useEffect(() => {
     refetch().then();
   }, [page, limit]);
@@ -40,7 +45,7 @@ const VideosPage: FC = () => {
   return (
     <Container className={"pt-2"}>
       <Row className={"mb-2"}>
-        <Search setSearch={setSearch} />
+        <Search setSearch={handleSearch} />
       </Row>
       <Row className={"mb-2"}>
         <div className="grid-container-video-cards">

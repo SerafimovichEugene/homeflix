@@ -18,7 +18,6 @@ export const Search: FC<SearchProps> = ({ setSearch }) => {
         placeholder="find.."
         aria-label="Search"
         onChange={(event) => {
-          console.log(event.target.value);
           setInput(event.target.value);
         }}
         onKeyUp={(event) => {
