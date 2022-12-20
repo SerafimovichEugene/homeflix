@@ -11,6 +11,11 @@ interface PaginatorProps {
 export const Paginator: FC<PaginatorProps> = ({ videosCount, videosLimit, activePage, changePage }) => {
   const pageNumbers = [];
   const allPages = Math.ceil(videosCount / videosLimit);
+
+  if (allPages === 1) {
+    return null;
+  }
+
   for (let number = 1; number <= allPages; number += 1) {
     pageNumbers.push(
       <Pagination.Item
@@ -25,5 +30,5 @@ export const Paginator: FC<PaginatorProps> = ({ videosCount, videosLimit, active
     );
   }
 
-  return <Pagination>{pageNumbers}</Pagination>;
+  return <Pagination style={{ flexWrap: "wrap" }}>{pageNumbers}</Pagination>;
 };
