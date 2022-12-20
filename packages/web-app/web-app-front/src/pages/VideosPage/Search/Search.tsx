@@ -3,9 +3,10 @@ import { Button, Form, Stack } from "react-bootstrap";
 import { VideosPageContext, VideosPageContextInstance } from "../VidesPageContext/VideosPageContext";
 
 export const Search: FC = () => {
-  const { search, setSearch } = useContext<VideosPageContext>(VideosPageContextInstance);
+  const { search, setSearch, setPage } = useContext<VideosPageContext>(VideosPageContextInstance);
   const [input, setInput] = useState("");
   const handleSubmit = () => {
+    setPage(1);
     setSearch(input);
   };
 

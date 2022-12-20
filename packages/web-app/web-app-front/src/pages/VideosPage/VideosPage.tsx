@@ -9,33 +9,27 @@ import { Search } from "./Search/Search";
 import { VideosPageContext, VideosPageContextInstance } from "./VidesPageContext/VideosPageContext";
 import "./styles.css";
 
-const VideosPage: FC = ({}) => {
-  const { page, setPage, limit, search, setSearch, files, setFiles } =
-    useContext<VideosPageContext>(VideosPageContextInstance);
-
-  console.log(page, limit, search);
-
+const VideosPage: FC = () => {
+  const { 
+    page, 
+    setPage, 
+    limit, 
+    search,
+    files, 
+    setFiles 
+  } = useContext<VideosPageContext>(VideosPageContextInstance);
   const { useVideosList } = useVideos();
-
   const { data, isLoading, refetch } = useVideosList({
     page,
     limit,
     search,
   });
-
   const changePage = (pageNumber: number): void => {
     setPage(pageNumber);
   };
-
-  const handleSearch = (search: string): void => {
-    setPage(1);
-    setSearch(search);
-  };
-
   useEffect(() => {
     refetch().then();
   }, [page, limit]);
-
   useEffect(() => {
     if (data) {
       setFiles(data.items);
@@ -45,7 +39,7 @@ const VideosPage: FC = ({}) => {
   return (
     <Container className={"pt-2"}>
       <Row className={"mb-2"}>
-        <Search setSearch={handleSearch} />
+        <Search />
       </Row>
       <Row className={"mb-2"}>
         <Col>
