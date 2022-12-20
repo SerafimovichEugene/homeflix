@@ -5,26 +5,3 @@
   margin-bottom: 20px;
   width: 100%;
 }
-
-.container-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: calc(100vh - 80px);
-}
-
-.card {
-  text-decoration: none;
-  color: #000;
-}
-
-.card-text {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.page-settings {
-  display: flex;
-}

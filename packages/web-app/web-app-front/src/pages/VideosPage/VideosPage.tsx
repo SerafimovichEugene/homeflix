@@ -1,33 +1,27 @@
-import React, { useState, useEffect, FC } from "react";
+import React, { FC, useContext, useEffect } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { VideoCard } from "./VideoCard/VideoCard";
 import { FileEntity } from "../../domain";
 import { CustomSpinner } from "../../components/Spinner/Spinner";
-import { useVideos } from "../../data/api/api";
 import { Paginator } from "../../components/Paginator/Paginator";
-import { DEFAULT_PAGE, DEFAULT_LIMIT } from "../../constants";
-import { Container, Row, Col } from "react-bootstrap";
+import { useVideos } from "../../data/api/api";
 import { Search } from "./Search/Search";
+import { VideosPageContext, VideosPageContextInstance } from "./VidesPageContext/VideosPageContext";
 import "./styles.css";
 
-const VideosPage: FC = () => {
-  const [page, setPage] = useState(DEFAULT_PAGE);
-  const [limit] = useState(DEFAULT_LIMIT);
-  const [search, setSearch] = useState("");
+const VideosPage: FC = ({}) => {
+  const { page, setPage, limit, search, setSearch, files, setFiles } =
+    useContext<VideosPageContext>(VideosPageContextInstance);
+
+  console.log(page, limit, search);
 
   const { useVideosList } = useVideos();
 
-  const { data, isLoading, refetch } = useVideosList(
-    search
-      ? {
-          page,
-          limit,
-          search,
-        }
-      : {
-          page,
-          limit,
-        }
-  );
+  const { data, isLoading, refetch } = useVideosList({
+    page,
+    limit,
+    search,
+  });
 
   const changePage = (pageNumber: number): void => {
     setPage(pageNumber);
@@ -42,24 +36,31 @@ const VideosPage: FC = () => {
     refetch().then();
   }, [page, limit]);
 
+  useEffect(() => {
+    if (data) {
+      setFiles(data.items);
+    }
+  }, [data]);
+
   return (
     <Container className={"pt-2"}>
       <Row className={"mb-2"}>
         <Search setSearch={handleSearch} />
       </Row>
       <Row className={"mb-2"}>
-        <div className="grid-container-video-cards">
-          {isLoading && <CustomSpinner />}
-          {!isLoading &&
-            data &&
-            data.items.map((video: FileEntity) => {
-              return (
-                <div key={video.id}>
-                  <VideoCard link={video.id} name={video.name} />
-                </div>
-              );
-            })}
-        </div>
+        <Col>
+          <div className="grid-container-video-cards">
+            {isLoading && <CustomSpinner />}
+            {!isLoading &&
+              files.map((video: FileEntity) => {
+                return (
+                  <div key={video.id}>
+                    <VideoCard id={video.id} name={video.name} />
+                  </div>
+                );
+              })}
+          </div>
+        </Col>
       </Row>
       <Row className={"mb-2"}>
         <Col>

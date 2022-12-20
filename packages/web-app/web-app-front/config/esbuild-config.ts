@@ -18,15 +18,15 @@ build({
     ".svg": "file",
     ".jpg": "file",
   },
-  // watch: {
-  //   onRebuild(err) {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log("builded");
-  //     }
-  //   },
-  // },
+  watch: {
+    onRebuild(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("builded");
+      }
+    },
+  },
 }).then(() => {
   console.log("build done");
 });

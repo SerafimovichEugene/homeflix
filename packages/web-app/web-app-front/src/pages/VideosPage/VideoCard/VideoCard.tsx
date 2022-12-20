@@ -1,17 +1,22 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Card } from "react-bootstrap";
 import Placeholder from "../../../images/placeholder.png";
+import "./styles.css";
 
 interface VideoCardProps {
-  link: string;
+  id: string;
   name: string;
 }
 
-export const VideoCard: FC<VideoCardProps> = ({ link, name }) => (
-  <Link to={link} className="card">
-    <img src={Placeholder} className="card-img-top" alt="img" />
-    <div className="card-body">
-      <p className="card-text ellipsis">{name}</p>
-    </div>
-  </Link>
-);
+export const VideoCard: FC<VideoCardProps> = ({ id, name }) => {
+  const navigate = useNavigate();
+  return (
+    <Card className={"video-card"} onClick={() => navigate(`/${id}`)}>
+      <Card.Img variant="top" src={Placeholder} />
+      <Card.Body>
+        <Card.Text>{name}</Card.Text>
+      </Card.Body>
+    </Card>
+  );
+};

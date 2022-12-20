@@ -1,11 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
+import { VideosPageContext, VideosPageContextInstance } from "../VidesPageContext/VideosPageContext";
 
-interface SearchProps {
-  setSearch: (value: string) => void;
-}
-
-export const Search: FC<SearchProps> = ({ setSearch }) => {
+export const Search: FC = () => {
+  const { search, setSearch } = useContext<VideosPageContext>(VideosPageContextInstance);
   const [input, setInput] = useState("");
   const handleSubmit = () => {
     setSearch(input);
@@ -14,6 +12,7 @@ export const Search: FC<SearchProps> = ({ setSearch }) => {
   return (
     <Stack direction="horizontal" gap={3}>
       <Form.Control
+        defaultValue={search}
         type="search"
         placeholder="find.."
         aria-label="Search"
