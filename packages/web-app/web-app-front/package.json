@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -fr public && mkdir -p public && cp src/index.html ./public && ts-node ./config/esbuild-config",
-    "build:w": "rm -fr public && mkdir -p public && cp src/index.html ./public && ts-node ./config/esbuild-config",
+    "build:prod": "cross-env MODE=prod ts-node ./config/esbuild-config",
+    "build:dev": "ts-node ./config/esbuild-config",
     "start": "echo \"Error: no start specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,7 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "chokidar": "^3.5.3",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.14.49",
     "rimraf": "^3.0.2",
     "typescript": "^4.7.4"

@@ -6,7 +6,8 @@
     "start": "docker compose up -d",
     "stop": "docker compose down",
     "start:db": "docker compose up flx-db -d",
-    "ff": "npm run build:w -w web-app-front",
+    "ff:prod": "npm run build:prod -w web-app-front",
+    "ff": "npm run build:dev -w web-app-front",
     "bb": "npm run start:dev -w web-app-back"
   },
   "workspaces": [

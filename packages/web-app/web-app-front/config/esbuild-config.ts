@@ -1,32 +1,37 @@
 import { build } from "esbuild";
 import { resolve } from "path";
+import { cleanPlugin, htmlPlugin } from "./plugins";
 
-function resolveRoot(...segments: string[]): string {
+const mode = process.env.MODE || "dev";
+const isDev = mode === "dev";
+const isProd = mode === "prod";
+
+const resolveRoot = (...segments: string[]): string => {
   return resolve(__dirname, "..", ...segments);
-}
+};
 
 build({
   outdir: resolveRoot("public"),
   entryPoints: [resolveRoot("src", "index.tsx")],
-  minify: false,
+  minify: isProd,
   bundle: true,
-  sourcemap: true,
+  sourcemap: isDev,
   tsconfig: resolveRoot("tsconfig.json"),
-  entryNames: "bundle",
+  entryNames: "[dir]/bundle.[name]-[hash]",
   loader: {
     ".png": "file",
     ".svg": "file",
     ".jpg": "file",
   },
-  watch: {
+  metafile: true,
+  watch: isDev && {
     onRebuild(err) {
       if (err) {
         console.log(err);
       } else {
-        console.log("builded");
+        console.log("Builded");
       }
     },
   },
-}).then(() => {
-  console.log("build done");
-});
+  plugins: [cleanPlugin, htmlPlugin({ title: "Homeflix" })],
+}).catch((err) => console.log(err));
