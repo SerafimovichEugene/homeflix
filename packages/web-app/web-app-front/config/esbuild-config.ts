@@ -33,5 +33,5 @@ build({
       }
     },
   },
-  plugins: [cleanPlugin, htmlPlugin({ title: "Homeflix" })],
+  plugins: [cleanPlugin, htmlPlugin],
 }).catch((err) => console.log(err));
