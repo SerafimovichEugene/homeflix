@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { VideosPageContext, VideosPageContextInstance } from "../VidesPageContext/VideosPageContext";
 
@@ -10,9 +10,18 @@ export const Search: FC = () => {
     setSearch(input);
   };
 
+  useEffect(() => {
+    if (search !== undefined) {
+      console.log('search', search);
+      console.log('input', input);
+      setInput(search);
+    }
+  },[search])
+
   return (
     <Stack direction="horizontal" gap={3}>
       <Form.Control
+        key={search}
         defaultValue={search}
         type="search"
         placeholder="find.."

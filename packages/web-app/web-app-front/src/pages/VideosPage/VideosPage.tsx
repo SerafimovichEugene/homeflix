@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { VideoCard } from "./VideoCard/VideoCard";
 import { FileEntity } from "../../domain";
 import { CustomSpinner } from "../../components/Spinner/Spinner";
@@ -7,16 +7,18 @@ import { Paginator } from "../../components/Paginator/Paginator";
 import { useVideos } from "../../data/api/api";
 import { Search } from "./Search/Search";
 import { VideosPageContext, VideosPageContextInstance } from "./VidesPageContext/VideosPageContext";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 const VideosPage: FC = () => {
-  const { 
-    page, 
-    setPage, 
-    limit, 
+  const {
+    page,
+    setPage,
+    limit,
     search,
-    files, 
-    setFiles 
+    setSearch,
+    files,
+    setFiles
   } = useContext<VideosPageContext>(VideosPageContextInstance);
   const { useVideosList } = useVideos();
   const { data, isLoading, refetch } = useVideosList({
@@ -43,17 +45,36 @@ const VideosPage: FC = () => {
       </Row>
       <Row className={"mb-2"}>
         <Col>
-          <div className="grid-container-video-cards">
-            {isLoading && <CustomSpinner />}
-            {!isLoading &&
-              files.map((video: FileEntity) => {
+          {isLoading && <CustomSpinner />}
+
+          {!isLoading && files.length > 0 &&
+            <div className="grid-container-video-cards">
+              {files.map((video: FileEntity) => {
                 return (
                   <div key={video.id}>
                     <VideoCard id={video.id} name={video.name} />
                   </div>
                 );
               })}
-          </div>
+            </div>
+          }
+
+          {!isLoading && files.length === 0 && (
+            <div className="d-flex justify-content-center align-items-baseline mt-4">
+              <p className="px-2">Nothing here ... </p>
+              <Button 
+                className="px-2"
+                variant="outline-secondary" 
+                size="sm" 
+                onClick={() => {
+                  setPage(1);
+                  setSearch('');
+                }}
+              >
+                clear
+              </Button>
+            </div>
+          )}
         </Col>
       </Row>
       <Row className={"mb-2"}>

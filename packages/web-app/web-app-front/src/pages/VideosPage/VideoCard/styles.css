@@ -1,3 +1,7 @@
 .video-card {
   cursor: pointer;
 }
+
+.video-card:hover {
+  border-color: blue;
+}

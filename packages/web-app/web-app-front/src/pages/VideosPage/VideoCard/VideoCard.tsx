@@ -12,10 +12,10 @@ interface VideoCardProps {
 export const VideoCard: FC<VideoCardProps> = ({ id, name }) => {
   const navigate = useNavigate();
   return (
-    <Card className={"video-card"} onClick={() => navigate(`/${id}`)}>
+    <Card className={"video-card card text-dark bg-light"} onClick={() => navigate(`/${id}`)}>
       <Card.Img variant="top" src={Placeholder} />
       <Card.Body>
-        <Card.Text>{name}</Card.Text>
+        <Card.Text className="card-title">{name}</Card.Text>
       </Card.Body>
     </Card>
   );
