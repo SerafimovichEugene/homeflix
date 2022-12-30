@@ -1,4 +1,5 @@
-import { FileEntity, FileEntityDb } from '../model/file';
+import { FileEntityDb } from '../model/db';
+import { FileEntity } from '../model/file';
 
 export const getDiff = (sourceFiles: FileEntity[], populatingFiles: FileEntityDb[]): [FileEntityDb[], FileEntityDb[], FileEntityDb[]] => {
   const sourceFilesMap = new Set(sourceFiles.map(f => f.id));

@@ -65,39 +65,3 @@ export class FileEntityLoc implements FileEntity {
     this.path = path;
   }
 }
-
-export class FileEntityDb implements FileEntity {
-  public id: string
-  public path: string
-  public name: string
-
-  private _isExistent: boolean
-  private _isNew: boolean
-
-  constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean) {
-    this.id = id;
-    this.name = name;
-    this.path = path;
-    this._isNew = isNew;
-    this._isExistent = isExistent;
-  }
-
-  public set isNew(value: boolean) {
-    this._isNew = value;
-  }
-
-  public get isNew() {
-    return this._isNew;
-  }
-
-  public set isExistent(value: boolean) {
-    if (!value) {
-      this._isNew = value;
-    }
-    this._isExistent = value;
-  }
-
-  public get isExistent() {
-    return this._isExistent;
-  }
-}
