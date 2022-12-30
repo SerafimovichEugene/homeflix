@@ -1,6 +1,6 @@
-import { createContext, Dispatch, SetStateAction } from "react";
-import { FileEntity, PageableQuery } from "../../../domain";
-import { DEFAULT_PAGE } from "../../../constants";
+import { createContext, Dispatch, SetStateAction } from 'react';
+import { FileEntity, PageableQuery } from '../../../domain';
+import { DEFAULT_PAGE } from '../../../constants';
 
 export interface VideosPageContext extends PageableQuery {
   files: FileEntity[];
@@ -12,11 +12,11 @@ export interface VideosPageContext extends PageableQuery {
 
 export const defaultContext: VideosPageContext = {
   files: [],
-  search: "",
+  search: '',
   page: 1,
   limit: 20,
   setPage: () => DEFAULT_PAGE,
-  setSearch: () => "",
+  setSearch: () => '',
   setFiles: () => [],
 };
 

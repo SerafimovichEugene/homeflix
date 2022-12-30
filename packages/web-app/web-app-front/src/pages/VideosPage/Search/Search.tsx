@@ -1,10 +1,10 @@
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Button, Form, Stack } from "react-bootstrap";
-import { VideosPageContext, VideosPageContextInstance } from "../VidesPageContext/VideosPageContext";
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { Button, Form, Stack } from 'react-bootstrap';
+import { VideosPageContext, VideosPageContextInstance } from '../VidesPageContext/VideosPageContext';
 
 export const Search: FC = () => {
   const { search, setSearch, setPage } = useContext<VideosPageContext>(VideosPageContextInstance);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const handleSubmit = () => {
     setPage(1);
     setSearch(input);
@@ -16,7 +16,7 @@ export const Search: FC = () => {
       console.log('input', input);
       setInput(search);
     }
-  },[search])
+  }, [search]);
 
   return (
     <Stack direction="horizontal" gap={3}>
@@ -30,7 +30,7 @@ export const Search: FC = () => {
           setInput(event.target.value);
         }}
         onKeyUp={(event) => {
-          if (event.key === "Enter") {
+          if (event.key === 'Enter') {
             handleSubmit();
           }
         }}

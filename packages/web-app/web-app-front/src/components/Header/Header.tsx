@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import { Container, Navbar } from "react-bootstrap";
-import "./styles.css";
+import React, { FC } from 'react';
+import { Container, Navbar } from 'react-bootstrap';
+import './styles.css';
 
 const Header: FC = () => {
   return (

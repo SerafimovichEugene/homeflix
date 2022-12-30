@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Pagination } from "react-bootstrap";
+import React, { FC } from 'react';
+import { Pagination } from 'react-bootstrap';
 
 interface PaginatorProps {
   videosCount: number;
@@ -26,9 +26,9 @@ export const Paginator: FC<PaginatorProps> = ({ videosCount, videosLimit, active
         }}
       >
         {number}
-      </Pagination.Item>
+      </Pagination.Item>,
     );
   }
 
-  return <Pagination style={{ flexWrap: "wrap" }}>{pageNumbers}</Pagination>;
+  return <Pagination style={{ flexWrap: 'wrap' }}>{pageNumbers}</Pagination>;
 };
