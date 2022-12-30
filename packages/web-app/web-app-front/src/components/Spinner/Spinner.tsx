@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Spinner } from "react-bootstrap";
+import React, { FC } from 'react';
+import { Spinner } from 'react-bootstrap';
 
 export const CustomSpinner: FC = () => {
   return (
