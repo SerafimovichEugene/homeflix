@@ -1,12 +1,13 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import { FileSystemProvider } from './model/file';
+
 import { PGProvider } from './model/db';
+import { FileService } from './service/file-service';
 import { getDiff } from './utils/diff';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
-const fileSystemProvider = new FileSystemProvider();
+const fileService = new FileService();
 const pgProvider = new PGProvider();
 
 const populate = async () => {
@@ -17,7 +18,7 @@ const populate = async () => {
   console.log('--connected');
 
   const dbFiles = await pgProvider.getFiles();
-  const sourceFiles = fileSystemProvider.getFiles();
+  const sourceFiles = fileService.getFiles();
 
   console.log('--sourceFiles', sourceFiles.length);
   console.log('--dbFiles', dbFiles.length);

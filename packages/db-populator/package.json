@@ -2,7 +2,9 @@
   "name": "db-populator",
   "scripts": {
     "test": "jest",
-    "populate": "pwd && ts-node src/index.ts"
+    "populate": "pwd && ts-node src/populate-video.ts",
+    "populate:v": "pwd && ts-node src/populate-video.ts",
+    "populate:ss": "pwd && ts-node src/populate-screenshot.ts"
   },
   "devDependencies": {
     "@types/jest": "^28.1.3",
