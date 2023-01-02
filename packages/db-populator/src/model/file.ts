@@ -14,7 +14,7 @@ export class File {
 
 export class VideoFile extends File {
   public length: number
-  constructor(name: string, path: string, length: number, id?: string) {
+  constructor(name: string, path: string, length: number = 0, id?: string) {
     super(name, path, id);
     this.length = length;
   }

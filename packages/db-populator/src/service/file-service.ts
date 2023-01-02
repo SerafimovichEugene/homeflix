@@ -24,14 +24,11 @@ export class FileService {
       return result;
     }
   
-    public createScreenshots() {
+    public async createScreenshots(): Promise<void> {
       const videoFiles = this.getFiles();
-      videoFiles.forEach(async f => {
-        console.log('--try', f.id);
-        const result = await this.ss.takeScreenshot(f);
-        console.log('--result', result);
-      })
-  
+      const screenshots = await Promise.all(videoFiles.map(f => this.ss.takeScreenshot(f)));
+      
+      
     }
   
     private static readFiles(dir: string, fileList: File[]): File[] {

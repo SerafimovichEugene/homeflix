@@ -1,13 +1,13 @@
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import path from 'path';
 import { FileService } from './service/file-service';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+config({ path: path.resolve(__dirname, '../../../.env') });
 
 const fileSystemProvider = new FileService();
 
 const populate = async () => {
-  const ss = await fileSystemProvider.createScreenshots();
+  await fileSystemProvider.createScreenshots();
 }
 
 populate()
@@ -23,4 +23,3 @@ populate()
   .finally(async () => {
     // await pgProvider.client.end();
   });
-

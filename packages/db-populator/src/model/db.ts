@@ -1,6 +1,7 @@
 import { Client } from 'pg';
 import format from 'pg-format';
 import { VideoFile } from './file';
+import { ScreenshotFile } from './screenshot';
 
 export interface VideoFileRaw {
   file_id: string
@@ -87,6 +88,17 @@ export class PGProvider {
     }
   }
 
+  async createScreenshots() {
+    try {
+      const sql = PGProvider.insertScreenshotBatchSql(files);
+      await this.client.query(sql);
+      console.log('--inserted');
+    } catch (error) {
+      console.log('db_level', error);
+      throw error;
+    }
+  }
+
   async insertNewFiles(files: VideoFileModel[]) {
     try {
       const sql = PGProvider.getInsertingNewFilesSql(files);
@@ -149,5 +161,13 @@ export class PGProvider {
       FROM file f
       ORDER BY f.file_name ASC;
     `)
+  }
+
+  private static insertScreenshotBatchSql(videoFileId: string, files: ScreenshotFile[]): string {
+    const values = files.map(f => [f.id, f.name, videoFileId, f.path])
+    return format(`
+      INSERT INTO screenshot (screenshot_id, screenshot_name, file_id screenshot_path)
+      VALUES %s
+    `, values);
   }
 }
