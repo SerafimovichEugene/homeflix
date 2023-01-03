@@ -1,22 +1,26 @@
-import { config } from 'dotenv';
-import path from 'path';
-import { FileService } from './service/file-service';
+import { config } from "dotenv";
+import path from "path";
+import { FileService } from "./service/file-service";
+import { PGProvider } from "./model/db";
 
-config({ path: path.resolve(__dirname, '../../../.env') });
+config({ path: path.resolve(__dirname, "../../../.env") });
 
 const fileSystemProvider = new FileService();
+const pgProvider = new PGProvider();
 
 const populate = async () => {
-  await fileSystemProvider.createScreenshots();
-}
+  await pgProvider.initConnection();
+  const screenshots = await fileSystemProvider.createScreenshots();
+  await pgProvider.createScreenshots(screenshots);
+};
 
 populate()
   .then(() => {
-    console.log('--Finished');
+    console.log("--Finished");
     process.exit(0);
   })
   .catch(async (error) => {
-    console.log('--Error');
+    console.log("--Error");
     console.log(error);
     process.exit(1);
   })

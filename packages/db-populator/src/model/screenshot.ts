@@ -1,12 +1,12 @@
-
 import { File } from "./file";
 
 export class ScreenshotFile extends File {
-    public resolution: string
+  public resolution: string;
+  public parentId: string;
 
-    constructor(name: string, path: string, id?: string) {
-        super(name, path, id);
-        this.resolution = '';
-    }
+  constructor(name: string, path: string, parentId: string, id?: string) {
+    super(name, path, id);
+    this.parentId = parentId;
+    this.resolution = "";
+  }
 }
-
