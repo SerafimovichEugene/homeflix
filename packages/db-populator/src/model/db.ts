@@ -1,19 +1,22 @@
-import { Client } from 'pg';
-import format from 'pg-format';
-import { FileEntity, FileEntityRaw } from './file';
+import { Client } from "pg";
+import format from "pg-format";
+import { VideoFile } from "./file";
+import { ScreenshotFile } from "./screenshot";
 
-export class FileEntityDb implements FileEntity {
-  public id: string
-  public path: string
-  public name: string
+export interface VideoFileRaw {
+  file_id: string;
+  file_path: string;
+  file_name: string;
+  file_is_existent: boolean;
+  file_is_new: boolean;
+}
 
-  private _isExistent: boolean
-  private _isNew: boolean
+export class VideoFileModel extends VideoFile {
+  private _isExistent: boolean;
+  private _isNew: boolean;
 
   constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean) {
-    this.id = id;
-    this.name = name;
-    this.path = path;
+    super(name, path, 0, id);
     this._isNew = isNew;
     this._isExistent = isExistent;
   }
@@ -40,17 +43,11 @@ export class FileEntityDb implements FileEntity {
 
 export class PGProvider {
   public client: Client;
-  constructor () {
-    const {
-      POSTGRES_USER,
-      POSTGRES_PASSWORD,
-      POSTGRES_DATABASE,
-      POSTGRES_HOST,
-      POSTGRES_PORT,
-    } = process.env;
+  constructor() {
+    const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_PORT } = process.env;
 
     if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DATABASE || !POSTGRES_HOST || !POSTGRES_PORT) {
-      throw new Error('Some env db variables are absent');
+      throw new Error("Some env db variables are absent");
     }
 
     this.client = new Client({
@@ -66,78 +63,92 @@ export class PGProvider {
     await this.client.connect();
   }
 
-  async getFiles(): Promise<FileEntityDb[]> {
+  async getFiles(): Promise<VideoFileModel[]> {
     try {
-      const { rows } = await this.client.query<FileEntityRaw>(PGProvider.getAllFilesSql());
-      return rows.map<FileEntityDb>((
-        {
-          file_id,
-          file_name,
-          file_path,
-          file_is_new,
-          file_is_existent
-        }) => (new FileEntityDb(file_id, file_name, file_path, file_is_new, file_is_existent))
+      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql());
+      return rows.map<VideoFileModel>(
+        ({ file_id, file_name, file_path, file_is_new, file_is_existent }) =>
+          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent)
       );
     } catch (error) {
-      console.log('db_level', error);
+      console.log("db_level", error);
       throw error;
     }
   }
 
-  async insertNewFiles(files: FileEntityDb[]) {
+  async createScreenshots(screenshots: ScreenshotFile[]): Promise<void> {
+    try {
+      const sql = PGProvider.insertScreenshotBatchSql(screenshots);
+      await this.client.query(sql);
+    } catch (error) {
+      console.log("-- createScreenshots db_level", error);
+      throw error;
+    }
+  }
+
+  async insertNewFiles(files: VideoFileModel[]) {
     try {
       const sql = PGProvider.getInsertingNewFilesSql(files);
-      await this.client.query<FileEntity>(sql);
-      console.log('--inserted');
+      await this.client.query(sql);
+      console.log("--inserted");
     } catch (error) {
-      console.log('db_level', error);
+      console.log("db_level", error);
       throw error;
     }
   }
 
-  async markNonexistentFiles(files: FileEntityDb[]) {
+  async markNonexistentFiles(files: VideoFileModel[]) {
     try {
-      await this.client.query<FileEntity>(PGProvider.getMarkNonexistentFilesSql(files));
-      console.log('nonexistent marked--');
+      await this.client.query(PGProvider.getMarkNonexistentFilesSql(files));
+      console.log("nonexistent marked--");
     } catch (error) {
-      console.log('db_level', error);
+      console.log("db_level", error);
       throw error;
     }
   }
 
-  async markRestoredFiles(files: FileEntityDb[]) {
+  async markRestoredFiles(files: VideoFileModel[]) {
     try {
-      await this.client.query<FileEntity>(PGProvider.getMarkRestoredFilesSql(files));
-      console.log('restored marked--');
+      await this.client.query(PGProvider.getMarkRestoredFilesSql(files));
+      console.log("restored marked--");
     } catch (error) {
-      console.log('db_level', error);
+      console.log("db_level", error);
       throw error;
     }
   }
 
-  private static getInsertingNewFilesSql(files: FileEntityDb[]): string {
-    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew])
-    return format(`
+  private static getInsertingNewFilesSql(files: VideoFileModel[]): string {
+    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew]);
+    return format(
+      `
       INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new)
       VALUES %L
       ON CONFLICT (file_id) DO NOTHING;
-    `, values);
+    `,
+      values
+    );
   }
 
-  private static getMarkNonexistentFilesSql(files: FileEntity[]): string {
-    const values = files.map((f) => [f.id])
-    return format(`
+  private static getMarkNonexistentFilesSql(files: VideoFile[]): string {
+    const values = files.map((f) => [f.id]);
+    return format(
+      `
       UPDATE file SET file_is_existent = false, file_is_new = false
       WHERE file.file_id IN %L;
-    `, values);
+    `,
+      values
+    );
   }
 
-  private static getMarkRestoredFilesSql(files: FileEntity[]): string {
-    const values = files.map((f) => [f.id])
-    return format(`
+  private static getMarkRestoredFilesSql(files: VideoFile[]): string {
+    const values = files.map((f) => [f.id]);
+    return format(
+      `
       UPDATE file SET file_is_existent = true, file_is_new = false
       WHERE file.file_id IN %L;
-    `, values);
+    `,
+      values
+    );
   }
 
   private static getAllFilesSql(): string {
@@ -145,6 +156,24 @@ export class PGProvider {
       SELECT f.*
       FROM file f
       ORDER BY f.file_name ASC;
-    `)
+    `);
+  }
+
+  private static insertScreenshotBatchSql(screenshots: ScreenshotFile[]): string {
+    const values = screenshots.map((s) => [s.id, s.name, s.parentId, s.path, s.resolution]);
+    return format(
+      `
+      INSERT INTO screenshot (screenshot_id, screenshot_name, file_id, screenshot_path, screenshot_resolution)
+      VALUES %L
+      ON CONFLICT (screenshot_id)
+      DO UPDATE SET
+        screenshot_id = screenshot.screenshot_id,
+        screenshot_name = screenshot.screenshot_name,
+        file_id = screenshot.file_id,
+        screenshot_path = screenshot.screenshot_path,
+        screenshot_resolution = screenshot.screenshot_resolution;
+    `,
+      values
+    );
   }
 }
