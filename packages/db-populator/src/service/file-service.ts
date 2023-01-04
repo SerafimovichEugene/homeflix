@@ -24,9 +24,18 @@ export class FileService {
       .map(({ id, name, path }) => new VideoFile(name, path, 0, id));
   }
 
-  public async createScreenshots(): Promise<Awaited<ScreenshotFile>[]> {
+  public createScreenshots(): ScreenshotFile[] {
     const videoFiles = this.getFiles();
-    return await Promise.all(videoFiles.map((f) => this.ss.takeScreenshot(f)));
+    console.log('-- total video files ', videoFiles.length)
+    const arr: ScreenshotFile[] = [];
+    
+    for (let index = 0; index < videoFiles.length; index++) {
+      console.log('--> ', index);
+      const s = this.ss.takeScreenshotSync(videoFiles[index]);
+      arr.push(s);
+    }
+
+    return arr;
   }
 
   private static readFiles(dir: string, fileList: File[]): File[] {

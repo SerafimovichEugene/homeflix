@@ -12,18 +12,23 @@ import './styles.css';
 const VideosPage: FC = () => {
   const { page, setPage, limit, search, setSearch, files, setFiles } =
     useContext<VideosPageContext>(VideosPageContextInstance);
+
   const { useVideosList } = useVideos();
+
   const { data, isLoading, refetch } = useVideosList({
     page,
     limit,
     search,
   });
+
   const changePage = (pageNumber: number): void => {
     setPage(pageNumber);
   };
+
   useEffect(() => {
     refetch().then();
   }, [page, limit]);
+
   useEffect(() => {
     if (data) {
       setFiles(data.items);

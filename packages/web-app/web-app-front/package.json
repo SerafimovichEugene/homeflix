@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:prod": "cross-env MODE=prod ts-node ./config/esbuild-config",
     "build:dev": "ts-node ./config/esbuild-config",
-    "lint": "FileProvider \"{src,apps,libs}/**/{*.ts,*.tsx}\" --fix",
+    "build:d": "cross-env MODE=test ts-node ./config/esbuild-config",
+    "lint": "eslint \"{src,apps,libs}/**/{*.ts,*.tsx}\" --fix",
     "format": "prettier --write \"src/**/{*.ts,*.tsx,*.css}\"",
     "start": "echo \"Error: no start specified\" && exit 1"
   },

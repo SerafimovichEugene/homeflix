@@ -79,9 +79,7 @@ export class PGProvider {
   async createScreenshots(screenshots: ScreenshotFile[]): Promise<void> {
     try {
       const sql = PGProvider.insertScreenshotBatchSql(screenshots);
-      console.log("-- sql to insert", sql);
       await this.client.query(sql);
-      console.log("-- inserted");
     } catch (error) {
       console.log("-- createScreenshots db_level", error);
       throw error;

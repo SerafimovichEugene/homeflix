@@ -10,7 +10,7 @@ const pgProvider = new PGProvider();
 
 const populate = async () => {
   await pgProvider.initConnection();
-  const screenshots = await fileSystemProvider.createScreenshots();
+  const screenshots = fileSystemProvider.createScreenshots();
   await pgProvider.createScreenshots(screenshots);
 };
 

@@ -25,8 +25,11 @@ services:
       POSTGRES_DATABASE: ${POSTGRES_DATABASE}
       POSTGRES_HOST: 'flx-db'
       POSTGRES_PORT: '5432'
+      FILE_ROOT_DIR: ${FILE_ROOT_DIR}
+      SCREENSHOT_ROOT_DIR: ${SCREENSHOT_ROOT_DIR}
     volumes:
       - ${FILE_ROOT_DIR}:${FILE_ROOT_DIR}
+      - ${SCREENSHOT_ROOT_DIR}:${SCREENSHOT_ROOT_DIR}
     ports:
       - '8282:8282'
     restart: unless-stopped

@@ -12,6 +12,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       envFilePath: resolve(__dirname, '../../../../.env'),
     }),
     ServeStaticModule.forRoot({
+      rootPath: (() => {
+        if (!process.env.SCREENSHOT_ROOT_DIR) {
+          throw new Error('SCREENSHOT_ROOT_DIR is undefined');
+        }
+        return resolve(__dirname, process.env.SCREENSHOT_ROOT_DIR || "")
+      })(),
+      serveRoot: '/data',
+    }),
+    ServeStaticModule.forRoot({
       rootPath: resolve(__dirname, '../../web-app-front/public'),
       exclude: ['/api*'],
     }),
