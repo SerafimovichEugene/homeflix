@@ -6,6 +6,7 @@ This package allows you to stream videos from your folder on your computer to yo
 - node.js 18+
 - `npm i`
 - Create a folder with video files. Only .mp4 file extension supported.
+- Create an empty folder for screenshots (SCREENSHOT_ROOT_DIR) where they are stored after populating.
 - Create a file with name .env within repo with the next Environment variables:
 
 `POSTGRES_USER=postgres`
@@ -20,16 +21,18 @@ This package allows you to stream videos from your folder on your computer to yo
 
 `FILE_ROOT_DIR=/your/path/to/videos/folder`
 
+`SCREENSHOT_ROOT_DIR=/your/path/to/screenshot/folder`
+
 ### How to run
-- `docker compose up -d`
+- `npm run start`
 - To sync db with files within FILE_ROOT_DIR: `npm run populate`
-- To stop and remove containers: `docker compose down`
+- To stop and remove containers: `npm run stop`
 
 ### How to run in Dev mode
 - Start database in container `npm run start:db`
 - To sync db with files within FILE_ROOT_DIR: `npm run populate`
-- Build web app ui part in watch mode `npm run build:web-app-front`
-- Start web app server in watch mode `npm run start:web-app-back`
+- Build web app ui part in watch mode `npm run ff`
+- Start web app server in watch mode `npm run bb`
 
 
 
