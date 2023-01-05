@@ -12,7 +12,7 @@ export const execute = async (comand: string) => {
 };
 
 export class ScreenshotService {
-  takeScreenshotSync(file: File): Promise<ScreenshotFile> {
+  takeScreenshotSync(file: File): ScreenshotFile {
     const { SCREENSHOT_ROOT_DIR } = process.env;
     if (!SCREENSHOT_ROOT_DIR) {
       throw new Error("screenshot directory variable is absent");
@@ -22,12 +22,33 @@ export class ScreenshotService {
     try {
       execFileSync(
         'ffmpeg', 
-        ['-ss', '00:05:05', '-i', `${file.path}/${file.name}`, '-vframes', '1', '-q:v', '2', `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`, '-y'],
+        [
+          '-ss', 
+          '00:05:05', 
+          '-i', 
+          `${file.path}/${file.name}`, 
+          '-vframes', 
+          '1', 
+          '-q:v', 
+          '2', 
+          `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`, 
+          '-y'
+        ],
       );
-      return Promise.resolve(new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS)));
+      return new ScreenshotFile(
+        screenshotFileName, 
+        screenshotFilePath, 
+        file.id, 
+        uuid(screenshotFileName, uuid.DNS)
+      );
     } catch (err) {
       console.log("-- take screenshot catch error");
-      return Promise.resolve(new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS)));
+      return new ScreenshotFile(
+        screenshotFileName, 
+        screenshotFilePath, 
+        file.id, 
+        uuid(screenshotFileName, uuid.DNS),
+      );
     }
   }
 }

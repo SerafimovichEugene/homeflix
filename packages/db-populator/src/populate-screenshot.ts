@@ -23,7 +23,4 @@ populate()
     console.log("--Error");
     console.log(error);
     process.exit(1);
-  })
-  .finally(async () => {
-    // await pgProvider.client.end();
   });
