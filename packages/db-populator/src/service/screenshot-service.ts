@@ -1,17 +1,10 @@
 import path from "path";
-import { promisify } from "util";
 import { v5 as uuid } from "uuid";
-import { exec, execFileSync } from "child_process";
+import { execFileSync } from "child_process";
 import { ScreenshotFile } from "../model/screenshot";
 import { File } from "../model/file";
 
-export const execute = async (comand: string) => {
-  const response = await promisify(exec)(comand);
-  process.stdout.write(response.stdout);
-  process.stderr.write(response.stderr);
-};
-
-export class ScreenshotService {
+export class VideoService {
   takeScreenshotSync(file: File): ScreenshotFile {
     const { SCREENSHOT_ROOT_DIR } = process.env;
     if (!SCREENSHOT_ROOT_DIR) {
@@ -20,35 +13,28 @@ export class ScreenshotService {
     const screenshotFileName = `${file.id}-1`;
     const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`);
     try {
-      execFileSync(
-        'ffmpeg', 
-        [
-          '-ss', 
-          '00:05:05', 
-          '-i', 
-          `${file.path}/${file.name}`, 
-          '-vframes', 
-          '1', 
-          '-q:v', 
-          '2', 
-          `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`, 
-          '-y'
-        ],
-      );
-      return new ScreenshotFile(
-        screenshotFileName, 
-        screenshotFilePath, 
-        file.id, 
-        uuid(screenshotFileName, uuid.DNS)
-      );
+      execFileSync("ffmpeg", [
+        "-ss",
+        "00:05:05",
+        "-i",
+        `${file.path}/${file.name}`,
+        "-vframes",
+        "1",
+        "-q:v",
+        "2",
+        `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`,
+        "-y",
+      ]);
+      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
     } catch (err) {
       console.log("-- take screenshot catch error");
-      return new ScreenshotFile(
-        screenshotFileName, 
-        screenshotFilePath, 
-        file.id, 
-        uuid(screenshotFileName, uuid.DNS),
-      );
+      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
     }
   }
+
+  /* re-mux video file from target format to .mp4*/
+  convertVideoFile(): void {}
+
+  /* retrieve specific video info from a mp4 file */
+  getVideoInfo(file: File): void {}
 }

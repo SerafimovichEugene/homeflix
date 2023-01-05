@@ -2,16 +2,26 @@ import { config } from "dotenv";
 import path from "path";
 import { FileService } from "./service/file-service";
 import { PGProvider } from "./model/db";
+import { ScreenshotFile } from "./model/screenshot";
+import { VideoService } from "./service/screenshot-service";
 
 config({ path: path.resolve(__dirname, "../../../.env") });
 
-const fileSystemProvider = new FileService();
+const fileService = new FileService();
+const videoService = new VideoService();
 const pgProvider = new PGProvider();
 
 const populate = async () => {
   await pgProvider.initConnection();
-  const screenshots = fileSystemProvider.createScreenshots();
+  const videoFiles = fileService.getFiles();
+  console.log("-- total video files ", videoFiles.length);
+  const screenshots: ScreenshotFile[] = [];
+  for (let index = 0; index < videoFiles.length; index++) {
+    console.log("--> ", index);
+    screenshots.push(videoService.takeScreenshotSync(videoFiles[index]));
+  }
   await pgProvider.createScreenshots(screenshots);
+  return screenshots;
 };
 
 populate()
