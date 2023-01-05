@@ -4,9 +4,8 @@ This package allows you to stream videos from your folder on your computer to yo
 ##### Required
 - docker
 - node.js 18+
+- ffmpeg (for screenshot)
 - `npm i`
-- Create a folder with video files. Only .mp4 file extension supported.
-- Create an empty folder for screenshots (SCREENSHOT_ROOT_DIR) where they are stored after populating.
 - Create a file with name .env within repo with the next Environment variables:
 
 `POSTGRES_USER=postgres`
@@ -19,9 +18,9 @@ This package allows you to stream videos from your folder on your computer to yo
 
 `POSTGRES_DATABASE=postgres`
 
-`FILE_ROOT_DIR=/your/path/to/videos/folder`
+`FILE_ROOT_DIR=/path/to/videos/folder`
 
-`SCREENSHOT_ROOT_DIR=/your/path/to/screenshot/folder`
+`SCREENSHOT_ROOT_DIR=/path/to/screenshot/folder`variable
 
 ### How to run
 - `npm run start`

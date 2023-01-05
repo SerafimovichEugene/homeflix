@@ -12,7 +12,7 @@ export const execute = async (comand: string) => {
 };
 
 export class ScreenshotService {
-  async takeScreenshot(file: File): Promise<ScreenshotFile> {
+  takeScreenshotSync(file: File): Promise<ScreenshotFile> {
     const { SCREENSHOT_ROOT_DIR } = process.env;
     if (!SCREENSHOT_ROOT_DIR) {
       throw new Error("screenshot directory variable is absent");
@@ -20,29 +20,14 @@ export class ScreenshotService {
     const screenshotFileName = `${file.id}-1`;
     const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`);
     try {
-      await execute(
-        `ffmpeg -ss 00:03:05 -i "${file.path}/${file.name}" -frames:v 1 -q:v 2 "${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg" -y`
+      execFileSync(
+        'ffmpeg', 
+        ['-ss', '00:05:05', '-i', `${file.path}/${file.name}`, '-vframes', '1', '-q:v', '2', `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`, '-y'],
       );
-      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
-    } catch (err) {
-      console.log("-- take screenshot catch error", err);
-      throw err;
-    }
-  }
-
-  takeScreenshotSync(file: File): ScreenshotFile {
-    const { SCREENSHOT_ROOT_DIR } = process.env;
-    if (!SCREENSHOT_ROOT_DIR) {
-      throw new Error("screenshot directory variable is absent");
-    }
-    const screenshotFileName = `${file.id}-1`;
-    const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`);
-    try {
-      execFileSync('ffmpeg', ['-ss', '00:05:05', '-i', `${file.path}/${file.name}`, '-vframes', '1', '-q:v', '2', `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`, '-y']);
-      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
+      return Promise.resolve(new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS)));
     } catch (err) {
       console.log("-- take screenshot catch error");
-      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
+      return Promise.resolve(new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS)));
     }
   }
 }
