@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', 'config/'],
   rules: {
     semi: ['error', 'always'],
     quotes: ['warn', 'single'],

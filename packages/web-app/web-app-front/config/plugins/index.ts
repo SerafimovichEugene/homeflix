@@ -1,2 +1,2 @@
-export { cleanPlugin } from "./cleanPlugin";
-export { htmlPlugin } from "./htmlPlugin";
+export { cleanPlugin } from './cleanPlugin';
+export { htmlPlugin } from './htmlPlugin';

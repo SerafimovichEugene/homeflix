@@ -1,27 +1,27 @@
-import { build } from "esbuild";
-import { resolve } from "path";
-import { cleanPlugin, htmlPlugin } from "./plugins";
+import { build } from 'esbuild';
+import { resolve } from 'path';
+import { cleanPlugin, htmlPlugin } from './plugins';
 
-const mode = process.env.MODE || "dev";
-const isDev = mode === "dev";
-const isProd = mode === "prod";
+const mode = process.env.MODE || 'dev';
+const isDev = mode === 'dev';
+const isProd = mode === 'prod';
 
 const resolveRoot = (...segments: string[]): string => {
-  return resolve(__dirname, "..", ...segments);
+  return resolve(__dirname, '..', ...segments);
 };
 
 build({
-  outdir: resolveRoot("public"),
-  entryPoints: [resolveRoot("src", "index.tsx")],
+  outdir: resolveRoot('public'),
+  entryPoints: [resolveRoot('src', 'index.tsx')],
   minify: isProd,
   bundle: true,
   sourcemap: isDev,
-  tsconfig: resolveRoot("tsconfig.json"),
-  entryNames: "[dir]/bundle.[name]-[hash]",
+  tsconfig: resolveRoot('tsconfig.json'),
+  entryNames: '[dir]/bundle.[name]-[hash]',
   loader: {
-    ".png": "file",
-    ".svg": "file",
-    ".jpg": "file",
+    '.png': 'file',
+    '.svg': 'file',
+    '.jpg': 'file',
   },
   metafile: true,
   watch: isDev && {
@@ -29,7 +29,7 @@ build({
       if (err) {
         console.log(err);
       } else {
-        console.log("Builded");
+        console.log('Builded');
       }
     },
   },
