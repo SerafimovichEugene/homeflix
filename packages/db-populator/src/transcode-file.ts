@@ -3,12 +3,13 @@ import path from 'path';
 
 import { PGProvider } from './model/db';
 import { FileService } from './service/file-service';
-import { getDiff } from './utils/diff';
+import { VideoService } from './service/screenshot-service';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 const fileService = new FileService();
 const pgProvider = new PGProvider();
+const videoService = new VideoService();
 
 const populate = async () => {
   // we always add, not remove
@@ -17,26 +18,16 @@ const populate = async () => {
   await pgProvider.initConnection();
   console.log('--connected');
 
-  const dbFiles = await pgProvider.getFiles();
-  const sourceFiles = fileService.getFiles(['mp4', 'webm']);
+//   const dbFiles = await pgProvider.getFiles();
 
-  console.log('--sourceFiles', sourceFiles.length);
-  console.log('--dbFiles', dbFiles.length);
+  const files = fileService.getFiles(['avi', 'mkv']);
 
-  const [newFiles, deletedFiles, restoredFiles] = getDiff(sourceFiles, dbFiles);
-  console.log('--new', newFiles.length);
-  console.log('--deleted', deletedFiles.length);
-  console.log('--restored', restoredFiles.length);
+  for (let index = 0; index < files.length; index++) {
+    console.log("--> ", index);
+    videoService.convertVideoFile(files[index]);
+    console.log("--> converted", index);
+  }
 
-  if (newFiles.length > 0) {
-    await pgProvider.insertNewFiles(newFiles);
-  }
-  if (deletedFiles.length > 0) {
-    await pgProvider.markNonexistentFiles(deletedFiles);
-  }
-  if (restoredFiles.length > 0) {
-    await pgProvider.markRestoredFiles(restoredFiles);
-  }
 }
 
 populate()

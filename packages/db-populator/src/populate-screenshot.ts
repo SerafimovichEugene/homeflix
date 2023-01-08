@@ -13,7 +13,7 @@ const pgProvider = new PGProvider();
 
 const populate = async () => {
   await pgProvider.initConnection();
-  const videoFiles = fileService.getFiles();
+  const videoFiles = fileService.getFiles(['mp4', 'webm']);
   console.log("-- total video files ", videoFiles.length);
   const screenshots: ScreenshotFile[] = [];
   for (let index = 0; index < videoFiles.length; index++) {

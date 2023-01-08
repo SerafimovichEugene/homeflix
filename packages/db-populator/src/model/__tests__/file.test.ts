@@ -7,7 +7,7 @@ describe('FileProvider class', () => {
     const inst = new FileService();
     const absolutePath = path.resolve('src_migrate/model/__tests__/__mocks__');
     process.env.FILE_ROOT_DIR = absolutePath;
-    expect(inst.getFiles())
+    expect(inst.getFiles(['mp4']))
       .toEqual([
         new VideoFile('test3.mp4', path.resolve(absolutePath,'files/files')),
         new VideoFile('test2.mp4', path.resolve(absolutePath,'files')),
