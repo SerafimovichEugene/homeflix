@@ -33,6 +33,7 @@ export class FileService {
       if (fs.statSync(path.join(dir, fileName)).isDirectory()) {
         fileList = this.readFiles(path.join(dir, fileName), fileList);
       } else {
+        console.log('-- fileName ', fileName);
         fileList.push(new File(fileName, dir));
       }
     });

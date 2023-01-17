@@ -19,6 +19,7 @@ export class VideosService {
       order: { file_name: 'ASC' },
       where: {
         file_name: ILike(`%${search}%`),
+        file_is_existent: true,
       },
     });
   }
@@ -27,6 +28,7 @@ export class VideosService {
     return this.videosRepository.count({
       where: {
         file_name: ILike(`%${search}%`),
+        file_is_existent: true,
       },
     });
   }

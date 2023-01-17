@@ -2,9 +2,10 @@
   "name": "db-populator",
   "scripts": {
     "test": "jest",
-    "populate": "npm run populate:v && npm run populate:ss",
-    "populate:v": "npm run build && node ./dist/populate-video.js",
-    "populate:ss": "npm run build && node ./dist/populate-screenshot.js",
+    "populate": "npm run build && npm run populate:v && npm run populate:ss",
+    "populate:v": "node ./dist/populate-video.js",
+    "populate:ss": "node ./dist/populate-screenshot.js",
+    "transcode": "node ./dist/transcode-file.js",
     "build": "tsc"
   },
   "devDependencies": {

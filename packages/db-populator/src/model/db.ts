@@ -101,7 +101,7 @@ export class PGProvider {
     try {
       const sql = PGProvider.getMarkNonexistentFilesSql(files);
       console.log("sql-- ", sql);
-      // await this.client.query(sql);
+      await this.client.query(sql);
       console.log("nonexistent marked--");
     } catch (error) {
       console.log("db_level", error);

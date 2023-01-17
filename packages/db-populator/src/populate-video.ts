@@ -32,6 +32,7 @@ const populate = async () => {
     await pgProvider.insertNewFiles(newFiles);
   }
   if (deletedFiles.length > 0) {
+    console.log('-- deleted', deletedFiles)
     await pgProvider.markNonexistentFiles(deletedFiles);
   }
   if (restoredFiles.length > 0) {

@@ -39,12 +39,13 @@ export class VideoService {
       if (!FILE_ROOT_DIR) {
         throw new Error("screenshot directory variable is absent");
       }
+      const name = file.name.split('.')[0];
       execFileSync("ffmpeg", [
         "-i",
         `${file.path}/${file.name}`,
-        "-codec",
-        "copy",
-        `${FILE_ROOT_DIR}/${file.name}.mp4`,
+        "-strict",
+        "-2",
+        `${FILE_ROOT_DIR}/${name}.mp4`,
         "-y",
       ]);
       
