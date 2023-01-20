@@ -16,7 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
         if (!process.env.SCREENSHOT_ROOT_DIR) {
           throw new Error('SCREENSHOT_ROOT_DIR is undefined');
         }
-        return resolve(__dirname, process.env.SCREENSHOT_ROOT_DIR || "")
+        return resolve(__dirname, process.env.SCREENSHOT_ROOT_DIR || '');
       })(),
       serveRoot: '/data',
     }),
