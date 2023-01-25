@@ -15,7 +15,7 @@ export class VideoService {
     try {
       execFileSync("ffmpeg", [
         "-ss",
-        "00:05:05",
+        "00:05:05", // TODO eliminate hardcoded value, use percentage of video length
         "-i",
         `${file.path}/${file.name}`,
         "-vframes",
@@ -39,7 +39,7 @@ export class VideoService {
       if (!FILE_ROOT_DIR) {
         throw new Error("screenshot directory variable is absent");
       }
-      const name = file.name.split('.')[0];
+      const name = file.name.split(".")[0];
       execFileSync("ffmpeg", [
         "-i",
         `${file.path}/${file.name}`,
@@ -48,7 +48,6 @@ export class VideoService {
         `${FILE_ROOT_DIR}/${name}.mp4`,
         "-y",
       ]);
-      
     } catch (err) {
       console.log("------ take screenshot catch error", err);
     }
