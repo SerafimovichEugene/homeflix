@@ -1,6 +1,6 @@
 import { Client } from "pg";
 import format from "pg-format";
-import { VideoFile } from "./file";
+import { File, VideoFile } from "./file";
 import { ScreenshotFile } from "./screenshot";
 
 export interface VideoFileRaw {
@@ -99,7 +99,9 @@ export class PGProvider {
 
   async markNonexistentFiles(files: VideoFileModel[]) {
     try {
-      await this.client.query(PGProvider.getMarkNonexistentFilesSql(files));
+      const sql = PGProvider.getMarkNonexistentFilesSql(files);
+      console.log("sql-- ", sql);
+      await this.client.query(sql);
       console.log("nonexistent marked--");
     } catch (error) {
       console.log("db_level", error);
@@ -129,12 +131,12 @@ export class PGProvider {
     );
   }
 
-  private static getMarkNonexistentFilesSql(files: VideoFile[]): string {
+  private static getMarkNonexistentFilesSql(files: File[]): string {
     const values = files.map((f) => [f.id]);
     return format(
       `
       UPDATE file SET file_is_existent = false, file_is_new = false
-      WHERE file.file_id IN %L;
+      WHERE file.file_id IN (%L);
     `,
       values
     );
@@ -155,6 +157,7 @@ export class PGProvider {
     return format(`
       SELECT f.*
       FROM file f
+      WHERE file_is_existent IS true
       ORDER BY f.file_name ASC;
     `);
   }

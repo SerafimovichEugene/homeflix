@@ -14,10 +14,6 @@ export class VideosController {
   async getVideos(@Query() { page, limit, search }: VideosPageDto) {
     const page_ = page ?? 1;
     const limit_ = limit ?? 10;
-
-    console.log('page_ ', page_);
-    console.log('limit_ ', limit_);
-
     const videos = await this.videosService.getVideos(page_, limit_, search);
     const count = await this.videosService.getVideosCount(search);
     return {

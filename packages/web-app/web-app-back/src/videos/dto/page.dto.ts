@@ -15,7 +15,7 @@ export class VideoDto {
 export const schema = Joi.object().keys({
   page: Joi.number().min(1).max(1000),
   limit: Joi.number().min(1).max(100),
-  search: Joi.string().alphanum().min(1),
+  search: Joi.string().min(1),
 });
 
 export const schemaId = Joi.string().uuid();

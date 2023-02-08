@@ -15,7 +15,7 @@ export class VideoService {
     try {
       execFileSync("ffmpeg", [
         "-ss",
-        "00:05:05",
+        "00:05:05", // TODO eliminate hardcoded value, use percentage of video length
         "-i",
         `${file.path}/${file.name}`,
         "-vframes",
@@ -27,13 +27,31 @@ export class VideoService {
       ]);
       return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
     } catch (err) {
-      console.log("-- take screenshot catch error");
+      console.log("-- take screenshot catch error", err);
       return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
     }
   }
 
   /* re-mux video file from target format to .mp4*/
-  convertVideoFile(): void {}
+  convertVideoFile(file: File): void {
+    try {
+      const { FILE_ROOT_DIR } = process.env;
+      if (!FILE_ROOT_DIR) {
+        throw new Error("screenshot directory variable is absent");
+      }
+      const name = file.name.split(".")[0];
+      execFileSync("ffmpeg", [
+        "-i",
+        `${file.path}/${file.name}`,
+        "-strict",
+        "-2",
+        `${FILE_ROOT_DIR}/${name}.mp4`,
+        "-y",
+      ]);
+    } catch (err) {
+      console.log("------ take screenshot catch error", err);
+    }
+  }
 
   /* retrieve specific video info from a mp4 file */
   getVideoInfo(file: File): void {}

@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import path from "path";
-import { FileService } from "./service/file-service";
+import { FileService, VideoFileExtension } from "./service/file-service";
 import { PGProvider } from "./model/db";
 import { ScreenshotFile } from "./model/screenshot";
 import { VideoService } from "./service/screenshot-service";
@@ -13,8 +13,7 @@ const pgProvider = new PGProvider();
 
 const populate = async () => {
   await pgProvider.initConnection();
-  const videoFiles = fileService.getFiles();
-  console.log("-- total video files ", videoFiles.length);
+  const videoFiles = fileService.getFiles([VideoFileExtension.mp4]);
   const screenshots: ScreenshotFile[] = [];
   for (let index = 0; index < videoFiles.length; index++) {
     console.log("--> ", index);

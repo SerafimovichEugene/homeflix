@@ -12,6 +12,12 @@ export class Video {
   @Column()
   file_name: string;
 
+  @Column()
+  file_is_new: boolean;
+
+  @Column()
+  file_is_existent: boolean;
+
   public getDto(): VideoDto {
     return {
       id: this.file_id,
