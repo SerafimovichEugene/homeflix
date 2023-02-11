@@ -25,10 +25,10 @@ export class VideoService {
         `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`,
         "-y",
       ]);
-      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
+      return new ScreenshotFile(screenshotFileName, screenshotFilePath, new Date(Date.now()).toISOString(), file.id, uuid(screenshotFileName, uuid.DNS));
     } catch (err) {
       console.log("-- take screenshot catch error", err);
-      return new ScreenshotFile(screenshotFileName, screenshotFilePath, file.id, uuid(screenshotFileName, uuid.DNS));
+      throw err;
     }
   }
 
@@ -50,6 +50,7 @@ export class VideoService {
       ]);
     } catch (err) {
       console.log("------ take screenshot catch error", err);
+      throw err;
     }
   }
 

@@ -8,9 +8,9 @@ describe("FileProvider class", () => {
     const absolutePath = path.resolve("src_migrate/model/__tests__/__mocks__");
     process.env.FILE_ROOT_DIR = absolutePath;
     expect(inst.getFiles([VideoFileExtension.mp4])).toEqual([
-      new VideoFile("test3.mp4", path.resolve(absolutePath, "files/files")),
-      new VideoFile("test2.mp4", path.resolve(absolutePath, "files")),
-      new VideoFile("test1.mp4", absolutePath),
+      new VideoFile("test3.mp4", path.resolve(absolutePath, "files/files"), '', 0),
+      new VideoFile("test2.mp4", path.resolve(absolutePath, "files"), '', 0),
+      new VideoFile("test1.mp4", absolutePath, '', 0),
     ]);
   });
 });

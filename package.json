@@ -2,16 +2,16 @@
   "name": "homeflix",
   "private": true,
   "scripts": {
-    "populate": "npm run populate -w db-populator",
+    "populate": "node -v  && npm run populate -w db-populator",
     "start": "docker compose up -d",
     "start:b": "docker compose up --build -d",
     "stop": "docker compose down",
     "stop:clear": "docker compose down --volumes",
-    "start:db": "docker compose up flx-db -d",
+    "start:db": "node -v && docker compose up flx-db -d",
     "ff:prod": "npm run build:prod -w web-app-front",
     "ff:w": "npm run build:dev -w web-app-front",
-    "ff": "npm run build:d -w web-app-front",
-    "bb": "npm run start:dev -w web-app-back"
+    "ff": "node -v   && npm run build:d -w web-app-front",
+    "bb": "node -v  && npm run start:dev -w web-app-back"
   },
   "workspaces": [
     "packages/db-populator",
@@ -20,4 +20,4 @@
     "packages/web-app/web-app-back",
     "packages/web-app/web-app-front"
   ]
-}
+} 

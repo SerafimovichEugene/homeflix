@@ -1,53 +1,54 @@
-import { Client } from "pg";
-import format from "pg-format";
-import { File, VideoFile } from "./file";
-import { ScreenshotFile } from "./screenshot";
+import { Client } from 'pg'
+import format from 'pg-format'
+import { File, VideoFile } from './file'
+import { ScreenshotFile } from './screenshot'
 
 export interface VideoFileRaw {
-  file_id: string;
-  file_path: string;
-  file_name: string;
-  file_is_existent: boolean;
-  file_is_new: boolean;
+  file_id: string
+  file_path: string
+  file_name: string
+  file_is_existent: boolean
+  file_is_new: boolean
+  file_created_at: string
 }
 
 export class VideoFileModel extends VideoFile {
-  private _isExistent: boolean;
-  private _isNew: boolean;
+  private _isExistent: boolean
+  private _isNew: boolean
 
-  constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean) {
-    super(name, path, 0, id);
-    this._isNew = isNew;
-    this._isExistent = isExistent;
+  constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean, createdAt: string) {
+    super(name, path, createdAt, 0, id)
+    this._isNew = isNew
+    this._isExistent = isExistent
   }
 
   public set isNew(value: boolean) {
-    this._isNew = value;
+    this._isNew = value
   }
 
   public get isNew() {
-    return this._isNew;
+    return this._isNew
   }
 
   public set isExistent(value: boolean) {
     if (!value) {
-      this._isNew = value;
+      this._isNew = value
     }
-    this._isExistent = value;
+    this._isExistent = value
   }
 
   public get isExistent() {
-    return this._isExistent;
+    return this._isExistent
   }
 }
 
 export class PGProvider {
-  public client: Client;
+  public client: Client
   constructor() {
-    const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_PORT } = process.env;
+    const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_PORT } = process.env
 
     if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DATABASE || !POSTGRES_HOST || !POSTGRES_PORT) {
-      throw new Error("Some env db variables are absent");
+      throw new Error('Some env db variables are absent')
     }
 
     this.client = new Client({
@@ -56,101 +57,101 @@ export class PGProvider {
       user: POSTGRES_USER,
       password: POSTGRES_PASSWORD,
       database: POSTGRES_DATABASE,
-    });
+    })
   }
 
   public async initConnection() {
-    await this.client.connect();
+    await this.client.connect()
   }
 
   async getFiles(): Promise<VideoFileModel[]> {
     try {
-      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql());
+      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql())
       return rows.map<VideoFileModel>(
-        ({ file_id, file_name, file_path, file_is_new, file_is_existent }) =>
-          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent)
-      );
+        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at }) =>
+          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at)
+      )
     } catch (error) {
-      console.log("db_level", error);
-      throw error;
+      console.log('db_level', error)
+      throw error
     }
   }
 
   async createScreenshots(screenshots: ScreenshotFile[]): Promise<void> {
     try {
-      const sql = PGProvider.insertScreenshotBatchSql(screenshots);
-      await this.client.query(sql);
+      const sql = PGProvider.insertScreenshotBatchSql(screenshots)
+      await this.client.query(sql)
     } catch (error) {
-      console.log("-- createScreenshots db_level", error);
-      throw error;
+      console.log('-- createScreenshots db_level', error)
+      throw error
     }
   }
 
   async insertNewFiles(files: VideoFileModel[]) {
     try {
-      const sql = PGProvider.getInsertingNewFilesSql(files);
-      await this.client.query(sql);
-      console.log("--inserted");
+      const sql = PGProvider.getInsertingNewFilesSql(files)
+      await this.client.query(sql)
+      console.log('--inserted')
     } catch (error) {
-      console.log("db_level", error);
-      throw error;
+      console.log('db_level', error)
+      throw error
     }
   }
 
   async markNonexistentFiles(files: VideoFileModel[]) {
     try {
-      const sql = PGProvider.getMarkNonexistentFilesSql(files);
-      console.log("sql-- ", sql);
-      await this.client.query(sql);
-      console.log("nonexistent marked--");
+      const sql = PGProvider.getMarkNonexistentFilesSql(files)
+      console.log('sql-- ', sql)
+      await this.client.query(sql)
+      console.log('nonexistent marked--')
     } catch (error) {
-      console.log("db_level", error);
-      throw error;
+      console.log('db_level', error)
+      throw error
     }
   }
 
   async markRestoredFiles(files: VideoFileModel[]) {
     try {
-      await this.client.query(PGProvider.getMarkRestoredFilesSql(files));
-      console.log("restored marked--");
+      await this.client.query(PGProvider.getMarkRestoredFilesSql(files))
+      console.log('restored marked--')
     } catch (error) {
-      console.log("db_level", error);
-      throw error;
+      console.log('db_level', error)
+      throw error
     }
   }
 
   private static getInsertingNewFilesSql(files: VideoFileModel[]): string {
-    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew]);
+    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew, f.birhTime])
     return format(
       `
-      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new)
+      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new, file_created_at)
       VALUES %L
       ON CONFLICT (file_id) DO NOTHING;
     `,
       values
-    );
+    )
   }
 
   private static getMarkNonexistentFilesSql(files: File[]): string {
-    const values = files.map((f) => [f.id]);
+    const values = files.map((f) => [f.id])
     return format(
       `
       UPDATE file SET file_is_existent = false, file_is_new = false
       WHERE file.file_id IN (%L);
     `,
       values
-    );
+    )
   }
 
   private static getMarkRestoredFilesSql(files: VideoFile[]): string {
-    const values = files.map((f) => [f.id]);
+    const values = files.map((f) => [f.id])
     return format(
       `
       UPDATE file SET file_is_existent = true, file_is_new = false
       WHERE file.file_id IN %L;
     `,
       values
-    );
+    )
   }
 
   private static getAllFilesSql(): string {
@@ -159,11 +160,11 @@ export class PGProvider {
       FROM file f
       WHERE file_is_existent IS true
       ORDER BY f.file_name ASC;
-    `);
+    `)
   }
 
   private static insertScreenshotBatchSql(screenshots: ScreenshotFile[]): string {
-    const values = screenshots.map((s) => [s.id, s.name, s.parentId, s.path, s.resolution]);
+    const values = screenshots.map((s) => [s.id, s.name, s.parentId, s.path, s.resolution])
     return format(
       `
       INSERT INTO screenshot (screenshot_id, screenshot_name, file_id, screenshot_path, screenshot_resolution)
@@ -177,6 +178,6 @@ export class PGProvider {
         screenshot_resolution = screenshot.screenshot_resolution;
     `,
       values
-    );
+    )
   }
 }
