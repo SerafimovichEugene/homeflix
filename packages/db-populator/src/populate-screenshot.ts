@@ -17,7 +17,12 @@ const populate = async () => {
   const screenshots: ScreenshotFile[] = [];
   for (let index = 0; index < videoFiles.length; index++) {
     console.log("--> ", index);
-    screenshots.push(videoService.takeScreenshotSync(videoFiles[index]));
+    try {
+      screenshots.push(videoService.takeScreenshotSync(videoFiles[index]));
+    } catch (err) {
+      console.log('can not create ss for', videoFiles[index].path);
+    }
+    
   }
   await pgProvider.createScreenshots(screenshots);
   return screenshots;
