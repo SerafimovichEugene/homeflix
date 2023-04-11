@@ -22,19 +22,21 @@ const findPaths = (keysOutputs: string[]) => {
 };
 
 const renderHtml = (jsPaths: string[], cssPaths: string[]): string => {
-  return `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homeflix</title>
-    ${cssPaths?.map((path) => `<link rel="stylesheet" href="/${path}" />`).join("\n\t\t")}
-  </head>
-  <body>
-    <div id="root"></div>
-    ${jsPaths?.map((path) => `<script src=/${path}></script>`).join("\n\t\t")}
-  </body>
-</html>`;
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Homeflix</title>
+        ${cssPaths?.map((path) => `<link rel="stylesheet" href="/${path}" />`).join("\n\t\t")}
+      </head>
+      <body>
+        <div id="root"></div>
+        ${jsPaths?.map((path) => `<script src=/${path}></script>`).join("\n\t\t")}
+      </body>
+    </html>
+  `;
 };
 
 export const htmlPlugin: Plugin = {
