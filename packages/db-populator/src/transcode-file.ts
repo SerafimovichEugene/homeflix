@@ -8,23 +8,21 @@ dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 const fileService = new FileService();
 const videoService = new VideoService();
 
-const transcode = async () => {
+const transcode = () => {
   console.log("-- start trascoding");
   const files = fileService.getFiles([VideoFileExtension.avi, VideoFileExtension.mkv]);
   console.log("-- files ", files);
+
   for (let index = 0; index < files.length; index++) {
+    console.log("--> converting", files[index].name);
     videoService.convertVideoFile(files[index]);
-    console.log("--> converted", index);
+    console.log("--> converted", index + 1);
   }
 };
 
-transcode()
-  .then(() => {
-    console.log("--Finished");
-    process.exit(0);
-  })
-  .catch(async (error) => {
-    console.log("--Error");
-    console.log(error);
-    process.exit(1);
-  });
+try {
+  transcode();
+} catch (err) {
+  console.log('--> transcode error', err);
+}
+
