@@ -41,54 +41,24 @@ export class VideoService {
       }
       const name = file.name.split(".");
       const nameWithoutExtension = name.slice(0, name.length - 1).join('.');
-      console.log(nameWithoutExtension);
+    
+      // ffmpeg -i input.mkv -c:v libx264 -crf 18 -preset veryfast -c:a aac -b:a 192k output.mp4
 
-      // execFileSync("ffmpeg", [
-      //   "-i",
-      //   `${file.path}/${file.name}`,
-      //   "-c:v",
-      //   "libx264",
-      //   "-crf",
-      //   "18",
-      //   "-preset",
-      //   "veryslow",
-      //   "-c:a",
-      //   "aac",
-      //   "-b:a",
-      //   "320k",
-      //   `${FILE_ROOT_DIR}/${name}.mp4`,
-      // ]);
-
-      // execFileSync("ffmpeg", [
-      //   "-i",
-      //   `${file.path}/${file.name}`,
-      //   "-c:v",
-      //   "libx264",
-      //   "-crf",
-      //   "23",
-      //   "-preset",
-      //   "medium",
-      //   "-c:a",
-      //   "aac",
-      //   "-b:a",
-      //   "320k",
-      //   `${FILE_ROOT_DIR}/${name}.mp4`,
-      // ]);
-      
       // spent(() => execFileSync("ffmpeg", [
       //   "-i",
       //   `${file.path}/${file.name}`,
       //   "-c:v",
       //   "libx264",
-      //   "-preset",
-      //   "slow",
-      //   "-crf", 
+      //   "-crf",
       //   "18",
+      //   "-preset",
+      //   "veryfast",
       //   "-c:a",
-      //   "copy",
+      //   "aac",
+      //   "-b:a",
+      //   "192k",
       //   `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
       // ]));
-      
 
       // the fastest option
       spent(() => execFileSync("ffmpeg", [
@@ -97,7 +67,7 @@ export class VideoService {
         "-c:v",
         "h264_nvenc",
         "-preset",
-        "slow",
+        "veryfast",
         "-cq", 
         "20",
         "-c:a",
@@ -107,24 +77,6 @@ export class VideoService {
         `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
       ]));
 
-      // spent(() => execFileSync("ffmpeg", [
-      //   "-i",
-      //   `${file.path}/${file.name}`,
-      //   "-c:v",
-      //   "libx264",
-      //   "-preset",
-      //   "medium",
-      //   "-crf", 
-      //   "20",
-      //   "-c:a",
-      //   "aac",
-      //   "-b:a",
-      //   "192k",
-      //   "-movflags",
-      //   "+faststart",
-      //   `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
-      // ]));
-
 
     } catch (err) {
       console.log("------ take screenshot catch error", err);
@@ -132,12 +84,6 @@ export class VideoService {
     }
 
   }
-
-  // ffmpeg -i input.mkv -c:v libx264 -crf 18 -preset veryslow -c:a aac -b:a 320k output.mp4  too slow
-  // ffmpeg -i input.mkv -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 192k output.mp4    
-  // ffmpeg -i input.mkv -c:v h264_nvenc -preset slow -cq 20 -c:a aac -b:a 192k output.mp4
-  // ffmpeg -i input.avi -c:v libx264 -preset slow -crf 18 -c:a copy output.mp4
-  // ffmpeg -i input.avi -c:v libx264 -preset slow -crf 18 -c:a aac -b:a 192k -movflags +faststart output.mp4
 
   /* retrieve specific video info from a mp4 file */
   getVideoInfo(file: File): void {}
