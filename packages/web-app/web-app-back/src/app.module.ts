@@ -3,8 +3,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Video } from './videos/entity/video.entity';
+import { Tag } from './tag/entity/tag.entity';
 import { VideosModule } from './videos/videos.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -31,9 +33,12 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
-      entities: [Video],
+      entities: [Video, Tag],
+      logging: true,
+      synchronize: true,
     }),
     VideosModule,
+    TagModule,
   ],
 })
 export class AppModule {}

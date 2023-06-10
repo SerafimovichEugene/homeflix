@@ -1,11 +1,11 @@
 FROM node:18.16.0-alpine
 
-WORKDIR ./web-app-front
+WORKDIR /web-app-front
 COPY ./web-app-front ./
 RUN npm i
 RUN npm run build:prod
 
-WORKDIR ../web-app-back
+WORKDIR /web-app-back
 COPY ./web-app-back ./
 RUN npm i
 RUN npm run build
