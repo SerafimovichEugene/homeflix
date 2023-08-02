@@ -7,7 +7,6 @@ const Header: FC = () => {
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">Homeflix</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
       </Container>
     </Navbar>
   );
