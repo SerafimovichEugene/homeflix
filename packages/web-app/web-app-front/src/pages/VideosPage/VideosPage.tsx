@@ -74,11 +74,13 @@ const VideosPage: FC = () => {
           )}
         </Col>
       </Row>
-      <Row className={'mb-2'}>
-        <Col>
-          {data && <Paginator videosCount={data.count} videosLimit={limit} changePage={changePage} activePage={page} />}
-        </Col>
-      </Row>
+      {data && data.count > 1 && (
+        <Row className={'mb-2'}>
+          <Col>
+            <Paginator videosCount={data.count} videosLimit={limit} changePage={changePage} activePage={page} />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };
