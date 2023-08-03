@@ -1,7 +1,7 @@
 import { createReadStream, statSync } from 'fs';
-import { Controller, Get, Param, Query, UsePipes, Headers, Res } from '@nestjs/common';
+import { Controller, Get, Headers, Param, Query, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
-import { schema, schemaId, VideosPageDto } from './dto/page.dto';
+import { ASC, NAME, schema, schemaId, VideosPageDto } from './dto/page.dto';
 import { VideosQueryPipe } from './videos.pipe';
 import { VideosService } from './videos.service';
 
@@ -11,10 +11,12 @@ export class VideosController {
 
   @Get()
   @UsePipes(new VideosQueryPipe(schema))
-  async getVideos(@Query() { page, limit, search }: VideosPageDto) {
+  async getVideos(@Query() { page, limit, search, sortBy, sortTo }: VideosPageDto) {
     const page_ = page ?? 1;
     const limit_ = limit ?? 10;
-    const videos = await this.videosService.getVideos(page_, limit_, search);
+    const sortBy_ = sortBy ?? NAME;
+    const sortTo_ = sortTo ?? ASC;
+    const videos = await this.videosService.getVideos(page_, limit_, sortTo_, sortBy_, search);
     const count = await this.videosService.getVideosCount(search);
     return {
       items: videos.map((v) => v.getDto()),

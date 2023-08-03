@@ -1,6 +1,6 @@
 import { Client } from 'pg'
 import format from 'pg-format'
-import { File, VideoFile } from './file'
+import { File, VideoFile } from './File'
 import { ScreenshotFile } from './screenshot'
 
 export interface VideoFileRaw {
@@ -10,14 +10,23 @@ export interface VideoFileRaw {
   file_is_existent: boolean
   file_is_new: boolean
   file_created_at: string
+  file_size: number
 }
 
 export class VideoFileModel extends VideoFile {
   private _isExistent: boolean
   private _isNew: boolean
 
-  constructor(id: string, name: string, path: string, isNew: boolean, isExistent: boolean, createdAt: string) {
-    super(name, path, createdAt, 0, id)
+  constructor(
+    id: string,
+    name: string,
+    path: string,
+    isNew: boolean,
+    isExistent: boolean,
+    createdAt: string,
+    size: number
+  ) {
+    super(name, path, createdAt, size, 0, id)
     this._isNew = isNew
     this._isExistent = isExistent
   }
@@ -66,10 +75,10 @@ export class PGProvider {
 
   async getFiles(): Promise<VideoFileModel[]> {
     try {
-      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql())
+      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getExistentFilesSql())
       return rows.map<VideoFileModel>(
-        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at }) =>
-          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at)
+        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
+          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size)
       )
     } catch (error) {
       console.log('db_level', error)
@@ -121,10 +130,10 @@ export class PGProvider {
   }
 
   private static getInsertingNewFilesSql(files: VideoFileModel[]): string {
-    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew, f.birhTime])
+    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew, f.created, f.size])
     return format(
       `
-      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new, file_created_at)
+      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new, file_created_at, file_size)
       VALUES %L
       ON CONFLICT (file_id) DO NOTHING;
     `,
@@ -154,7 +163,7 @@ export class PGProvider {
     )
   }
 
-  private static getAllFilesSql(): string {
+  private static getExistentFilesSql(): string {
     return format(`
       SELECT f.*
       FROM file f

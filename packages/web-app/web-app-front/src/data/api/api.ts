@@ -13,10 +13,10 @@ export const useVideos = () => {
   return useMemo(
     () => ({
       useVideosList: (query: PageableQuery) => {
-        const { page, limit, search } = query;
+        const { page, limit, search, sortTo, sortBy } = query;
         return useQuery(
-          ['videos', query.page, query.limit, query.search],
-          getVideosList(search ? { page, limit, search } : { page, limit }),
+          ['videos', page, limit, search, sortTo, sortBy],
+          getVideosList(search ? { page, limit, search, sortTo, sortBy } : { page, limit, sortTo, sortBy }),
           {
             keepPreviousData: true,
             retry: false,
