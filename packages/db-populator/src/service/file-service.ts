@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { File } from '../model/file'
+import { File } from '../model/File'
 
 export enum VideoFileExtension {
   'mp4' = 'mp4',
@@ -35,8 +35,8 @@ export class FileService {
         fileList = this.readFiles(path.join(dir, fileName), fileList)
       } else {
         const birthTime = stat.birthtime.toISOString()
-        console.log('-- created at ', birthTime)
-        fileList.push(new File(fileName, dir, birthTime))
+        const size = stat.size
+        fileList.push(new File(fileName, dir, birthTime, size))
       }
     })
     return fileList

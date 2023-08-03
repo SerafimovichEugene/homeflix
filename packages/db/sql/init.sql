@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS file (
   file_path         text NOT NULL,
   file_is_new       boolean NOT NULL,
   file_is_existent  boolean NOT NULL,
-  file_created_at   timestamptz NOT NULL
+  file_created_at   timestamptz NOT NULL,
+  file_size         bigint
 );
 
 CREATE TABLE IF NOT EXISTS screenshot (

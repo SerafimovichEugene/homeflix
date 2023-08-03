@@ -18,11 +18,19 @@ export class Video {
   @Column()
   file_is_existent: boolean;
 
+  @Column()
+  file_created_at: string;
+
+  @Column()
+  file_size: number;
+
   public getDto(): VideoDto {
     return {
       id: this.file_id,
       name: this.file_name,
       path: this.file_path,
+      created: this.file_created_at,
+      size: this.file_size,
     };
   }
 }

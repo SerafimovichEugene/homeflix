@@ -1,35 +1,35 @@
-import { VideoFileModel } from '../model/db';
-import { File } from '../model/file';
+import { VideoFileModel } from '../model/db'
+import { File } from '../model/File'
 
-export const getDiff = (sourceFiles: File[], populatingFiles: VideoFileModel[]): [VideoFileModel[], VideoFileModel[], VideoFileModel[]] => {
-  const sourceFilesMap = new Set(sourceFiles.map(f => f.id));
-  const populatingFilesMap = new Set(populatingFiles.map(f => f.id));
-
+export const getDiff = (
+  sourceFiles: File[],
+  populatingFiles: VideoFileModel[]
+): [VideoFileModel[], VideoFileModel[], VideoFileModel[]] => {
+  const sourceFilesMap = new Set(sourceFiles.map((f) => f.id))
+  const populatingFilesMap = new Set(populatingFiles.map((f) => f.id))
   const newFiles = sourceFiles.reduce<VideoFileModel[]>((acc, f) => {
     if (!populatingFilesMap.has(f.id)) {
-      const newFile = new VideoFileModel(f.id, f.name, f.path, true, true, f.birhTime)
-      newFile.isNew = true;
-      newFile.isExistent = true;
+      const newFile = new VideoFileModel(f.id, f.name, f.path, true, true, f.created, f.size)
+      newFile.isNew = true
+      newFile.isExistent = true
       acc.push(newFile)
     }
-    return acc;
-  }, []);
-
+    return acc
+  }, [])
   const deletedFiles = populatingFiles.reduce<VideoFileModel[]>((acc, f) => {
     if (!sourceFilesMap.has(f.id)) {
-      f.isExistent = false;
+      f.isExistent = false
       acc.push(f)
     }
-    return acc;
+    return acc
   }, [])
-
   const restoredFiles = populatingFiles.reduce<VideoFileModel[]>((acc, f) => {
     if (sourceFilesMap.has(f.id) && !f.isExistent) {
-      f.isNew = false;
-      f.isExistent = true;
-      acc.push(f);
+      f.isNew = false
+      f.isExistent = true
+      acc.push(f)
     }
-    return acc;
+    return acc
   }, [])
-  return [newFiles, deletedFiles, restoredFiles];
+  return [newFiles, deletedFiles, restoredFiles]
 }
