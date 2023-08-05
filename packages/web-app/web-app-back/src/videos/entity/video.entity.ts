@@ -33,4 +33,7 @@ export class Video {
       size: this.file_size,
     };
   }
+  public getFilePath(): string {
+    return `${this.file_path}/${this.file_name}`;
+  }
 }

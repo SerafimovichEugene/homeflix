@@ -22,7 +22,7 @@ const populate = async () => {
     } catch (err) {
       console.log('can not create ss for', videoFiles[index].path);
     }
-    
+
   }
   await pgProvider.createScreenshots(screenshots);
   return screenshots;

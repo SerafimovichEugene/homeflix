@@ -12,10 +12,9 @@ import './styles.css';
 const VideosPage: FC = () => {
   const { page, setPage, limit, search, setSearch, files, setFiles, sortBy, sortTo } =
     useContext<VideosPageContext>(VideosPageContextInstance);
-
   const { useVideosList } = useVideos();
 
-  const { data, isLoading, refetch } = useVideosList({
+  const { data, isLoading, refetch, isStale } = useVideosList({
     page,
     limit,
     search,
@@ -29,7 +28,7 @@ const VideosPage: FC = () => {
 
   useEffect(() => {
     refetch().then();
-  }, [page, limit, sortTo, sortBy]);
+  }, [page, limit, sortTo, sortBy, isStale]);
 
   useEffect(() => {
     if (data) {

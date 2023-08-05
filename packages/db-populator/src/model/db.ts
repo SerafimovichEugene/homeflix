@@ -73,9 +73,22 @@ export class PGProvider {
     await this.client.connect()
   }
 
-  async getFiles(): Promise<VideoFileModel[]> {
+  async getExistentFiles(): Promise<VideoFileModel[]> {
     try {
       const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getExistentFilesSql())
+      return rows.map<VideoFileModel>(
+        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
+          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size)
+      )
+    } catch (error) {
+      console.log('db_level', error)
+      throw error
+    }
+  }
+
+  async getAllFiles(): Promise<VideoFileModel[]> {
+    try {
+      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql())
       return rows.map<VideoFileModel>(
         ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
           new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size)
@@ -110,7 +123,6 @@ export class PGProvider {
   async markNonexistentFiles(files: VideoFileModel[]) {
     try {
       const sql = PGProvider.getMarkNonexistentFilesSql(files)
-      console.log('sql-- ', sql)
       await this.client.query(sql)
       console.log('nonexistent marked--')
     } catch (error) {
@@ -145,7 +157,7 @@ export class PGProvider {
     const values = files.map((f) => [f.id])
     return format(
       `
-      UPDATE file SET file_is_existent = false, file_is_new = false
+      UPDATE file SET file_is_existent = false
       WHERE file.file_id IN (%L);
     `,
       values
@@ -156,8 +168,8 @@ export class PGProvider {
     const values = files.map((f) => [f.id])
     return format(
       `
-      UPDATE file SET file_is_existent = true, file_is_new = false
-      WHERE file.file_id IN %L;
+      UPDATE file SET file_is_existent = true
+      WHERE file.file_id IN (%L);
     `,
       values
     )
@@ -168,6 +180,14 @@ export class PGProvider {
       SELECT f.*
       FROM file f
       WHERE file_is_existent IS true
+      ORDER BY f.file_name ASC;
+    `)
+  }
+
+  private static getAllFilesSql(): string {
+    return format(`
+      SELECT f.*
+      FROM file f
       ORDER BY f.file_name ASC;
     `)
   }

@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './entity/video.entity';
 import { ASC, DESC, SortBy, SortTo } from './dto/page.dto';
+import fs from 'fs';
 
 const sortingParamsColumnMap = {
   name: 'file_name',
@@ -59,5 +60,12 @@ export class VideosService {
       throw new NotFoundException();
     }
     return result[0];
+  }
+
+  async hardDeleteVideo(id: string): Promise<void> {
+    const video = await this.getVideo(id);
+    fs.rmSync(video.getFilePath());
+    video.file_is_existent = false;
+    await this.videosRepository.save(video);
   }
 }
