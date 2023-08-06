@@ -13,9 +13,6 @@ export class Video {
   file_name: string;
 
   @Column()
-  file_is_new: boolean;
-
-  @Column()
   file_is_existent: boolean;
 
   @Column()

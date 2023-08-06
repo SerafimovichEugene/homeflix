@@ -108,6 +108,4 @@ export class FfmpegQueryService {
       throw err
     }
   }
-  /* retrieve specific video info from a mp4 file */
-  getVideoInfo(file: File): void {}
 }

@@ -10,7 +10,6 @@ export interface VideoFileRaw {
   file_path: string
   file_name: string
   file_is_existent: boolean
-  file_is_new: boolean
   file_created_at: string
   file_size: number
 }
@@ -40,7 +39,7 @@ export class PostgresService {
     try {
       const { rows } = await this.client.query<VideoFileRaw>(PostgresService.getExistentFilesSql())
       return rows.map<VideoFileModel>(
-        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
+        ({ file_id, file_name, file_path, file_is_existent, file_created_at, file_size }) =>
           new VideoFileModel(file_id, file_name, file_path, file_is_existent, file_created_at, file_size)
       )
     } catch (error) {
@@ -53,7 +52,7 @@ export class PostgresService {
     try {
       const { rows } = await this.client.query<VideoFileRaw>(PostgresService.getAllFilesSql())
       return rows.map<VideoFileModel>(
-        ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
+        ({ file_id, file_name, file_path, file_is_existent, file_created_at, file_size }) =>
           new VideoFileModel(file_id, file_name, file_path, file_is_existent, file_created_at, file_size)
       )
     } catch (error) {
@@ -108,7 +107,7 @@ export class PostgresService {
     const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.created, f.size])
     return format(
       `
-      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new, file_created_at, file_size)
+      INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_created_at, file_size)
       VALUES %L
       ON CONFLICT (file_id) DO NOTHING;
     `,
