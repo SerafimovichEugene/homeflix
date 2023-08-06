@@ -1,14 +1,13 @@
 import dotenv from 'dotenv'
 import path from 'path'
-
-import { PGProvider } from './model/db'
-import { FileService, VideoFileExtension } from './service/file-service'
+import { FileService, FileExtension } from './service/file-service'
+import { PostgresService } from './service/postgres-service'
 import { getDiff } from './utils/diff'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') })
 
 const fileService = new FileService()
-const pgProvider = new PGProvider()
+const pgProvider = new PostgresService()
 
 const populate = async () => {
   // we always add, not remove
@@ -19,7 +18,8 @@ const populate = async () => {
 
   const dbAllFiles = await pgProvider.getAllFiles()
   const dbExistentFiles = await pgProvider.getExistentFiles()
-  const sourceFiles = fileService.getFiles([VideoFileExtension.mp4])
+
+  const sourceFiles = fileService.getFiles([FileExtension.mp4])
 
   console.log('--sourceFiles', sourceFiles.length)
   console.log('--dbAllFiles', dbAllFiles.length)

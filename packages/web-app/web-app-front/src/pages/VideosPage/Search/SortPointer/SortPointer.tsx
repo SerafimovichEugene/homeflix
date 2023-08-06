@@ -9,8 +9,8 @@ export interface SortPointerProps {
 export const SortPointer: FC<SortPointerProps> = ({ to, onClick }) => {
   return (
     <div onClick={onClick}>
-      {to === ASC && <span>up</span>}
-      {to === DESC && <span>down</span>}
+      {to === ASC && <i className="bi bi-arrow-up-circle-fill"></i>}
+      {to === DESC && <i className="bi bi-arrow-down-circle-fill"></i>}
     </div>
   );
 };

@@ -1,7 +1,9 @@
 import { Client } from 'pg'
+import { ScreenshotFile } from '../model/ScreenshotFile'
 import format from 'pg-format'
-import { File, VideoFile } from './File'
-import { ScreenshotFile } from './screenshot'
+import { File } from '../model/File'
+import { VideoFile } from '../model/VideoFile'
+import { VideoFileModel } from '../model/VideoFileModel'
 
 export interface VideoFileRaw {
   file_id: string
@@ -13,49 +15,10 @@ export interface VideoFileRaw {
   file_size: number
 }
 
-export class VideoFileModel extends VideoFile {
-  private _isExistent: boolean
-  private _isNew: boolean
-
-  constructor(
-    id: string,
-    name: string,
-    path: string,
-    isNew: boolean,
-    isExistent: boolean,
-    createdAt: string,
-    size: number
-  ) {
-    super(name, path, createdAt, size, 0, id)
-    this._isNew = isNew
-    this._isExistent = isExistent
-  }
-
-  public set isNew(value: boolean) {
-    this._isNew = value
-  }
-
-  public get isNew() {
-    return this._isNew
-  }
-
-  public set isExistent(value: boolean) {
-    if (!value) {
-      this._isNew = value
-    }
-    this._isExistent = value
-  }
-
-  public get isExistent() {
-    return this._isExistent
-  }
-}
-
-export class PGProvider {
+export class PostgresService {
   public client: Client
   constructor() {
     const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DATABASE, POSTGRES_HOST, POSTGRES_PORT } = process.env
-
     if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DATABASE || !POSTGRES_HOST || !POSTGRES_PORT) {
       throw new Error('Some env db variables are absent')
     }
@@ -75,10 +38,10 @@ export class PGProvider {
 
   async getExistentFiles(): Promise<VideoFileModel[]> {
     try {
-      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getExistentFilesSql())
+      const { rows } = await this.client.query<VideoFileRaw>(PostgresService.getExistentFilesSql())
       return rows.map<VideoFileModel>(
         ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
-          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size)
+          new VideoFileModel(file_id, file_name, file_path, file_is_existent, file_created_at, file_size)
       )
     } catch (error) {
       console.log('db_level', error)
@@ -88,10 +51,10 @@ export class PGProvider {
 
   async getAllFiles(): Promise<VideoFileModel[]> {
     try {
-      const { rows } = await this.client.query<VideoFileRaw>(PGProvider.getAllFilesSql())
+      const { rows } = await this.client.query<VideoFileRaw>(PostgresService.getAllFilesSql())
       return rows.map<VideoFileModel>(
         ({ file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size }) =>
-          new VideoFileModel(file_id, file_name, file_path, file_is_new, file_is_existent, file_created_at, file_size)
+          new VideoFileModel(file_id, file_name, file_path, file_is_existent, file_created_at, file_size)
       )
     } catch (error) {
       console.log('db_level', error)
@@ -101,7 +64,7 @@ export class PGProvider {
 
   async createScreenshots(screenshots: ScreenshotFile[]): Promise<void> {
     try {
-      const sql = PGProvider.insertScreenshotBatchSql(screenshots)
+      const sql = PostgresService.insertScreenshotBatchSql(screenshots)
       await this.client.query(sql)
     } catch (error) {
       console.log('-- createScreenshots db_level', error)
@@ -111,7 +74,7 @@ export class PGProvider {
 
   async insertNewFiles(files: VideoFileModel[]) {
     try {
-      const sql = PGProvider.getInsertingNewFilesSql(files)
+      const sql = PostgresService.getInsertingNewFilesSql(files)
       await this.client.query(sql)
       console.log('--inserted')
     } catch (error) {
@@ -122,7 +85,7 @@ export class PGProvider {
 
   async markNonexistentFiles(files: VideoFileModel[]) {
     try {
-      const sql = PGProvider.getMarkNonexistentFilesSql(files)
+      const sql = PostgresService.getMarkNonexistentFilesSql(files)
       await this.client.query(sql)
       console.log('nonexistent marked--')
     } catch (error) {
@@ -133,7 +96,7 @@ export class PGProvider {
 
   async markRestoredFiles(files: VideoFileModel[]) {
     try {
-      await this.client.query(PGProvider.getMarkRestoredFilesSql(files))
+      await this.client.query(PostgresService.getMarkRestoredFilesSql(files))
       console.log('restored marked--')
     } catch (error) {
       console.log('db_level', error)
@@ -142,7 +105,7 @@ export class PGProvider {
   }
 
   private static getInsertingNewFilesSql(files: VideoFileModel[]): string {
-    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.isNew, f.created, f.size])
+    const values = files.map((f) => [f.id, f.name, f.path, f.isExistent, f.created, f.size])
     return format(
       `
       INSERT INTO file (file_id, file_name, file_path, file_is_existent, file_is_new, file_created_at, file_size)

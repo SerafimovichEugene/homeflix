@@ -2,11 +2,12 @@ import fs from 'fs'
 import path from 'path'
 import { File } from '../model/File'
 
-export enum VideoFileExtension {
+export enum FileExtension {
   'mp4' = 'mp4',
   'webm' = 'webm',
   'avi' = 'avi',
   'mkv' = 'mkv',
+  'jpg' = 'jpg',
 }
 
 export class FileService {
@@ -18,7 +19,7 @@ export class FileService {
     return FILE_ROOT_DIR
   }
 
-  public getFiles(extensions: VideoFileExtension[]): File[] {
+  public getFiles(extensions: FileExtension[]): File[] {
     const dir = this.getEnvVariable()
     return FileService.readFiles(dir, []).filter((item) => {
       const arr = item.name.split('.')
