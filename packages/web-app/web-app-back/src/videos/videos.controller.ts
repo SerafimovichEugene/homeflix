@@ -1,5 +1,5 @@
 import { createReadStream, statSync } from 'fs';
-import { Controller, Get, Headers, Param, Query, Res, UsePipes } from '@nestjs/common';
+import { Controller, Delete, Get, Headers, Param, Query, Res, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 import { ASC, NAME, schema, schemaId, VideosPageDto } from './dto/page.dto';
 import { VideosQueryPipe } from './videos.pipe';
@@ -55,5 +55,12 @@ export class VideosController {
       res.writeHead(200, head);
       createReadStream(path).pipe(res);
     }
+  }
+
+  @Delete(':id')
+  @UsePipes(new VideosQueryPipe(schemaId))
+  async hardDeleteFile(@Param('id') id: string) {
+    await this.videosService.hardDeleteVideo(id);
+    return { status: 200 };
   }
 }

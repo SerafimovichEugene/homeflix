@@ -15,11 +15,3 @@ export class File {
     this.size = size ?? 0
   }
 }
-
-export class VideoFile extends File {
-  public length: number
-  constructor(name: string, path: string, birthTime: string, size: number, length: number, id?: string) {
-    super(name, path, birthTime, size, id)
-    this.length = length
-  }
-}

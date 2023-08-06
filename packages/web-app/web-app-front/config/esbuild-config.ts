@@ -22,6 +22,8 @@ build({
     '.png': 'file',
     '.svg': 'file',
     '.jpg': 'file',
+    '.woff': 'file',
+    '.woff2': 'file',
   },
   metafile: true,
   watch: isDev && {

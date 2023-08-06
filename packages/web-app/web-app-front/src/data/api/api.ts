@@ -1,12 +1,16 @@
 import axios from 'axios';
 import { useMemo } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { DataItems, FileEntity, PageableQuery } from '../../domain';
 
 const axiosInstance = axios.create();
 
 const getVideosList = (query: PageableQuery) => () => {
   return axiosInstance.get<DataItems<FileEntity>>('/api/videos', { params: query }).then(({ data }) => data);
+};
+
+const hardDeleteVideo = (id: string) => {
+  return axiosInstance.delete(`/api/videos/${id}`).then(({ data }) => data);
 };
 
 export const useVideos = () => {
@@ -22,6 +26,14 @@ export const useVideos = () => {
             retry: false,
           },
         );
+      },
+      useHardDeleteVideo: () => {
+        const queryClient = useQueryClient();
+        return useMutation(hardDeleteVideo, {
+          onSuccess: () => {
+            queryClient.invalidateQueries('videos').then();
+          },
+        });
       },
     }),
     [],

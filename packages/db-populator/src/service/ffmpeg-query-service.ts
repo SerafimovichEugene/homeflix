@@ -1,19 +1,23 @@
 import path from 'path'
 import { v5 as uuid } from 'uuid'
 import { execFileSync } from 'child_process'
-import { ScreenshotFile } from '../model/screenshot'
+import { ScreenshotFile } from '../model/ScreenshotFile'
+import { VideoFile } from '../model/VideoFile'
 import { File } from '../model/File'
 import { spent } from '../utils/spent'
 import fs from 'fs'
 
-export class VideoService {
-  takeScreenshotSync(file: File): ScreenshotFile {
+export class FfmpegQueryService {
+  takeScreenshotSync(file: VideoFile): ScreenshotFile {
     const { SCREENSHOT_ROOT_DIR } = process.env
     if (!SCREENSHOT_ROOT_DIR) {
-      throw new Error('screenshot directory variable is absent')
+      throw new Error('directory variable is absent')
     }
     const screenshotFileName = `${file.id}-1`
     const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`)
+
+    //find length of video file in format 00:05:05
+
     try {
       spent(() =>
         execFileSync('ffmpeg', [
@@ -73,11 +77,37 @@ export class VideoService {
         ])
       )
     } catch (err) {
-      console.log('------ take screenshot catch error', err)
+      console.log('------ convertVideoFile catch error', err)
       throw err
     }
   }
 
+  getLength(file: File): string {
+    try {
+      const { FILE_ROOT_DIR } = process.env
+      if (!FILE_ROOT_DIR) {
+        throw new Error('directory variable is absent')
+      }
+
+      const result = spent(() =>
+        execFileSync('ffprobe', [
+          '-v',
+          'error',
+          '-show_entries',
+          'format=duration',
+          '-of',
+          'default=noprint_wrappers=1:nokey=1',
+          '-sexagesimal',
+          `${file.path}/${file.name}`,
+        ])
+      )
+      console.log('----result --->', result)
+      return ''
+    } catch (err) {
+      console.log('------ getLength catch error', err)
+      throw err
+    }
+  }
   /* retrieve specific video info from a mp4 file */
   getVideoInfo(file: File): void {}
 }

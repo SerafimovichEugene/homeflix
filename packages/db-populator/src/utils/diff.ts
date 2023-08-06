@@ -1,4 +1,4 @@
-import { VideoFileModel } from '../model/db'
+import { VideoFileModel } from '../model/VideoFileModel'
 import { File } from '../model/File'
 
 export const getDiff = (
@@ -9,8 +9,7 @@ export const getDiff = (
   const populatingFilesMap = new Set(populatingFiles.map((f) => f.id))
   const newFiles = sourceFiles.reduce<VideoFileModel[]>((acc, f) => {
     if (!populatingFilesMap.has(f.id)) {
-      const newFile = new VideoFileModel(f.id, f.name, f.path, true, true, f.created, f.size)
-      newFile.isNew = true
+      const newFile = new VideoFileModel(f.id, f.name, f.path, true, f.created, f.size)
       newFile.isExistent = true
       acc.push(newFile)
     }
@@ -25,7 +24,6 @@ export const getDiff = (
   }, [])
   const restoredFiles = populatingFiles.reduce<VideoFileModel[]>((acc, f) => {
     if (sourceFilesMap.has(f.id) && !f.isExistent) {
-      f.isNew = false
       f.isExistent = true
       acc.push(f)
     }

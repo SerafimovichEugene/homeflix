@@ -18,11 +18,11 @@ module.exports = {
   // globalSetup: '<rootDir>/.bin/jest-global-setup',
   // globalTeardown: '<rootDir>/.bin/jest-global-teardown',
   // setupFiles: ['<rootDir>/.bin/jest-setup-env'],
-  roots: ['<rootDir>/src_migrate/'],
+  roots: ['<rootDir>/src/'],
   testEnvironment: 'node',
   testRegex: '.+\\.test\\.ts$',
   resetModules: true,
   resetMocks: true,
   restoreMocks: false,
   testTimeout: 80000,
-};
+}
