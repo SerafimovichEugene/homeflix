@@ -16,13 +16,13 @@ export class FfmpegQueryService {
     const screenshotFileName = `${file.id}-1`
     const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`)
 
-    //find length of video file in format 00:05:05
+    //find length of video file in format 00:05:32
 
     try {
       spent(() =>
         execFileSync('ffmpeg', [
           '-ss',
-          '00:05:05', // TODO eliminate hardcoded value, use percentage of video length
+          file.getPercentagePositionOfLength(0.4),
           '-i',
           `${file.path}/${file.name}`,
           '-vframes',
@@ -101,8 +101,7 @@ export class FfmpegQueryService {
           `${file.path}/${file.name}`,
         ])
       )
-      console.log('----result --->', result)
-      return ''
+      return result.toString()
     } catch (err) {
       console.log('------ getLength catch error', err)
       throw err

@@ -14,8 +14,11 @@ export class VideoFile extends File {
     return this.length
   }
 
-  public getPercentagePositionOfLength(percent: number): number {
-    return (this.getLengthInSeconds() / percent) * 100
+  public getPercentagePositionOfLength(percent: number): string {
+    if (0 < percent || percent < 1) {
+      return VideoFile.convertSecondsToLength(Math.round(this.getLengthInSeconds() * percent))
+    }
+    throw new Error('Value for percent argument is not a fraction')
   }
 
   public getLengthInSeconds(): number {
@@ -23,6 +26,7 @@ export class VideoFile extends File {
     return Number(seconds) + Number(minutes) * 60 + Number(hours) * 60 * 60
   }
 
+  // converts number of seconds to HH:MM:SS
   static convertSecondsToLength(seconds: number): string {
     const addExtraZero = (value: number) => (value < 10 ? `0${value}` : value)
     const hour = Math.round(seconds / 3600)
