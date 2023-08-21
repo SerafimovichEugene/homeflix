@@ -1,6 +1,6 @@
-import path from 'path'
+import path, { resolve } from 'path'
 import { v5 as uuid } from 'uuid'
-import { execFileSync } from 'child_process'
+import { execFile, execFileSync } from 'child_process'
 import { ScreenshotFile } from '../model/ScreenshotFile'
 import { VideoFile } from '../model/VideoFile'
 import { File } from '../model/File'
@@ -49,6 +49,48 @@ export class FfmpegQueryService {
     }
   }
 
+  takeScreenshotAsync(file: VideoFile): Promise<ScreenshotFile> {
+    const { SCREENSHOT_ROOT_DIR } = process.env
+    if (!SCREENSHOT_ROOT_DIR) {
+      throw new Error('directory variable is absent')
+    }
+    const screenshotFileName = `${file.id}-1`
+    const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`)
+
+    return new Promise((resolve, reject) => {
+      try {
+        execFile('ffmpeg', [
+          '-ss',
+          file.getPercentagePositionOfLength(0.4),
+          '-i',
+          `${file.path}/${file.name}`,
+          '-vframes',
+          '1',
+          '-q:v',
+          '2',
+          `${SCREENSHOT_ROOT_DIR}/${screenshotFileName}.jpg`,
+          '-y',
+        ])
+
+        const stat = fs.statSync(screenshotFilePath)
+
+        resolve(
+          new ScreenshotFile(
+            screenshotFileName,
+            screenshotFilePath,
+            new Date(Date.now()).toISOString(),
+            file.id,
+            stat.size,
+            uuid(screenshotFileName, uuid.DNS)
+          )
+        )
+      } catch (err) {
+        console.log('-- take screenshot catch error', err)
+        reject(err)
+      }
+    })
+  }
+
   convertVideoFile(file: File): void {
     try {
       const { FILE_ROOT_DIR } = process.env
@@ -82,15 +124,39 @@ export class FfmpegQueryService {
     }
   }
 
-  getLength(file: File): string {
+  getLengthSync(file: File): string {
     try {
       const { FILE_ROOT_DIR } = process.env
       if (!FILE_ROOT_DIR) {
         throw new Error('directory variable is absent')
       }
 
-      const result = spent(() =>
-        execFileSync('ffprobe', [
+      const result = execFileSync('ffprobe', [
+        '-v',
+        'error',
+        '-show_entries',
+        'format=duration',
+        '-of',
+        'default=noprint_wrappers=1:nokey=1',
+        '-sexagesimal',
+        `${file.path}/${file.name}`,
+      ])
+      return result.toString()
+    } catch (err) {
+      console.log('------ getLength catch error', err)
+      throw err
+    }
+  }
+
+  getLengthAsync(file: File): Promise<string> {
+    const { FILE_ROOT_DIR } = process.env
+    if (!FILE_ROOT_DIR) {
+      throw new Error('directory variable is absent')
+    }
+
+    return new Promise((resolve, reject) => {
+      try {
+        const result = execFile('ffprobe', [
           '-v',
           'error',
           '-show_entries',
@@ -100,11 +166,11 @@ export class FfmpegQueryService {
           '-sexagesimal',
           `${file.path}/${file.name}`,
         ])
-      )
-      return result.toString()
-    } catch (err) {
-      console.log('------ getLength catch error', err)
-      throw err
-    }
+        resolve(result.toString())
+      } catch (err) {
+        console.log('------ getLength async catch error', err)
+        reject(err)
+      }
+    })
   }
 }

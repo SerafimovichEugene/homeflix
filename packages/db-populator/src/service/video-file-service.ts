@@ -9,11 +9,25 @@ export class VideoFileService {
     this.ffmpegService = ffmpegService
   }
 
-  getVideoFiles(files: File[]): VideoFile[] {
+  getVideoFilesSync(files: File[]): VideoFile[] {
+    console.log(`--> start reading length of each video`)
     return files.map<VideoFile>((f) => {
-      const length = this.ffmpegService.getLength(f)
+      const length = this.ffmpegService.getLengthSync(f)
       const { id, name, path, created, size } = f
       return new VideoFile(name, path, created, size, length, id)
     })
+  }
+
+  getVideoFilesAsync(files: File[]): Promise<VideoFile[]> {
+    console.log(`--> start reading length of each video`)
+    const res = Promise.all(
+      files.map((f) =>
+        this.ffmpegService.getLengthAsync(f).then((length) => {
+          const { id, name, path, created, size } = f
+          return new VideoFile(name, path, created, size, length, id)
+        })
+      )
+    )
+    return res;
   }
 }
