@@ -11,7 +11,8 @@
     "ff:prod": "npm run build:prod -w web-app-front",
     "ff:w": "npm run build:dev -w web-app-front",
     "ff": "node -v && npm run build:d -w web-app-front",
-    "bb": "node -v && npm run start:dev -w web-app-back"
+    "bb": "node -v && npm run start:dev -w web-app-back",
+    "tc": "npm run transcode:all -w db-populator" 
   },
   "workspaces": [
     "packages/db-populator",
