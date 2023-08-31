@@ -12,6 +12,8 @@ export class TagService {
 
   async createTag(name: string): Promise<Tag> {
     console.log('SERVICE!');
-    return this.tagRepository.save({ tag_name: name });
+    const result = this.tagRepository.save({ tag_name: name });
+    result.then((data) => console.log('data:', data)).catch((err) => console.log('error:', err));
+    return result;
   }
 }
