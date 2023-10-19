@@ -37,9 +37,9 @@ export const VideoCard: FC<VideoCardProps> = ({ id, name }) => {
         <Card.Body>
           <Card.Text className="card-title">{name}</Card.Text>
           <Stack direction="horizontal" gap={3}>
-            <Button className="p-2 ms-auto" variant="outline-danger" size="sm" onClick={handleHardDelete}>
+            {/* <Button className="p-2 ms-auto" variant="outline-danger" size="sm" onClick={handleHardDelete}>
               Hard delete
-            </Button>
+            </Button> */}
           </Stack>
         </Card.Body>
       </Card>

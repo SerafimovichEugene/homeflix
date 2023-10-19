@@ -103,8 +103,8 @@ export class FfmpegQueryService {
       )
       return result.toString()
     } catch (err) {
-      console.log('------ getLength catch error', err)
-      throw err
+      console.log('------ getLength catch error', err);
+      return '';
     }
   }
 }
