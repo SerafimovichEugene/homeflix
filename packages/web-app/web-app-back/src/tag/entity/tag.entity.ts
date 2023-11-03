@@ -7,4 +7,7 @@ export class Tag {
 
   @Column({ unique: true })
   tag_name: string;
+
+  @Column()
+  tag_color: string;
 }

@@ -18,5 +18,6 @@ CREATE TABLE IF NOT EXISTS screenshot (
 
 CREATE TABLE IF NOT EXISTS tag (
   tag_id            uuid NOT NULL PRIMARY KEY,
-  tag_name          text NOT NULL
+  tag_name          text NOT NULL,
+  tag_color         text NOT NULL
 );
