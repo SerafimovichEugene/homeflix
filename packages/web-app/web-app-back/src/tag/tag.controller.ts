@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Put, Get, Param, NotFoundException, UsePipes, Delete } from '@nestjs/common';
 import { TagService } from './tag.service';
-import { CreateTagDto, createTagSchema, tagSchemaId, updateTagSchema } from './dto/tag.dto';
+import { TagDto, createTagSchema, tagSchemaId, updateTagSchema } from './dto/tag.dto';
 import { TagPipe } from './tag.pipe';
 
 @Controller('tag')
@@ -28,14 +28,14 @@ export class TagController {
 
   @Post()
   @UsePipes(new TagPipe(createTagSchema))
-  async createTag(@Body() body: CreateTagDto) {
+  async createTag(@Body() body: TagDto) {
     return await this.tagService.createTag(body);
   }
 
   @Put(':id')
   async updateTag(
     @Param('id', new TagPipe(tagSchemaId)) id: string,
-    @Body(new TagPipe(updateTagSchema)) { name, color }: CreateTagDto,
+    @Body(new TagPipe(updateTagSchema)) { name, color }: TagDto,
   ) {
     const updateBody = { tag_name: name, tag_color: color };
     const result = await this.tagService.updateTag(id, updateBody);
@@ -47,7 +47,7 @@ export class TagController {
 
   @Delete(':id')
   async deleteTag(@Param('id', new TagPipe(tagSchemaId)) id: string) {
-    const result = await this.tagService.hardDeleteTag(id);
+    const result = await this.tagService.deleteTag(id);
 
     if (result === null) {
       throw new NotFoundException();
