@@ -2,7 +2,7 @@ import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import { ObjectSchema, StringSchema } from 'joi';
 
 @Injectable()
-export class VideosQueryPipe implements PipeTransform {
+export class TagPipe implements PipeTransform {
   constructor(private schema: ObjectSchema | StringSchema) {}
 
   transform(value: any) {

@@ -15,3 +15,9 @@ CREATE TABLE IF NOT EXISTS screenshot (
   screenshot_resolution   text,
   CONSTRAINT unique_screenshot_name UNIQUE (file_id, screenshot_name)
 );
+
+CREATE TABLE IF NOT EXISTS tag (
+  tag_id            uuid NOT NULL PRIMARY KEY,
+  tag_name          text NOT NULL,
+  tag_color         text NOT NULL
+);
