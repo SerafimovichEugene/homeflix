@@ -1,11 +1,11 @@
 import path from 'path'
+import fs from 'fs'
 import { v5 as uuid } from 'uuid'
 import { execFileSync } from 'child_process'
 import { ScreenshotFile } from '../model/ScreenshotFile'
 import { VideoFile } from '../model/VideoFile'
 import { File } from '../model/File'
 import { spent } from '../utils/spent'
-import fs from 'fs'
 
 export class FfmpegQueryService {
   takeScreenshotSync(file: VideoFile): ScreenshotFile {
@@ -17,7 +17,6 @@ export class FfmpegQueryService {
     const screenshotFilePath = path.resolve(SCREENSHOT_ROOT_DIR, `${screenshotFileName}.jpg`)
 
     //find length of video file in format 00:05:32
-
     try {
       spent(() =>
         execFileSync('ffmpeg', [
@@ -64,15 +63,15 @@ export class FfmpegQueryService {
           '-i',
           `${file.path}/${file.name}`,
           '-c:v',
-          'h264_nvenc',
+          'libx264',
           '-preset',
-          'veryfast',
-          '-cq',
-          '20',
+          'medium',
+          '-crf', 
+          '23',
           '-c:a',
           'aac',
-          '-b:a',
-          '192k',
+          '-b:a', 
+          '128k', 
           `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
         ])
       )
@@ -84,11 +83,6 @@ export class FfmpegQueryService {
 
   getLength(file: File): string {
     try {
-      const { FILE_ROOT_DIR } = process.env
-      if (!FILE_ROOT_DIR) {
-        throw new Error('directory variable is absent')
-      }
-
       const result = spent(() =>
         execFileSync('ffprobe', [
           '-v',
@@ -103,8 +97,8 @@ export class FfmpegQueryService {
       )
       return result.toString()
     } catch (err) {
-      console.log('------ getLength catch error', err)
-      throw err
+      console.log('------ getLength catch error', err);
+      throw err;
     }
   }
 }

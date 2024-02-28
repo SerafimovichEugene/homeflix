@@ -10,10 +10,16 @@ export class VideoFileService {
   }
 
   getVideoFiles(files: File[]): VideoFile[] {
-    return files.map<VideoFile>((f) => {
-      const length = this.ffmpegService.getLength(f)
-      const { id, name, path, created, size } = f
-      return new VideoFile(name, path, created, size, length, id)
-    })
+    return files.reduce<VideoFile[]>((acc, f) => {
+      try {
+        const length = this.ffmpegService.getLength(f)
+        const { id, name, path, created, size } = f
+        acc.push(new VideoFile(name, path, created, size, length, id));
+        return acc;
+      } catch (error) {
+        console.log('can NOT get a length of video file', f);
+        return acc;
+      }
+    }, [])
   }
 }

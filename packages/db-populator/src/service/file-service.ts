@@ -11,7 +11,7 @@ export enum FileExtension {
 }
 
 export class FileService {
-  private getEnvVariable() {
+  private getPath() {
     const { FILE_ROOT_DIR } = process.env
     if (!FILE_ROOT_DIR) {
       throw new Error('directory variable is absent')
@@ -20,7 +20,7 @@ export class FileService {
   }
 
   public getFiles(extensions: FileExtension[]): File[] {
-    const dir = this.getEnvVariable()
+    const dir = this.getPath()
     return FileService.readFiles(dir, []).filter((item) => {
       const arr = item.name.split('.')
       return extensions.some((ex) => arr[arr.length - 1] === ex)

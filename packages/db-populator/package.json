@@ -5,8 +5,8 @@
     "populate": "npm run build && npm run populate:v && npm run populate:ss",
     "populate:v": "npm run build && node ./dist/populate-video.js",
     "populate:ss": "npm run build && node ./dist/populate-screenshot.js",
-    "transcode": "npm run build && node ./dist/transcode-file.js",
-    "build": "tsc"
+    "transcode:all": "npm run build && node ./dist/transcode-file.js",
+    "build": "npx tsc"
   },
   "devDependencies": {
     "@types/jest": "^29.2.5",
