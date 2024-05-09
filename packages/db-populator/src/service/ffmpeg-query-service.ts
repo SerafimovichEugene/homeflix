@@ -74,7 +74,7 @@ export class FfmpegQueryService {
         '18',
         '-c:a',
         'copy',
-        `${FILE_ROOT_DIR}/nv4-${nameWithoutExtension}.mp4`,
+        `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
       ]
 
       // the fastest option
