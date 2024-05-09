@@ -57,24 +57,28 @@ export class FfmpegQueryService {
       const name = file.name.split('.')
       const nameWithoutExtension = name.slice(0, name.length - 1).join('.')
 
+      const ffmpegNvidiaConfig = [
+        '-hwaccel',
+        'cuda',
+        '-hwaccel_output_format',
+        'cuda',
+        '-c:v',
+        'h264_cuvid',
+        '-i',
+        `${file.path}/${file.name}`,
+        '-c:v',
+        'h264_nvenc',
+        '-preset',
+        'medium',
+        '-crf',
+        '18',
+        '-c:a',
+        'copy',
+        `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
+      ]
+
       // the fastest option
-      spent(() =>
-        execFileSync('ffmpeg', [
-          '-i',
-          `${file.path}/${file.name}`,
-          '-c:v',
-          'libx264',
-          '-preset',
-          'medium',
-          '-crf', 
-          '23',
-          '-c:a',
-          'aac',
-          '-b:a', 
-          '128k', 
-          `${FILE_ROOT_DIR}/${nameWithoutExtension}.mp4`,
-        ])
-      )
+      spent(() => execFileSync('ffmpeg', ffmpegNvidiaConfig))
     } catch (err) {
       console.log('------ convertVideoFile catch error', err)
       throw err
@@ -97,8 +101,8 @@ export class FfmpegQueryService {
       )
       return result.toString()
     } catch (err) {
-      console.log('------ getLength catch error', err);
-      throw err;
+      console.log('------ getLength catch error', err)
+      throw err
     }
   }
 }
